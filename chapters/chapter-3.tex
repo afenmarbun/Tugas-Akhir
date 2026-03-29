@@ -146,39 +146,30 @@ Perlu dicatat bahwa pada rancangan asli VideoMAE, komponen seperti \textit{tube 
 
 Pada tahap akhir, representasi keluaran dari lapisan terakhir encoder diringkas melalui \textit{mean pooling} untuk memperoleh satu vektor fitur pada tingkat klip. Vektor tersebut kemudian diteruskan ke \textit{classification head} untuk menghasilkan prediksi akhir secara langsung pada tingkat video, yaitu kelas \textit{real} atau \textit{fake}. Dengan rancangan tersebut, pendekatan spasiotemporal pada penelitian ini beroperasi sepenuhnya pada level klip, sehingga model diharapkan mampu menangkap bukti manipulasi yang tersebar baik pada dimensi spasial maupun temporal secara lebih komprehensif \cite{Gu2021,tong2022videomaemaskedautoencodersdataefficient}. Hasil dari model ini selanjutnya dibandingkan secara langsung dengan pendekatan spasial berbasis ViT untuk menilai kontribusi relatif informasi temporal terhadap ketahanan klasifikasi \textit{deepfake} pada kondisi dunia nyata. \par
 
+\subsection{Evaluasi Model} \label{III.Evaluasi Model}
+Evaluasi model pada penelitian ini dilakukan untuk menilai kinerja dan kemampuan generalisasi dua pendekatan yang digunakan, yaitu model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis VideoMAE. Proses evaluasi dilaksanakan menggunakan data \textit{validation} selama pelatihan untuk memantau perkembangan pembelajaran model dan menentukan model terbaik, serta data \textit{test} pada tahap akhir untuk mengukur performa akhir secara objektif terhadap data yang tidak terlibat dalam proses pelatihan \cite{lu2022novelframeworkassessmentlearningbased}. \par
+
+Agar perbandingan kedua pendekatan dilakukan secara setara, evaluasi pada penelitian ini ditetapkan pada tingkat sekuens atau video. Pada pendekatan spasial, model menghasilkan prediksi untuk setiap \textit{frame} dalam satu sekuens, kemudian seluruh prediksi tersebut diagregasi menjadi satu keputusan akhir. Sementara itu, pada pendekatan spasiotemporal, model memproses klip video secara langsung dan menghasilkan satu prediksi pada tingkat video. Kinerja model diukur menggunakan \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, dan AUC-ROC. Penggunaan \textit{precision}, \textit{recall}, dan \textit{F1-score} bertujuan untuk memberikan penilaian yang lebih komprehensif terhadap performa klasifikasi, khususnya dalam melihat keseimbangan antara ketepatan prediksi positif dan kemampuan model mendeteksi seluruh sampel positif \cite{SOKOLOVA2009427}. \par
+
+Selain itu, AUC-ROC digunakan untuk menilai kemampuan diskriminatif model dalam membedakan video \textit{real} dan \textit{fake} pada berbagai nilai ambang keputusan. Metrik ini melengkapi evaluasi berbasis \textit{threshold} tunggal karena mampu memberikan gambaran yang lebih menyeluruh mengenai hubungan antara tingkat deteksi positif benar dan tingkat kesalahan positif palsu \cite{FAWCETT2006861}. Hasil evaluasi selanjutnya disajikan dalam bentuk tabel perbandingan metrik, \textit{confusion matrix}, kurva ROC, serta grafik \textit{training loss} dan \textit{validation loss} untuk mendukung analisis performa dan kestabilan proses pelatihan model \cite{lu2022novelframeworkassessmentlearningbased,FAWCETT2006861}. \par
+
+\subsection{Hasil dan Pembahasan} \label{III.Hasil dan Pembahasan}
+Tahap hasil dan pembahasan dilakukan untuk menganalisis secara komparatif kinerja model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis encoder VideoMAE dalam klasifikasi video \textit{deepfake} pada tingkat sekuens atau video. Analisis didasarkan pada perbandingan nilai \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, dan AUC-ROC, serta didukung oleh \textit{confusion matrix}, kurva ROC, dan grafik \textit{training loss} serta \textit{validation loss} untuk menilai performa klasifikasi, kemampuan diskriminatif, dan kestabilan pelatihan model \cite{lu2022novelframeworkassessmentlearningbased,SOKOLOVA2009427,FAWCETT2006861}. Hasil yang diperoleh kemudian diinterpretasikan untuk menjelaskan efektivitas relatif pendekatan spasial dan spasiotemporal, termasuk kecenderungan kesalahan prediksi pada data WildDeepfake yang memiliki karakteristik kompresi tinggi, variasi pose, pencahayaan, dan kualitas visual yang tidak seragam \cite{Haliassos2021,Zi2024,chu2025reducedspatialdependencygeneral}. \par
+
 \section{Alat dan Bahan Tugas Akhir} \label{III.Alat dan Bahan}
-Berisi alat-alat dan bahan-bahan yang digunakan dalam penelitian. \par
+Adapun alat dan bahan yang digunakan dalam penelitian ini dijelaskan sebagai berikut. \par
 
 \subsection{Alat} \label{III.Alat}
-Alat yang digunakan untuk melakukan penelitian, dapat berupa computer, PC, Arduino, raspberry, etc. Contoh: \par
+Alat yang digunakan dalam penelitian ini meliputi perangkat keras (\textit{hardware}) dan perangkat lunak (\textit{software}) yang mendukung proses pemodelan, pelatihan, serta evaluasi model. Berikut adalah alat yang digunakan. \par
 \begin{enumerate}[noitemsep]
-	\item \textit{Notebook} dengan spesifikasi minumum sistem operasi Windows 11, processor AMD Ryzen 5 7430 CPU @ 6 core/2,3 GHz, RAM 16GB DDR4, grafis AMD Radeon RX Vega 7 2GB, SSD 512 GB.
-	\item \textit{Smartphone} dengan spesifikasi OS Android OS 12, CPU Snapdragon 778G Octa-core, GPU Adreno 642L, memori 128 GB, RAM 6 GB.
-	\item Platform game engine Godot v4.3
-	\item Code editor Microsoft Visual Studio Code
-	\item Github
+	\item Visual Studio Code
+	\item Kaggle Notebook
+	\item Library PyTorch
+	\item GPU NVIDIA Tesla T4 (\textit{cloud-based service})
 \end{enumerate}
 
 \subsection{Bahan} \label{III.Bahan}
-Bahan yang digunakan/diperlukan untuk melakukan penelitian, dapat berupa: \par
-\begin{enumerate}[noitemsep]
-	\item Dataset pihak lain yang diperoleh dengan izin atau dalam lisensi yang diizinkan untuk digunakan secara langsung,
-	\item Dataset pihak pertama yang disusun sendiri melalui quisioner, observasi, atau interview,
-	\item Dokumen panduan yang mengacu pada standar, hasil tugas akhir, atau artikel yang disitasi dan digunakan. 
-\end{enumerate}
-
-\section{Metode Pengembangan} \label{III.Metode}
-Membahas mengenai metode yang digunakan dalam penelitian, berdasarkan dasar teori yang sebelumnya sudah dijelaskan pada subbab \ref{II.Teori}. Setiap Tugas Akhir wajib memiliki metode dalam pelaksanaannya yang sesuai dengan penelitian yang dikerjakan: \par
-\begin{enumerate}[noitemsep]
-	\item Alur pengembangan tugas akhir, menggunakan flowchart
-	\item Cara pengumpulan data yang digunakan (Kuesioner, Wawancara, pengujian, dan lainnya)
-	\item Metode pengembangan tugas akhir (Metode Waterfall, Agile, RAD, dan lainnya).
-	\item Metode pengujian penelitian
-\end{enumerate}
-Subbab ini akan berhubungan erat dengan Bab \ref{Bab IV}. \par
+Bahan yang digunakan dalam penelitian ini berupa dataset dan sumber pendukung untuk proses pelatihan serta evaluasi model. Dataset utama yang digunakan adalah WildDeepfake sebagai sumber data pelatihan, validasi, dan pengujian. Selain itu, penelitian ini juga menggunakan \textit{pretrained weights} pada model Vision Transformer (ViT) dan encoder VideoMAE untuk mendukung proses \textit{fine-tuning} pada tugas klasifikasi video \textit{deepfake}. \par
 
 \section{Ilustrasi Perhitungan Metode} \label{III.Ilustrasi}
 Penjelasan contoh perhitungan bagi penelitian tugas akhir yang menggunakan algoritma perhitungan tertentu. Rumus perhitungan berdasarkan rumus yang sudah dijelaskan sebelumnya di Bab \ref{II.Teori}. \par
-
-\section{Rancangan Pengujian} \label{III.Rancang_Uji}
-Penjabaran terkait rancangan pengujian, pengujian perangkat keras, lunak, fungsional, dan non-fungsional. Berikan juga hipotesis hasil yang diharapkan dari penelitian. \par
