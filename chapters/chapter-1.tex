@@ -31,26 +31,41 @@ Berdasarkan rumusan masalah yang telah diuraikan, tujuan penelitian ini adalah s
 \end{enumerate}
 
 \section{Batasan Masalah} \label{I.Batasan}
-Batasan yang dimaksud disini ialah batasan dari penelitian tugas akhir yang dilakukan. Batasan masalah ditujukan agar tugas akhir yang dilakukan tidak terlalu luas, dan menjadi lebih realistis untuk diselesaikan. \par
+Batasan masalah pada penelitian ini adalah sebagai berikut. \par
+
+\begin{enumerate}[noitemsep]
+	\item Dataset yang digunakan dalam penelitian ini hanya dataset WildDeepfake sebagai sumber data pelatihan, validasi, dan pengujian.
+	\item Penelitian ini dibatasi pada klasifikasi biner untuk membedakan video ke dalam kelas \textit{real} dan \textit{fake}.
+	\item Data yang digunakan berupa \textit{face sequence} yang telah melalui proses \textit{preprocessing} awal pada dataset sumber, sehingga penelitian ini tidak mencakup tahap deteksi wajah, ekstraksi fitur wajah, maupun \textit{face alignment} dari video mentah.
+	\item Model yang digunakan dibatasi pada arsitektur Vision Transformer (ViT) untuk pendekatan spasial dan encoder VideoMAE untuk pendekatan spasiotemporal, dengan memanfaatkan bobot pralatih (\textit{pretrained weights}) untuk proses \textit{fine-tuning}.
+	\item Evaluasi kinerja model dibatasi pada metrik \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}.
+	\item Penelitian ini tidak membahas implementasi sistem dalam skenario \textit{real-time}, integrasi dengan data audio atau teks, serta tidak melakukan pengujian pada dataset eksternal selain WildDeepfake.
+\end{enumerate}
 
 \section{Manfaat Penelitian} \label{I.Manfaat}
-Manfaat tugas akhir yang dilakukan didefinisikan sebagai manfaat yang diperoleh ketika tugas akhir telah selesai dilakukan. Manfaat dapat berupa manfaat untuk: \textbf{mahasiswa, program studi teknik informatika, ITERA, masyarakat, dunia akademisi, dan dunia penelitian}. \par
+Manfaat penelitian ini adalah sebagai berikut. \par
+
+\begin{enumerate}[noitemsep]
+	\item Menghasilkan implementasi dan evaluasi komparatif model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis encoder VideoMAE pada dataset WildDeepfake.
+	\item Memberikan kontribusi ilmiah berupa analisis efektivitas relatif informasi spasial dan temporal dalam klasifikasi video \textit{deepfake} pada kondisi dunia nyata (\textit{in-the-wild}).
+	\item Menjadi referensi bagi penelitian selanjutnya dalam pengembangan sistem klasifikasi atau deteksi \textit{deepfake} yang lebih \textit{robust}, khususnya pada data video dengan kualitas visual yang beragam dan terkompresi.
+\end{enumerate}
 
 
 \section{Sistematika Penulisan} \label{I.Sistematika}
-Sistematika penulisan berisi pembahasan apa yang akan ditulis disetiap Bab. Sistematika pada umumnya berupa paragraf yang setiap paragraf mencerminkan bahasan setiap Bab. \par
+Sistematika penulisan yang diterapkan dalam menyusun penelitian ini adalah sebagai berikut. \par
 
-\subsection*{Bab I}
-Bab ini berisikan penjelasan latar belakang dari topik penelitian yang berlangsung, rumusan masalah dari masalah yang dihadapi pada penjelasan di latar belakang, tujuan dari penelitian, batasan dari penelitian, manfaat dari hasil penelitian, dan sistematika penulisan tugas akhir. \par
+\subsection*{Bab I Pendahuluan}
+Pada Bab I, penulis menjelaskan latar belakang permasalahan, rumusan masalah, tujuan penelitian, batasan masalah, manfaat penelitian, dan sistematika penulisan. \par
 
-\subsection*{Bab II}
-Bab ini membahas mengenai tinjauan pustaka dari penelitan terdahulu dan dasar teori yang berkaitan dengan penelitian ini.
+\subsection*{Bab II Tinjauan Pustaka}
+Pada Bab II, penulis memberikan penjabaran tentang penelitian sebelumnya yang terkait dengan penelitian ini. Penulis juga memaparkan dasar teori yang berkaitan dengan penelitian yang dilakukan. \par
 
-\subsection*{Bab III}
-Bab ini berisikan penjelasan alur kerja sistem, alat dan data yang digunakan, metode yang digunakan, dan rancangan pengujian.
+\subsection*{Bab III Metode Penelitian}
+Pada Bab III, penulis menjelaskan mengenai metodologi yang akan digunakan pada penelitian ini. Metodologi yang digunakan dapat dijelaskan dengan diagram alir yang dilanjutkan dengan penjelasan setiap tahapnya dan juga menjelaskan tentang perangkat apa yang digunakan oleh penulis untuk penelitian. \par
 
-\subsection*{Bab IV}
-Bab ini membahas hasil implementasi dan pengujian dari penelitian yang dilakukan, serta analisis dan evaluasi yang dapat dipetik dari hasil.
+\subsection*{Bab IV Hasil dan Pembahasan}
+Pada Bab IV, penulis menjelaskan hasil dari penelitian yang didapatkan, dimulai dengan pengumpulan data, pengolahan data, hasil penelitian, dan pembahasan penelitian. \par
 
-\subsection*{Bab V}
-Bab ini membahas kesimpulan dari hasil penelitian dan juga saran untuk penelitian selanjutnya.
+\subsection*{Bab V Kesimpulan dan Saran}
+Pada Bab V, penulis memberikan kesimpulan dari hasil penelitian yang didapatkan pada Bab IV, serta saran yang dapat dilakukan untuk penelitian selanjutnya.
