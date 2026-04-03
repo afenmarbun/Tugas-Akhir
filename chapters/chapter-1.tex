@@ -12,22 +12,22 @@ Sebagai alternatif, pendekatan spasiotemporal memanfaatkan hubungan antarbingkai
 
 Tantangan tersebut menjadi semakin penting ketika sistem deteksi diuji pada skenario \textit{in-the-wild}. Zi dkk. memperkenalkan WildDeepfake sebagai dataset dunia nyata yang terdiri atas 7.314 sekuens wajah yang diekstraksi dari 707 video \textit{deepfake} yang dikumpulkan sepenuhnya dari internet \cite{Zi2024}. Mereka juga menunjukkan bahwa WildDeepfake merupakan dataset yang lebih menantang dibandingkan dataset yang lebih terkontrol, karena performa sejumlah detektor dasar dapat menurun secara drastis pada dataset ini \cite{Zi2024}. Temuan tersebut menunjukkan bahwa evaluasi pada data yang terkontrol belum cukup untuk merepresentasikan kondisi operasional sebenarnya. Oleh karena itu, pertanyaan mengenai pendekatan mana yang lebih tangguh, apakah pendekatan spasial atau pendekatan spasiotemporal, masih relevan untuk diuji secara empiris pada data \textit{deepfake} dunia nyata \cite{Gu2021,Haliassos2021,Zi2024}. \par
 
-Berdasarkan uraian tersebut, penelitian ini berfokus pada analisis komparatif klasifikasi video \textit{deepfake} dengan pendekatan spasial dan spasiotemporal menggunakan dua model dari keluarga Transformer, yaitu Vision Transformer (ViT) dan encoder VideoMAE. ViT merepresentasikan pendekatan Transformer untuk citra dengan memproses urutan \textit{image patches} secara langsung \cite{dosovitskiy2021imageworth16x16words}, sedangkan VideoMAE merupakan \textit{video transformer} yang dirancang untuk mempelajari representasi video secara efisien \cite{tong2022videomaemaskedautoencodersdataefficient}. Dengan membandingkan kedua pendekatan tersebut pada dataset WildDeepfake, penelitian ini bertujuan untuk mengevaluasi secara objektif kontribusi relatif informasi spasial dan temporal terhadap ketahanan klasifikasi video \textit{deepfake} pada kondisi dunia nyata. Hasil penelitian diharapkan dapat memberikan dasar empiris yang lebih kuat mengenai pendekatan yang lebih sesuai untuk pengembangan sistem deteksi \textit{deepfake} yang \textit{robust} dan relevan secara praktis. \par
+Berdasarkan uraian tersebut, penelitian ini berfokus pada analisis komparatif klasifikasi video \textit{deepfake} dengan pendekatan spasial dan spasiotemporal menggunakan dua model dari keluarga Transformer, yaitu Vision Transformer (ViT) dan VideoMAE. ViT merepresentasikan pendekatan Transformer untuk citra dengan memproses urutan \textit{image patches} secara langsung \cite{dosovitskiy2021imageworth16x16words}, sedangkan VideoMAE merupakan \textit{video transformer} yang dirancang untuk mempelajari representasi video secara efisien \cite{tong2022videomaemaskedautoencodersdataefficient}. Dengan membandingkan kedua pendekatan tersebut pada dataset WildDeepfake, penelitian ini bertujuan untuk mengevaluasi secara objektif kontribusi relatif informasi spasial dan temporal terhadap ketahanan klasifikasi video \textit{deepfake} pada kondisi dunia nyata. Hasil penelitian diharapkan dapat memberikan dasar empiris yang lebih kuat mengenai pendekatan yang lebih sesuai untuk pengembangan sistem deteksi \textit{deepfake} yang \textit{robust} dan relevan secara praktis. \par
 
 \section{Rumusan Masalah} \label{I.Rumusan Masalah}
 \begin{enumerate}[noitemsep]
-	\item Bagaimana merancang dan mengimplementasikan model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis encoder VideoMAE pada dataset WildDeepfake?
-	\item Bagaimana mengukur serta membandingkan performa pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis encoder VideoMAE berdasarkan \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}?
-	\item Pendekatan manakah di antara model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis encoder VideoMAE yang paling efektif untuk klasifikasi video \textit{deepfake} pada skenario \textit{in-the-wild}?
+	\item Bagaimana merancang dan mengimplementasikan model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE pada dataset WildDeepfake?
+	\item Bagaimana mengukur serta membandingkan performa pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE berdasarkan \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}?
+	\item Pendekatan manakah di antara model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis VideoMAE yang paling efektif untuk klasifikasi video \textit{deepfake} pada skenario \textit{in-the-wild}?
 \end{enumerate}
 
 \section{Tujuan Penelitian} \label{I.Tujuan}
 Berdasarkan rumusan masalah yang telah diuraikan, tujuan penelitian ini adalah sebagai berikut. \par
 
 \begin{enumerate}[noitemsep]
-	\item Merancang dan mengimplementasikan model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis encoder VideoMAE pada dataset WildDeepfake.
-	\item Mengukur serta membandingkan performa pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis encoder VideoMAE berdasarkan \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}.
-	\item Menentukan pendekatan yang paling efektif di antara model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis encoder VideoMAE untuk klasifikasi video \textit{deepfake} pada skenario \textit{in-the-wild}.
+	\item Merancang dan mengimplementasikan model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE pada dataset WildDeepfake.
+	\item Mengukur serta membandingkan performa pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE berdasarkan \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}.
+	\item Menentukan pendekatan yang paling efektif di antara model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis VideoMAE untuk klasifikasi video \textit{deepfake} pada skenario \textit{in-the-wild}.
 \end{enumerate}
 
 \section{Batasan Masalah} \label{I.Batasan}
@@ -37,7 +37,7 @@ Batasan masalah pada penelitian ini adalah sebagai berikut. \par
 	\item Dataset yang digunakan dalam penelitian ini hanya dataset WildDeepfake sebagai sumber data pelatihan, validasi, dan pengujian.
 	\item Penelitian ini dibatasi pada klasifikasi biner untuk membedakan video ke dalam kelas \textit{real} dan \textit{fake}.
 	\item Data yang digunakan berupa \textit{face sequence} yang telah melalui proses \textit{preprocessing} awal pada dataset sumber, sehingga penelitian ini tidak mencakup tahap deteksi wajah, ekstraksi fitur wajah, maupun \textit{face alignment} dari video mentah.
-	\item Model yang digunakan dibatasi pada arsitektur Vision Transformer (ViT) untuk pendekatan spasial dan encoder VideoMAE untuk pendekatan spasiotemporal, dengan memanfaatkan bobot pralatih (\textit{pretrained weights}) untuk proses \textit{fine-tuning}.
+	\item Model yang digunakan dibatasi pada arsitektur Vision Transformer (ViT) untuk pendekatan spasial dan VideoMAE untuk pendekatan spasiotemporal, dengan memanfaatkan bobot pralatih (\textit{pretrained weights}) untuk proses \textit{fine-tuning}.
 	\item Evaluasi kinerja model dibatasi pada metrik \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}.
 	\item Penelitian ini tidak membahas implementasi sistem dalam skenario \textit{real-time}, integrasi dengan data audio atau teks, serta tidak melakukan pengujian pada dataset eksternal selain WildDeepfake.
 \end{enumerate}
@@ -46,7 +46,7 @@ Batasan masalah pada penelitian ini adalah sebagai berikut. \par
 Manfaat penelitian ini adalah sebagai berikut. \par
 
 \begin{enumerate}[noitemsep]
-	\item Menghasilkan implementasi dan evaluasi komparatif model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis encoder VideoMAE pada dataset WildDeepfake.
+	\item Menghasilkan implementasi dan evaluasi komparatif model klasifikasi video \textit{deepfake} menggunakan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE pada dataset WildDeepfake.
 	\item Memberikan kontribusi ilmiah berupa analisis efektivitas relatif informasi spasial dan temporal dalam klasifikasi video \textit{deepfake} pada kondisi dunia nyata (\textit{in-the-wild}).
 	\item Menjadi referensi bagi penelitian selanjutnya dalam pengembangan sistem klasifikasi atau deteksi \textit{deepfake} yang lebih \textit{robust}, khususnya pada data video dengan kualitas visual yang beragam dan terkompresi.
 \end{enumerate}
@@ -55,17 +55,17 @@ Manfaat penelitian ini adalah sebagai berikut. \par
 \section{Sistematika Penulisan} \label{I.Sistematika}
 Sistematika penulisan yang diterapkan dalam menyusun penelitian ini adalah sebagai berikut. \par
 
-\subsection*{Bab I Pendahuluan}
+\subsection{Bab I Pendahuluan}
 Pada Bab I, penulis menjelaskan latar belakang permasalahan, rumusan masalah, tujuan penelitian, batasan masalah, manfaat penelitian, dan sistematika penulisan. \par
 
-\subsection*{Bab II Tinjauan Pustaka}
+\subsection{Bab II Tinjauan Pustaka}
 Pada Bab II, penulis memberikan penjabaran tentang penelitian sebelumnya yang terkait dengan penelitian ini. Penulis juga memaparkan dasar teori yang berkaitan dengan penelitian yang dilakukan. \par
 
-\subsection*{Bab III Metode Penelitian}
+\subsection{Bab III Metode Penelitian}
 Pada Bab III, penulis menjelaskan mengenai metodologi yang akan digunakan pada penelitian ini. Metodologi yang digunakan dapat dijelaskan dengan diagram alir yang dilanjutkan dengan penjelasan setiap tahapnya dan juga menjelaskan tentang perangkat apa yang digunakan oleh penulis untuk penelitian. \par
 
-\subsection*{Bab IV Hasil dan Pembahasan}
+\subsection{Bab IV Hasil dan Pembahasan}
 Pada Bab IV, penulis menjelaskan hasil dari penelitian yang didapatkan, dimulai dengan pengumpulan data, pengolahan data, hasil penelitian, dan pembahasan penelitian. \par
 
-\subsection*{Bab V Kesimpulan dan Saran}
+\subsection{Bab V Kesimpulan dan Saran}
 Pada Bab V, penulis memberikan kesimpulan dari hasil penelitian yang didapatkan pada Bab IV, serta saran yang dapat dilakukan untuk penelitian selanjutnya.
