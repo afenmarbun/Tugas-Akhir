@@ -167,3 +167,51 @@ author = {Marina Sokolova and Guy Lapalme},
 keywords = {Performance evaluation, Machine Learning, Text classification},
 abstract = {This paper presents a systematic analysis of twenty four performance measures used in the complete spectrum of Machine Learning classification tasks, i.e., binary, multi-class, multi-labelled, and hierarchical. For each classification task, the study relates a set of changes in a confusion matrix to specific characteristics of data. Then the analysis concentrates on the type of changes to a confusion matrix that do not change a measure, therefore, preserve a classifier’s evaluation (measure invariance). The result is the measure invariance taxonomy with respect to all relevant label distribution changes in a classification problem. This formal analysis is supported by examples of applications where invariance properties of measures lead to a more reliable evaluation of classifiers. Text classification supplements the discussion with several case studies.}
 }
+
+@Article{app12062953,
+AUTHOR = {Khormali, Aminollah and Yuan, Jiann-Shiun},
+TITLE = {DFDT: An End-to-End DeepFake Detection Framework Using Vision Transformer},
+JOURNAL = {Applied Sciences},
+VOLUME = {12},
+YEAR = {2022},
+NUMBER = {6},
+ARTICLE-NUMBER = {2953},
+URL = {https://www.mdpi.com/2076-3417/12/6/2953},
+ISSN = {2076-3417},
+ABSTRACT = {The ever-growing threat of deepfakes and large-scale societal implications has propelled the development of deepfake forensics to ascertain the trustworthiness of digital media. A common theme of existing detection methods is using Convolutional Neural Networks (CNNs) as a backbone. While CNNs have demonstrated decent performance on learning local discriminative information, they fail to learn relative spatial features and lose important information due to constrained receptive fields. Motivated by the aforementioned challenges, this work presents DFDT, an end-to-end deepfake detection framework that leverages the unique characteristics of transformer models, for learning hidden traces of perturbations from both local image features and global relationship of pixels at different forgery scales. DFDT is specifically designed for deepfake detection tasks consisting of four main components: patch extraction & embedding, multi-stream transformer block, attention-based patch selection followed by a multi-scale classifier. DFDT's transformer layer benefits from a re-attention mechanism instead of a traditional multi-head self-attention layer. To evaluate the performance of DFDT, a comprehensive set of experiments are conducted on several deepfake forensics benchmarks. Obtained results demonstrated the surpassing detection rate of DFDT, achieving 99.41%, 99.31%, and 81.35% on FaceForensics++, Celeb-DF (V2), and WildDeepfake, respectively. Moreover, DFDT's excellent cross-dataset & cross-manipulation generalization provides additional strong evidence on its effectiveness.},
+DOI = {10.3390/app12062953}
+}
+
+@misc{zhuang2022uiavitunsupervisedinconsistencyawaremethod,
+    title={UIA-ViT: Unsupervised Inconsistency-Aware Method based on Vision Transformer for Face Forgery Detection},
+    author={Wanyi Zhuang and Qi Chu and Zhentao Tan and Qiankun Liu and Haojie Yuan and Changtao Miao and Zixiang Luo and Nenghai Yu},
+    year={2022},
+    eprint={2210.12752},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV},
+    url={https://arxiv.org/abs/2210.12752},
+}
+
+@article{KINGRA2024301817,
+title = {SFormer: An end-to-end spatio-temporal transformer architecture for deepfake detection},
+journal = {Forensic Science International: Digital Investigation},
+volume = {51},
+pages = {301817},
+year = {2024},
+issn = {2666-2817},
+doi = {https://doi.org/10.1016/j.fsidi.2024.301817},
+url = {https://www.sciencedirect.com/science/article/pii/S2666281724001410},
+author = {Staffy Kingra and Naveen Aggarwal and Nirmal Kaur},
+keywords = {Deepfake detection, Digital forensics, Facial manipulation detection, Spatio-temporal, Transformer},
+abstract = {Growing AI advancements are continuously pacing GAN enhancement that eventually facilitates the generation of deepfake media. Manipulated media poses serious risks pertaining court proceedings, journalism, politics, and many more where digital media have a substantial impact on society. State-of-the-art techniques for deepfake detection rely on convolutional networks for spatial analysis, and recurrent networks for temporal analysis. Since transformers are capable of recognizing wide-range dependencies with a global spatial view and along temporal sequence too, a novel approach called "SFormer" is proposed in this paper, utilizing a transformer architecture for both spatial and temporal analysis to detect deepfakes. Further, state-of-the-art techniques suffer from high computational complexity and overfitting which causes loss in generalizability. The proposed model utilized a Swin Transformer for spatial analysis that resulted in low complexity, thereby enhancing its generalization ability and robustness against the different manipulation types. Proposed end-to-end transformer based model, SFormer, is proven to be effective for numerous deepfake datasets, including FF++, DFD, Celeb-DF, DFDC and Deeper-Forensics, and achieved an accuracy of 100%, 97.81%, 99.1%, 93.67% and 100% respectively. Moreover, SFormer has demonstrated superior performance compared to existing spatio-temporal and transformer-based approaches for deepfake detection.}
+}
+
+@misc{hu2024delocatedetectionlocalizationdeepfake,
+    title={Delocate: Detection and Localization for Deepfake Videos with Randomly-Located Tampered Traces},
+    author={Juan Hu and Xin Liao and Difei Gao and Satoshi Tsutsui and Qian Wang and Zheng Qin and Mike Zheng Shou},
+    year={2024},
+    eprint={2401.13516},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV},
+    url={https://arxiv.org/abs/2401.13516},
+}
