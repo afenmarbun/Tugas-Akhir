@@ -8,7 +8,7 @@ Zi dkk. pada tahun 2021 mempermasalahkan keterbatasan dataset \textit{deepfake} 
 
 Khormali dan Yuan pada tahun 2022 mengangkat masalah bahwa sebagian besar metode deteksi \textit{deepfake} masih bergantung pada arsitektur CNN, yang dinilai kurang optimal dalam menangkap hubungan global antarbagi citra \cite{app12062953}. Mereka mengusulkan DFDT, yaitu kerangka \textit{end-to-end} berbasis Vision Transformer yang terdiri atas komponen \textit{patch extraction and embedding}, \textit{multi-stream transformer block}, \textit{attention-based patch selection}, dan \textit{multi-scale classifier} \cite{app12062953}. Hasil pengujian menunjukkan bahwa DFDT mencapai akurasi 99,41\% pada FaceForensics++, 99,31\% pada Celeb-DF (V2), dan 81,35\% pada WildDeepfake \cite{app12062953}. Penelitian ini relevan karena secara langsung mendukung penggunaan ViT pada pendekatan spasial untuk klasifikasi \textit{deepfake}. Selain itu, keberhasilan DFDT pada WildDeepfake menunjukkan bahwa Transformer berbasis citra tetap memiliki potensi yang baik pada data dunia nyata, sehingga layak dijadikan pembanding konseptual bagi pendekatan spasial yang digunakan dalam penelitian ini. \par
 
-Zhuang dkk. pada tahun 2022 membahas permasalahan bahwa pembelajaran inkonsistensi pemalsuan wajah umumnya memerlukan anotasi lokasi manipulasi tingkat piksel, padahal anotasi semacam itu sulit diperoleh dan mahal dibuat \cite{zhuang2022uiavitunsupervisedinconsistencyawaremethod}. Untuk menjawab masalah tersebut, mereka mengusulkan UIA-ViT, yaitu metode berbasis ViT yang memanfaatkan \textit{self-attention} untuk mempelajari inkonsistensi intra-\textit{frame} hanya dengan label tingkat video, melalui dua komponen utama berupa \textit{Unsupervised Patch Consistency Learning} (UPCL) dan \textit{Progressive Consistency Weighted Assemble} (PCWA) \cite{zhuang2022uiavitunsupervisedinconsistencyawaremethod}. Kontribusi penelitian ini menunjukkan bahwa ViT tidak hanya efektif sebagai pengganti CNN, tetapi juga memiliki keunggulan metodologis dalam memodelkan relasi antarpetak citra yang relevan untuk mendeteksi inkonsistensi manipulasi \cite{zhuang2022uiavitunsupervisedinconsistencyawaremethod}. Bagi penelitian ini, UIA-ViT memperkuat justifikasi bahwa pendekatan spasial berbasis ViT masuk akal untuk diterapkan pada klasifikasi video \textit{deepfake}, karena informasi visual statis pada tingkat \textit{frame} masih dapat dieksploitasi secara efektif melalui mekanisme perhatian global. \par
+Zhuang dkk. pada tahun 2022 membahas permasalahan bahwa pembelajaran inkonsistensi pemalsuan wajah umumnya memerlukan anotasi lokasi manipulasi tingkat piksel, padahal anotasi itu sulit diperoleh dan mahal dibuat \cite{zhuang2022uiavitunsupervisedinconsistencyawaremethod}. Untuk menjawab masalah tersebut, mereka mengusulkan UIA-ViT, yaitu metode berbasis ViT yang memanfaatkan \textit{self-attention} untuk mempelajari inkonsistensi intra-\textit{frame} hanya dengan label tingkat video, melalui dua komponen utama berupa \textit{Unsupervised Patch Consistency Learning} (UPCL) dan \textit{Progressive Consistency Weighted Assemble} (PCWA) \cite{zhuang2022uiavitunsupervisedinconsistencyawaremethod}. Kontribusi penelitian ini menunjukkan bahwa ViT tidak hanya efektif sebagai pengganti CNN, tetapi juga memiliki keunggulan metodologis dalam memodelkan relasi antarpetak citra yang relevan untuk mendeteksi inkonsistensi manipulasi \cite{zhuang2022uiavitunsupervisedinconsistencyawaremethod}. Bagi penelitian ini, UIA-ViT memperkuat justifikasi bahwa pendekatan spasial berbasis ViT masuk akal untuk diterapkan pada klasifikasi video \textit{deepfake}, karena informasi visual statis pada tingkat \textit{frame} masih dapat dieksploitasi secara efektif melalui mekanisme perhatian global. \par
 
 Kingra dkk. tahun 2024 menyoroti bahwa banyak metode sebelumnya belum mampu memanfaatkan informasi spasial dan temporal secara terpadu dalam satu kerangka Transformer \textit{end-to-end} \cite{KINGRA2024301817}. Untuk itu, mereka mengusulkan SFormer yang menggunakan Swin Transformer untuk analisis spasial, diikuti \textit{transformer block} untuk analisis temporal, dan \textit{MLP block} untuk prediksi akhir \cite{KINGRA2024301817}. Hasil eksperimen menunjukkan bahwa SFormer memperoleh akurasi 100\% pada FF++, 97,81\% pada DFD, 99,1\% pada Celeb-DF, dan 93,67\% pada DFDC, serta menunjukkan kemampuan generalisasi yang baik pada eksperimen lintas-dataset \cite{KINGRA2024301817}. Penelitian ini relevan karena mendukung argumen bahwa pendekatan spasiotemporal berbasis Transformer merupakan arah yang kuat untuk deteksi \textit{deepfake} video. Dalam konteks penelitian ini, SFormer menjadi pembanding penting pada jalur spasiotemporal karena menunjukkan bahwa pemodelan hubungan antar-\textit{frame} dapat meningkatkan kemampuan model dalam menangkap jejak manipulasi yang tidak selalu tampak pada \textit{frame} tunggal. \par
 
@@ -71,6 +71,7 @@ Mekanisme inti pada Transformer adalah \textit{self-attention}, yaitu proses yan
 \mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left(\frac{QK^{T}}{\sqrt{d_k}}\right)V
 \label{eq:self-attention}
 \end{equation}
+\myequations{Mekanisme \textit{self-attention} pada Transformer}
 \endgroup
 \vspace{0.6\baselineskip}
 
@@ -96,3 +97,126 @@ Urutan token hasil \textit{embedding} selanjutnya diproses oleh Transformer \tex
 	\caption{Arsitektur Vision Transformer (ViT)}
 	\label{fig:arsitektur-vit}
 \end{figure}
+
+\subsection{VideoMAE} \label{II.Teori6}
+VideoMAE merupakan model \textit{video transformer} berbasis \textit{masked autoencoder} yang dirancang untuk mempelajari representasi video secara efisien melalui \textit{self-supervised pre-training} \cite{tong2022videomaemaskedautoencodersdataefficient}. Secara konseptual, VideoMAE mengadaptasi prinsip Transformer ke domain video dengan memproses masukan sebagai urutan token visual spasiotemporal, bukan sebagai urutan kata seperti pada \textit{Natural Language Processing} \cite{vaswani2023attentionneed}. Rancangan ini juga berkaitan erat dengan perkembangan \textit{Vision Transformer} (ViT), karena \textit{backbone} yang digunakan pada VideoMAE dibangun di atas prinsip Transformer \textit{encoder} yang memproses token visual melalui mekanisme \textit{self-attention} \cite{dosovitskiy2021imageworth16x16words,tong2022videomaemaskedautoencodersdataefficient}. Dengan demikian, VideoMAE dapat dipahami sebagai perluasan Transformer berbasis citra ke domain video untuk mempelajari hubungan spasial dan temporal secara bersamaan \cite{dosovitskiy2021imageworth16x16words,tong2022videomaemaskedautoencodersdataefficient,vaswani2023attentionneed}. \par
+
+Pada arsitektur aslinya, VideoMAE menggunakan rancangan \textit{asymmetric encoder-decoder} \cite{tong2022videomaemaskedautoencodersdataefficient}. Klip video terlebih dahulu diubah menjadi token spasiotemporal melalui pembagian masukan ke dalam kubus video kecil, kemudian hanya token yang tidak dimask diproses oleh \textit{encoder}, sedangkan \textit{decoder} yang lebih ringan digunakan untuk merekonstruksi token yang disembunyikan \cite{tong2022videomaemaskedautoencodersdataefficient}. Rancangan ini membuat proses \textit{pre-training} menjadi lebih efisien karena beban komputasi utama difokuskan pada \textit{encoder} yang hanya menerima sebagian token masukan \cite{tong2022videomaemaskedautoencodersdataefficient}. Selain itu, pendekatan tersebut juga sejalan dengan karakteristik data video yang memiliki redundansi temporal tinggi, sehingga informasi penting masih dapat dipelajari meskipun sebagian besar token masukan disembunyikan \cite{tong2022videomaemaskedautoencodersdataefficient}. \par
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figure/arsitektur-videomae.png}
+	\caption{Arsitektur VideoMAE dengan asymmetric encoder-decoder dan tube masking}
+	\label{fig:arsitektur-videomae}
+	{\footnotesize Sumber: diadaptasi dari Tong dkk. (2022)}
+\end{figure}
+
+Salah satu karakteristik utama VideoMAE adalah penggunaan \textit{tube masking} dengan rasio \textit{masking} yang sangat tinggi, yaitu sekitar 90\% hingga 95\% \cite{tong2022videomaemaskedautoencodersdataefficient}. Strategi ini digunakan karena video memiliki korelasi temporal antarbingkai yang kuat, sehingga \textit{masking} biasa berisiko membuat tugas rekonstruksi menjadi terlalu mudah akibat adanya informasi yang berulang pada bingkai tetangga \cite{tong2022videomaemaskedautoencodersdataefficient}. Dengan \textit{tube masking}, pola \textit{masking} dipertahankan sepanjang dimensi waktu sehingga model terdorong untuk mempelajari representasi spasiotemporal tingkat tinggi, bukan hanya mencocokkan korespondensi lokal antar-\textit{frame} \cite{tong2022videomaemaskedautoencodersdataefficient}. Pada tahap pembentukan token, VideoMAE tidak membagi masukan sebagai \textit{patch} dua dimensi seperti pada ViT untuk citra, tetapi sebagai kubus spasiotemporal melalui mekanisme \textit{joint space-time cube embedding}, lalu memodelkan hubungan antar token menggunakan \textit{joint space-time attention} \cite{tong2022videomaemaskedautoencodersdataefficient}. Rancangan tersebut memungkinkan model menangkap informasi visual statis sekaligus dinamika temporal dalam satu kerangka representasi \cite{tong2022videomaemaskedautoencodersdataefficient}. \par
+
+Pemodelan ini relevan untuk analisis video \textit{deepfake}, karena bukti manipulasi tidak selalu muncul sebagai artefak spasial pada satu \textit{frame}, tetapi juga dapat muncul sebagai inkonsistensi gerakan atau ketidakwajaran temporal antar-\textit{frame} \cite{Gu2021,KINGRA2024301817}. Penelitian pada deteksi \textit{deepfake} video juga menunjukkan bahwa pendekatan spasiotemporal berbasis Transformer memiliki potensi yang baik dalam memanfaatkan informasi temporal secara lebih komprehensif \cite{KINGRA2024301817}. Selain itu, keberadaan VideoMAE sebagai salah satu \textit{baseline} dalam penelitian \textit{deepfake} video menunjukkan bahwa model ini sudah dianggap relevan untuk tugas deteksi dan klasifikasi video manipulasi \cite{hu2024delocatedetectionlocalizationdeepfake}. Dengan demikian, penggunaan VideoMAE dalam penelitian ini memiliki dasar teoritis yang kuat, baik dari sisi arsitektur model video maupun dari sisi relevansinya pada domain \textit{deepfake} \cite{tong2022videomaemaskedautoencodersdataefficient,hu2024delocatedetectionlocalizationdeepfake}. \par
+
+Pada rancangan asli VideoMAE, \textit{encoder} dan \textit{decoder} digunakan bersama pada tahap \textit{self-supervised pre-training} untuk merekonstruksi token video yang dimask \cite{tong2022videomaemaskedautoencodersdataefficient}. Namun, pada penelitian ini tidak seluruh mekanisme tersebut digunakan kembali secara utuh. Penelitian ini hanya memanfaatkan \textit{encoder} VideoMAE sebagai \textit{backbone} representasi video, kemudian bagian tersebut di-\textit{fine-tuning} untuk tugas klasifikasi biner \textit{real} dan \textit{fake}. Dengan kata lain, \textit{decoder} rekonstruksi bukan bagian yang digunakan pada tahap klasifikasi dalam penelitian ini, melainkan hanya merupakan komponen pada rancangan asli VideoMAE saat proses \textit{pre-training} \cite{tong2022videomaemaskedautoencodersdataefficient}. Pendekatan ini sesuai dengan praktik pemanfaatan model hasil \textit{pre-training} pada tugas \textit{downstream}, yaitu menggunakan representasi yang telah dipelajari oleh \textit{encoder} untuk membangun model klasifikasi yang lebih spesifik terhadap domain target \cite{tong2022videomaemaskedautoencodersdataefficient,hu2024delocatedetectionlocalizationdeepfake}. \par
+
+\subsection{Strided Temporal Sampling} \label{II.Teori6.1}
+\textit{Strided temporal sampling} merupakan teknik pemilihan \textit{frame} video secara berkala dengan interval tertentu pada dimensi waktu, sehingga hanya sebagian \textit{frame} yang digunakan sebagai representasi dari satu klip video. Tujuan utama teknik ini adalah mengurangi redundansi temporal pada video, karena \textit{frame-frame} yang berdekatan umumnya memiliki kemiripan visual yang tinggi, sementara informasi gerakan yang relevan masih dapat dipertahankan melalui pemilihan \textit{frame} yang tersebar secara teratur. Dalam konteks pemodelan video, pendekatan ini membantu menekan panjang sekuens masukan dan biaya komputasi, tanpa menghilangkan informasi temporal secara keseluruhan \cite{tong2022videomaemaskedautoencodersdataefficient,bertasius2021spacetimeattentionneedvideo,arnab2021vivitvideovisiontransformer}. \par
+
+Pada rancangan VideoMAE, \textit{strided temporal sampling} digunakan sebagai strategi \textit{temporal downsampling} untuk mengatasi redundansi antar-\textit{frame} berurutan \cite{tong2022videomaemaskedautoencodersdataefficient}. Melalui strategi ini, satu klip video terlebih dahulu diambil dari video asli, kemudian dikompresi menjadi jumlah \textit{frame} yang lebih sedikit melalui proses \textit{temporal sampling} dengan \textit{stride} tertentu \cite{tong2022videomaemaskedautoencodersdataefficient}. Pendekatan ini membuat model tidak perlu memproses seluruh \textit{frame} dalam satu sekuens secara langsung, tetapi tetap dapat mempelajari pola perubahan visual yang penting pada dimensi waktu \cite{tong2022videomaemaskedautoencodersdataefficient}. Dengan demikian, \textit{strided temporal sampling} berperan sebagai langkah awal yang penting untuk membentuk representasi video yang lebih ringkas dan efisien sebelum diproses oleh model spasiotemporal \cite{tong2022videomaemaskedautoencodersdataefficient}. \par
+
+Kebutuhan untuk mengendalikan panjang sekuens masukan juga muncul pada berbagai model \textit{video transformer} lain. TimeSformer menunjukkan bahwa video dapat dimodelkan melalui perhatian ruang-waktu secara langsung, tetapi representasi semacam ini secara alami menghasilkan urutan token yang panjang \cite{bertasius2021spacetimeattentionneedvideo}. Demikian pula, ViViT menegaskan bahwa video menghasilkan token spasiotemporal dalam jumlah besar, sehingga diperlukan rancangan yang efisien untuk mengelola masukan pada domain video \cite{arnab2021vivitvideovisiontransformer}. Dalam konteks tersebut, \textit{strided temporal sampling} dapat dipahami sebagai salah satu strategi praktis untuk mereduksi jumlah \textit{frame} yang diproses, sehingga efisiensi komputasi dapat ditingkatkan tanpa menghilangkan cakupan dinamika temporal yang representatif \cite{tong2022videomaemaskedautoencodersdataefficient,bertasius2021spacetimeattentionneedvideo,arnab2021vivitvideovisiontransformer}. \par
+
+\subsection{Evaluasi Model} \label{II.Teori7}
+Evaluasi model merupakan tahap yang bertujuan untuk menilai sejauh mana model mampu melakukan klasifikasi video \textit{deepfake} secara tepat pada data uji. Pada penelitian ini, evaluasi dilakukan untuk mengukur kemampuan model dalam membedakan video ke dalam dua kelas, yaitu \textit{real} dan \textit{fake}, sesuai dengan rumusan masalah dan batasan penelitian yang telah ditetapkan. Oleh karena itu, evaluasi tidak hanya dilakukan dengan satu metrik, tetapi menggunakan beberapa ukuran yang saling melengkapi, yaitu \textit{confusion matrix}, \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, dan \textit{Area Under Curve -- Receiver Operating Characteristic} (AUC-ROC). \par
+
+\subsubsection{Confusion Matrix} \label{II.Teori7.1}
+\textit{Confusion matrix} merupakan representasi tabel yang digunakan untuk membandingkan label sebenarnya (\textit{ground truth}) dengan hasil prediksi model \cite{SOKOLOVA2009427}. Pada klasifikasi biner, \textit{confusion matrix} terdiri atas empat komponen utama, yaitu \textit{True Positive} (TP), \textit{True Negative} (TN), \textit{False Positive} (FP), dan \textit{False Negative} (FN). Dalam konteks penelitian ini, kelas positif didefinisikan sebagai kelas \textit{fake}. Dengan demikian, \textit{True Positive} merepresentasikan jumlah video \textit{deepfake} yang berhasil diprediksi benar sebagai \textit{fake}, \textit{True Negative} merepresentasikan jumlah video \textit{real} yang diprediksi benar sebagai \textit{real}, \textit{False Positive} merepresentasikan jumlah video \textit{real} yang salah diprediksi sebagai \textit{fake}, sedangkan \textit{False Negative} merepresentasikan jumlah video \textit{deepfake} yang salah diprediksi sebagai \textit{real} \cite{SOKOLOVA2009427,powers2020evaluationprecisionrecallfmeasure}. Informasi ini penting karena tidak hanya menunjukkan jumlah prediksi yang benar, tetapi juga memperlihatkan pola kesalahan model pada masing-masing kelas. Struktur \textit{confusion matrix} ditunjukkan pada Tabel \ref{tab:confusion-matrix}. \par
+
+\begin{table}[htbp]
+	\centering
+	\caption{\textit{Confusion Matrix}}
+	\label{tab:confusion-matrix}
+	\begin{tabular}{|>{\centering\arraybackslash}p{0.40\textwidth}|>{\centering\arraybackslash}p{0.18\textwidth}|>{\centering\arraybackslash}p{0.18\textwidth}|}
+		\hline
+		\textbf{Actual} $\backslash$ \textbf{Predicted} & \textbf{Positive} & \textbf{Negative} \\
+		\hline
+		\textit{Positive} & TP & FN \\
+		\hline
+		\textit{Negative} & FP & TN \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Keterangan:
+\begin{enumerate}[label=\alph*., noitemsep]
+	\item TP (\textit{True Positive}): jumlah prediksi positif yang benar.
+	\item TN (\textit{True Negative}): jumlah prediksi negatif yang benar.
+	\item FP (\textit{False Positive}): jumlah prediksi positif yang salah.
+	\item FN (\textit{False Negative}): jumlah prediksi negatif yang salah.
+\end{enumerate}
+\par
+
+\subsubsection{Accuracy} \label{II.Teori7.2}
+\textit{Accuracy} merupakan metrik evaluasi yang mengukur proporsi prediksi benar terhadap seluruh sampel yang diuji \cite{SOKOLOVA2009427}. Metrik ini memberikan gambaran umum tentang seberapa baik model melakukan klasifikasi secara keseluruhan. Namun, \textit{accuracy} saja tidak selalu cukup untuk menggambarkan performa model secara lengkap, terutama ketika kesalahan pada salah satu kelas memiliki konsekuensi yang lebih penting untuk dianalisis \cite{SOKOLOVA2009427,powers2020evaluationprecisionrecallfmeasure}. Secara matematis, \textit{accuracy} dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+\mathrm{\textit{Accuracy}} = \frac{TP + TN}{TP + TN + FP + FN}
+\label{eq:accuracy}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus \textit{accuracy} pada klasifikasi biner}
+
+\subsubsection{Precision, Recall, dan F1-Score} \label{II.Teori7.3}
+\textit{Precision} merupakan metrik yang mengukur tingkat ketepatan prediksi pada kelas positif, yaitu seberapa banyak sampel yang diprediksi sebagai kelas positif benar-benar termasuk ke dalam kelas tersebut \cite{SOKOLOVA2009427,powers2020evaluationprecisionrecallfmeasure}. Pada penelitian ini, \textit{precision} menunjukkan seberapa tepat model ketika memprediksi sebuah video sebagai \textit{fake}. Secara matematis, \textit{precision} dapat dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+\mathrm{\textit{Precision}} = \frac{TP}{TP + FP}
+\label{eq:precision}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus \textit{precision} pada klasifikasi biner}
+
+\textit{Recall} merupakan metrik yang mengukur kemampuan model dalam menangkap seluruh sampel positif yang sebenarnya ada \cite{SOKOLOVA2009427,powers2020evaluationprecisionrecallfmeasure}. Dalam penelitian ini, \textit{recall} menunjukkan seberapa banyak video \textit{deepfake} yang berhasil dideteksi dengan benar oleh model. Secara matematis, \textit{recall} dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+\mathrm{\textit{Recall}} = \frac{TP}{TP + FN}
+\label{eq:recall}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus \textit{recall} pada klasifikasi biner}
+
+Sementara itu, \textit{F1-score} merupakan rata-rata harmonik dari \textit{precision} dan \textit{recall}, sehingga digunakan untuk memberikan ukuran yang lebih seimbang antara ketepatan prediksi positif dan sensitivitas model terhadap kelas positif \cite{SOKOLOVA2009427,powers2020evaluationprecisionrecallfmeasure}. Metrik ini penting ketika evaluasi tidak cukup hanya melihat satu sisi performa saja, melainkan memerlukan keseimbangan antara kemampuan mendeteksi video \textit{deepfake} dan kemampuan menghindari prediksi positif yang salah. Secara matematis, \textit{F1-score} dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+\mathrm{\textit{F1\mbox{-}score}} = 2 \times \frac{\mathrm{\textit{Precision}} \times \mathrm{\textit{Recall}}}{\mathrm{\textit{Precision}} + \mathrm{\textit{Recall}}}
+\label{eq:f1-score}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus \textit{F1-score} pada klasifikasi biner}
+
+\subsubsection{Area Under Curve -- Receiver Operating Characteristic (AUC-ROC)} \label{II.Teori7.4}
+\textit{Receiver Operating Characteristic} (ROC) merupakan kurva yang digunakan untuk mengevaluasi kemampuan model dalam membedakan kelas positif dan kelas negatif pada berbagai nilai ambang keputusan (\textit{threshold}) \cite{FAWCETT2006861,powers2020evaluationprecisionrecallfmeasure}. Kurva ROC dibentuk dari hubungan antara \textit{True Positive Rate} (TPR) dan \textit{False Positive Rate} (FPR). \textit{True Positive Rate} menunjukkan proporsi sampel positif yang berhasil dideteksi dengan benar, sedangkan \textit{False Positive Rate} menunjukkan proporsi sampel negatif yang salah diprediksi sebagai positif \cite{FAWCETT2006861}. \par
+
+Secara matematis, \textit{True Positive Rate} dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+\mathrm{TPR} = \frac{TP}{TP + FN}
+\label{eq:tpr}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus \textit{true positive rate} (TPR)}
+
+Adapun \textit{False Positive Rate} dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+\mathrm{FPR} = \frac{FP}{FP + TN}
+\label{eq:fpr}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus \textit{false positive rate} (FPR)}
+
+Sementara itu, \textit{Area Under Curve} (AUC) merupakan luas area di bawah kurva ROC yang digunakan untuk merepresentasikan kemampuan diskriminatif model secara keseluruhan \cite{FAWCETT2006861}. Nilai AUC berada pada rentang 0 sampai 1, di mana nilai yang semakin mendekati 1 menunjukkan bahwa model memiliki kemampuan yang semakin baik dalam membedakan video \textit{real} dan \textit{fake} \cite{FAWCETT2006861}. Dalam penelitian ini, AUC-ROC digunakan untuk melengkapi metrik berbasis \textit{confusion matrix}, sehingga evaluasi model tidak hanya bergantung pada satu nilai ambang keputusan, tetapi juga mempertimbangkan performa model pada berbagai kemungkinan \textit{threshold} \cite{FAWCETT2006861,powers2020evaluationprecisionrecallfmeasure}. \par
