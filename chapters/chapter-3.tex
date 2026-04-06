@@ -70,13 +70,13 @@ Pada penelitian ini, seluruh berkas \textit{.tar.gz} diekstraksi terlebih dahulu
 Penyusunan ulang struktur data ini dilakukan untuk memudahkan proses pembacaan data pada tahap berikutnya. Dengan struktur yang telah disusun ulang tersebut, proses \textit{data loading}, pembentukan klip, dan pelacakan identitas sekuens dapat dilakukan secara lebih teratur dan konsisten. Melalui tahapan ini, dataset berada dalam bentuk yang lebih siap untuk digunakan pada proses \textit{data splitting}, \textit{strided temporal sampling}, dan pembentukan masukan model pada tahap berikutnya. \par
 
 \subsubsection{Data Splitting}
-Penelitian ini mengikuti pemisahan data yang telah tersedia pada dataset sumber, yaitu subset \textit{train} dan \textit{test}. Dengan demikian, seluruh data pada direktori \textit{real test} dan \textit{fake test} digunakan sebagai data pengujian akhir, sedangkan direktori \textit{real train} dan \textit{fake train} digunakan sebagai sumber data untuk proses pelatihan dan validasi. Strategi ini mempertahankan pembagian resmi dari dataset WildDeepfake, sehingga evaluasi akhir tetap dilakukan pada data yang tidak terlibat dalam proses pelatihan \cite{Zi2024}. \par
+Penelitian ini mengikuti pemisahan data yang telah tersedia pada dataset sumber, yaitu subset data latih dan data uji. Dengan demikian, seluruh data pada direktori \textit{real test} dan \textit{fake test} digunakan sebagai data pengujian akhir, sedangkan direktori \textit{real train} dan \textit{fake train} digunakan sebagai sumber data untuk proses pelatihan dan validasi. Strategi ini mempertahankan pembagian resmi dari dataset WildDeepfake, sehingga evaluasi akhir tetap dilakukan pada data yang tidak terlibat dalam proses pelatihan \cite{Zi2024}. \par
 
-Fokus pemisahan data pada penelitian ini terletak pada subset \textit{train}, yang kemudian dipecah kembali menjadi data \textit{train} dan data \textit{validation} dengan perbandingan 80:20. Pemilihan rasio ini didasarkan pada pertimbangan teoritis dan empiris. Secara teoritis, Joseph menunjukkan bahwa tidak terdapat satu rasio pembagian data yang selalu optimal untuk semua kasus, tetapi rasio pembagian perlu mempertimbangkan keseimbangan antara kecukupan data pelatihan dan keandalan evaluasi. Dalam praktik pemodelan prediktif, rasio 80:20 menjadi salah satu pilihan yang paling umum digunakan karena memberikan proporsi data latih yang cukup besar, sekaligus tetap menyediakan sebagian data untuk validasi performa model \cite{joseph2022optimalratio}. \par
+Fokus pemisahan data pada penelitian ini terletak pada subset data latih, yang kemudian dipecah kembali menjadi data latih dan data validasi dengan perbandingan 80:20. Pemilihan rasio ini didasarkan pada pertimbangan teoritis dan empiris. Secara teoritis, Joseph menunjukkan bahwa tidak terdapat satu rasio pembagian data yang selalu optimal untuk semua kasus, tetapi rasio pembagian perlu mempertimbangkan keseimbangan antara kecukupan data pelatihan dan keandalan evaluasi. Dalam praktik pemodelan prediktif, rasio 80:20 menjadi salah satu pilihan yang paling umum digunakan karena memberikan proporsi data latih yang cukup besar, sekaligus tetap menyediakan sebagian data untuk validasi performa model \cite{joseph2022optimalratio}. \par
 
 Dari sisi empiris, Bichri dkk. mengevaluasi pengaruh rasio pembagian data 60:40, 70:30, 80:20, dan 90:10 pada beberapa model \textit{pre-trained} untuk tugas klasifikasi citra. Hasil penelitian tersebut menunjukkan bahwa performa model dipengaruhi oleh rasio pembagian data, dan penggunaan proporsi data latih yang lebih besar dari 70\% cenderung memberikan hasil yang lebih baik pada skenario yang diuji. Temuan ini mendukung bahwa rasio 80:20 merupakan pilihan yang wajar dan seimbang untuk proses pengembangan model, karena masih menyediakan data validasi yang memadai tanpa terlalu mengurangi jumlah data latih \cite{bichri2024traintestsplitratio}. \par
 
-Pada penelitian ini, pemisahan subset \textit{train} menjadi data \textit{train} dan \textit{validation} dilakukan pada tingkat sekuens, bukan pada tingkat citra. Pendekatan ini diterapkan agar \textit{frame} yang berasal dari sekuens yang sama tidak terdistribusi ke subset yang berbeda. Dengan demikian, potensi \textit{data leakage} dapat dihindari dan validitas evaluasi selama proses pelatihan dapat tetap terjaga. Melalui rancangan ini, data \textit{validation} benar-benar berfungsi sebagai data yang tidak digunakan dalam pembaruan parameter model, tetapi masih berasal dari distribusi pelatihan yang sama. \par
+Pada penelitian ini, pemisahan subset data latih menjadi data latih dan data validasi dilakukan pada tingkat sekuens, bukan pada tingkat citra. Pendekatan ini diterapkan agar \textit{frame} yang berasal dari sekuens yang sama tidak terdistribusi ke subset yang berbeda. Dengan demikian, potensi \textit{data leakage} dapat dihindari dan validitas evaluasi selama proses pelatihan dapat tetap terjaga. Melalui rancangan ini, data validasi benar-benar berfungsi sebagai data yang tidak digunakan dalam pembaruan parameter model, tetapi masih berasal dari distribusi pelatihan yang sama. \par
 
 \subsubsection{Strided Temporal Sampling}
 Pada penelitian ini, pembentukan sampel dilakukan menggunakan teknik \textit{strided temporal sampling} pada sekuens video. Teknik ini digunakan untuk memilih sejumlah \textit{frame} dari setiap sekuens secara berkala sehingga diperoleh representasi temporal yang lebih ringkas, tetapi tetap mampu merepresentasikan dinamika gerakan dalam video. \par
@@ -97,7 +97,7 @@ Sebagai ilustrasi, perbedaan antara \textit{sequential frame sampling} dan \text
 Hasil \textit{strided temporal sampling} pada penelitian ini dijadikan sebagai sampel dasar bersama untuk kedua jalur eksperimen, yaitu pendekatan spasial dan pendekatan spasiotemporal. Dengan demikian, kedua pendekatan tidak dibangun dari kumpulan citra yang berbeda, melainkan dari \textit{frame}-\textit{frame} hasil sampling yang sama. Perbedaannya terletak pada bentuk representasi yang diberikan kepada model. Pada pendekatan spasial, setiap \textit{frame} hasil sampling diperlakukan sebagai sampel individual. Sementara itu, pada pendekatan spasiotemporal, \textit{frame}-\textit{frame} yang sama dipertahankan sebagai satu klip terurut. Rancangan ini bertujuan untuk menjaga keadilan eksperimen, sehingga perbedaan kinerja yang muncul lebih merefleksikan perbedaan cara model memanfaatkan informasi spasial dan temporal, bukan disebabkan oleh perbedaan data yang digunakan. \par
 
 \subsubsection{Augmentasi Data}
-Untuk meningkatkan keragaman data pelatihan dan mengurangi risiko \textit{overfitting}, augmentasi hanya diterapkan pada data \textit{train}, sedangkan data \textit{validation} dan data \textit{test} tidak diberikan augmentasi agar evaluasi model tetap objektif. Dalam penelitian ini, augmentasi dilakukan setelah tahap \textit{strided temporal sampling}, sehingga transformasi diterapkan pada klip hasil sampling yang sama yang akan digunakan oleh kedua jalur eksperimen. Transformasi yang diterapkan meliputi \textit{horizontal flip} untuk menambah keragaman orientasi wajah, penyesuaian kecerahan dan kontras (\textit{color jitter}) untuk mensimulasikan variasi pencahayaan pada video dunia nyata, penambahan \textit{Gaussian noise} untuk meniru derau akibat proses perekaman dan kompresi, serta \textit{random resized crop} agar model dapat mempelajari pola visual pada area wajah yang sedikit berbeda tanpa menghilangkan konteks utama. Seluruh transformasi diterapkan secara konsisten pada semua \textit{frame} dalam satu klip dengan parameter yang sama, sehingga struktur visual wajah dan koherensi temporal antar-\textit{frame} tetap terjaga. Dengan demikian, augmentasi yang digunakan dapat meningkatkan keragaman data tanpa mengubah karakteristik visual penting yang menjadi dasar klasifikasi video \textit{deepfake}. \par
+Untuk meningkatkan keragaman data pelatihan dan mengurangi risiko \textit{overfitting}, augmentasi hanya diterapkan pada data latih, sedangkan data validasi dan data uji tidak diberikan augmentasi agar evaluasi model tetap objektif. Dalam penelitian ini, augmentasi dilakukan setelah tahap \textit{strided temporal sampling}, sehingga transformasi diterapkan pada klip hasil sampling yang sama yang akan digunakan oleh kedua jalur eksperimen. Transformasi yang diterapkan meliputi \textit{horizontal flip} untuk menambah keragaman orientasi wajah, penyesuaian kecerahan dan kontras (\textit{color jitter}) untuk mensimulasikan variasi pencahayaan pada video dunia nyata, penambahan \textit{Gaussian noise} untuk meniru derau akibat proses perekaman dan kompresi, serta \textit{random resized crop} agar model dapat mempelajari pola visual pada area wajah yang sedikit berbeda tanpa menghilangkan konteks utama. Seluruh transformasi diterapkan secara konsisten pada semua \textit{frame} dalam satu klip dengan parameter yang sama, sehingga struktur visual wajah dan koherensi temporal antar-\textit{frame} tetap terjaga. Dengan demikian, augmentasi yang digunakan dapat meningkatkan keragaman data tanpa mengubah karakteristik visual penting yang menjadi dasar klasifikasi video \textit{deepfake}. \par
 
 \subsubsection{Normalisasi Frame Hasil Sampling}
 Setelah data melalui tahap ekstraksi, pemisahan, \textit{strided temporal sampling}, dan augmentasi, langkah berikutnya adalah melakukan normalisasi terhadap \textit{frame}-\textit{frame} hasil sampling. Normalisasi dilakukan agar distribusi nilai piksel menjadi lebih terstandarisasi dan sesuai dengan karakteristik model \textit{pretrained} yang digunakan. Tahap ini penting untuk menjaga stabilitas proses pelatihan serta membantu model dalam mempelajari pola visual secara lebih efektif. \par
@@ -127,6 +127,34 @@ Dalam rancangan penelitian ini, setiap \textit{frame} hasil \textit{strided temp
 
 Rancangan tersebut konsisten dengan tujuan eksperimen komparatif yang menggunakan evidensi visual dasar yang sama pada kedua jalur model. Pada pendekatan spasial, \textit{frame}-\textit{frame} hasil sampling diperlakukan sebagai masukan individual untuk menilai sejauh mana informasi visual statis masih efektif dalam membedakan wajah asli dan wajah hasil manipulasi pada video \textit{deepfake} dunia nyata \cite{Zi2024,chu2025reducedspatialdependencygeneral}. Meskipun demikian, pendekatan ini memiliki keterbatasan mendasar karena tidak memodelkan hubungan temporal antar-\textit{frame} secara eksplisit. Akibatnya, model spasial diperkirakan lebih sensitif terhadap artefak visual statis, tetapi berpotensi kurang optimal dalam menangkap anomali manipulasi yang hanya tampak melalui dinamika gerakan atau inkonsistensi temporal antar-\textit{frame}. Keterbatasan inilah yang kemudian menjadi dasar pembanding terhadap pendekatan spasiotemporal berbasis VideoMAE pada subbab berikutnya. \par
 
+Konfigurasi hyperparameter yang digunakan pada model spasial berbasis Vision Transformer (ViT) ditunjukkan pada Tabel \ref{tab:3.hyperparameter-vit}. \par
+
+\begin{table}[H]
+	\centering
+	\caption{Hyperparameter model spasial berbasis Vision Transformer (ViT)}
+	\label{tab:3.hyperparameter-vit}
+	\begin{tabular}{|>{\raggedright\arraybackslash}p{0.48\textwidth}|>{\centering\arraybackslash}p{0.25\textwidth}|}
+		\hline
+		\textbf{Komponen} & \textbf{Nilai} \\
+		\hline
+		Learning Rate & 0.0001 \\
+		\hline
+		Epoch & 50 \\
+		\hline
+		Batch & 32 \\
+		\hline
+		Loss Function (Criterion) & CrossEntropy \\
+		\hline
+		Optimizer & AdamW \\
+		\hline
+		Scheduler & Cosine Decay \\
+		\hline
+		Early Stopping & Patience = 7 \\
+		\hline
+	\end{tabular}
+\end{table}
+\par
+
 \subsubsection{Rancangan Model Spasiotemporal Berbasis VideoMAE}
 Model VideoMAE yang diperkenalkan oleh Tong dkk. pada tahun 2022 merupakan arsitektur berbasis Transformer untuk pemodelan video yang dirancang agar mampu mempelajari representasi spasiotemporal secara efisien \cite{tong2022videomaemaskedautoencodersdataefficient}. Berbeda dengan Transformer untuk citra tunggal, VideoMAE memproses video sebagai urutan token spasiotemporal yang dibentuk dari klip video, sehingga model dapat menangkap informasi visual statis sekaligus hubungan temporal antar-\textit{frame} \cite{tong2022videomaemaskedautoencodersdataefficient}. Dalam penelitian ini, VideoMAE digunakan sebagai model pada pendekatan spasiotemporal untuk melakukan klasifikasi video \textit{deepfake} berdasarkan representasi visual pada tingkat klip. Model tersebut diinisialisasi menggunakan bobot hasil pelatihan pada Kinetics-400, kemudian disesuaikan lebih lanjut untuk tugas klasifikasi biner \textit{real} dan \textit{fake}. \par
 
@@ -146,6 +174,34 @@ Urutan token hasil embedding selanjutnya diproses oleh rangkaian Transformer enc
 Perlu dicatat bahwa pada rancangan asli VideoMAE, komponen seperti \textit{tube masking} dengan rasio tinggi dan \textit{decoder} digunakan pada tahap \textit{self-supervised pre-training} untuk merekonstruksi bagian video yang dimask \cite{tong2022videomaemaskedautoencodersdataefficient}. Namun, pada penelitian ini fokus utama bukan pada tahap tersebut, melainkan pada pemanfaatan representasi VideoMAE untuk tugas klasifikasi biner \textit{downstream}. Oleh karena itu, alur model dalam penelitian ini difokuskan pada pembentukan token spasiotemporal, ekstraksi representasi video melalui Transformer encoder, dan klasifikasi akhir pada tingkat klip. \par
 
 Pada tahap akhir, representasi keluaran dari lapisan terakhir encoder diringkas melalui \textit{mean pooling} untuk memperoleh satu vektor fitur pada tingkat klip. Vektor tersebut kemudian diteruskan ke \textit{classification head} untuk menghasilkan prediksi akhir secara langsung pada tingkat video, yaitu kelas \textit{real} atau \textit{fake}. Dengan rancangan tersebut, pendekatan spasiotemporal pada penelitian ini beroperasi sepenuhnya pada tingkat klip, sehingga model diharapkan mampu menangkap bukti manipulasi yang tersebar baik pada dimensi spasial maupun temporal secara lebih komprehensif \cite{Gu2021,tong2022videomaemaskedautoencodersdataefficient}. Hasil dari model ini selanjutnya dibandingkan secara langsung dengan pendekatan spasial berbasis ViT untuk menilai kontribusi relatif informasi temporal terhadap ketahanan klasifikasi \textit{deepfake} pada kondisi dunia nyata. \par
+
+Konfigurasi hyperparameter yang digunakan pada model spasiotemporal berbasis VideoMAE ditunjukkan pada Tabel \ref{tab:3.hyperparameter-videomae}. \par
+
+\begin{table}[H]
+	\centering
+	\caption{Hyperparameter model spasiotemporal berbasis VideoMAE}
+	\label{tab:3.hyperparameter-videomae}
+	\begin{tabular}{|>{\raggedright\arraybackslash}p{0.48\textwidth}|>{\centering\arraybackslash}p{0.25\textwidth}|}
+		\hline
+		\textbf{Komponen} & \textbf{Nilai} \\
+		\hline
+		Learning Rate & 0.0001 \\
+		\hline
+		Epoch & 50 \\
+		\hline
+		Batch & 8 \\
+		\hline
+		Loss Function (Criterion) & CrossEntropy \\
+		\hline
+		Optimizer & AdamW \\
+		\hline
+		Scheduler & Cosine Decay \\
+		\hline
+		Early Stopping & Patience = 7 \\
+		\hline
+	\end{tabular}
+\end{table}
+\par
 
 \subsection{Evaluasi Model} \label{III.Evaluasi Model}
 Evaluasi model pada penelitian ini dilakukan untuk menilai kinerja dua pendekatan yang digunakan, yaitu model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis VideoMAE. Proses evaluasi dilaksanakan menggunakan data validasi selama pelatihan untuk memantau perkembangan pembelajaran model dan menentukan model terbaik, serta data uji pada tahap akhir untuk mengukur performa secara objektif terhadap data yang tidak terlibat dalam proses pelatihan \cite{lu2022novelframeworkassessmentlearningbased}. \par
