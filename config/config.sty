@@ -26,15 +26,7 @@
 \usepackage{amsmath} % Untuk equation
 \usepackage{enumitem} % Untuk list enumerate yg lebih rapi
 \usepackage{nameref} % Untuk dapat menggunakan nameref, referensi dengan nama section/caption
-\usepackage[bookmarks]{hyperref}
 \usepackage{lipsum}
-\hypersetup{
-	colorlinks,
-	citecolor=black,
-	filecolor=black,
-	linkcolor=black,
-	urlcolor=black
-}
 
 % Setting indensasi
 \usepackage{indentfirst}
@@ -341,13 +333,17 @@
 \renewcommand\@dotsep{2.5}  % Coba nilai yang berbeda: 1.5, 2.0, 2.5, 3.0, dll.
 \makeatother
 
-\usepackage{hyperref}
+\usepackage[bookmarks,hyperfootnotes=true]{hyperref}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,   % warna untuk \ref, \autoref, dll
     urlcolor=blue,     % warna untuk \href (tautan web)
     citecolor=black    % warna untuk \cite
 }
+% Pastikan anchor hyperlink footnote unik per bab.
+\makeatletter
+\renewcommand*{\theHfootnote}{\theHchapter.\arabic{footnote}}
+\makeatother
 
 \usepackage{cleveref}
 % Setelah paket cleveref dimuat

@@ -231,4 +231,90 @@ Alat yang digunakan dalam penelitian ini meliputi perangkat keras (\textit{hardw
 Bahan yang digunakan dalam penelitian ini berupa dataset dan sumber pendukung untuk proses pelatihan serta evaluasi model. Dataset utama yang digunakan adalah WildDeepfake sebagai sumber data pelatihan, validasi, dan pengujian. Selain itu, penelitian ini juga menggunakan \textit{pretrained weights} pada model Vision Transformer (ViT) dan VideoMAE untuk mendukung proses \textit{fine-tuning} pada tugas klasifikasi video \textit{deepfake}. \par
 
 \section{Ilustrasi Perhitungan Metode} \label{III.Ilustrasi}
-Penjelasan contoh perhitungan bagi penelitian tugas akhir yang menggunakan algoritma perhitungan tertentu. Rumus perhitungan berdasarkan rumus yang sudah dijelaskan sebelumnya di Bab \ref{II.Teori}. \par
+Subbab ini menyajikan ilustrasi perhitungan metrik evaluasi klasifikasi berdasarkan \textit{confusion matrix}. Rumus perhitungan yang digunakan mengacu pada dasar teori yang telah dijelaskan pada Bab \ref{II.Teori}. \par
+
+\subsection{Ilustrasi Perhitungan Metrik Evaluasi}
+Sebagai ilustrasi, misalkan hasil prediksi model pada 100 sekuens video uji menghasilkan \textit{confusion matrix} seperti pada Tabel \ref{tab:3.contoh-confusion-matrix}. Pada penelitian ini, kelas positif didefinisikan sebagai \textit{fake}, sedangkan kelas negatif didefinisikan sebagai \textit{real}. \par
+
+\begin{table}[H]
+	\centering
+	\caption{Contoh \textit{confusion matrix} hasil evaluasi}
+	\label{tab:3.contoh-confusion-matrix}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Actual $\backslash$ Predicted} & \textbf{Fake} & \textbf{Real} \\
+		\hline
+		\textbf{Fake} & 36 & 8 \\
+		\hline
+		\textbf{Real} & 4 & 52 \\
+		\hline
+	\end{tabular}
+\end{table}
+\par
+
+Berdasarkan Tabel \ref{tab:3.contoh-confusion-matrix}, diperoleh nilai $TP = 36$, $FN = 8$, $FP = 4$, dan $TN = 52$. Dengan demikian, nilai \textit{accuracy} dapat dihitung sebagai berikut. \par
+
+\begingroup
+\setlength{\abovedisplayskip}{8pt}
+\setlength{\belowdisplayskip}{10pt}
+\setlength{\abovedisplayshortskip}{8pt}
+\setlength{\belowdisplayshortskip}{10pt}
+\setlength{\jot}{6pt}
+
+\begin{align*}
+\textit{Accuracy} &= \frac{TP + TN}{TP + TN + FP + FN} \\
+&= \frac{36 + 52}{36 + 52 + 4 + 8} = \frac{88}{100} = 0{,}88 = 88\%
+\end{align*}
+\par
+
+Nilai \textit{precision} dihitung sebagai berikut. \par
+
+\begin{align*}
+\textit{Precision} &= \frac{TP}{TP + FP} \\
+&= \frac{36}{36 + 4} = \frac{36}{40} = 0{,}90 = 90\%
+\end{align*}
+\par
+
+Nilai \textit{recall} dihitung sebagai berikut. \par
+
+\begin{align*}
+\textit{Recall} &= \frac{TP}{TP + FN} \\
+&= \frac{36}{36 + 8} = \frac{36}{44} = 0{,}8182 = 81{,}82\%
+\end{align*}
+\par
+
+Selanjutnya, nilai $F1$-\textit{score} dihitung sebagai berikut. \par
+
+\begin{align*}
+F1\textit{-score} &= 2 \times \frac{\textit{Precision} \times \textit{Recall}}{\textit{Precision} + \textit{Recall}} \\
+&= 2 \times \frac{0{,}90 \times 0{,}8182}{0{,}90 + 0{,}8182} \\
+&= 0{,}8571 = 85{,}71\%
+\end{align*}
+\par
+
+Untuk kebutuhan kurva ROC, terlebih dahulu dihitung \textit{True Positive Rate} (TPR) dan \textit{False Positive Rate} (FPR). Nilai TPR adalah: \par
+
+\begin{align*}
+TPR &= \frac{TP}{TP + FN} \\
+&= \frac{36}{36 + 8} = \frac{36}{44} = 0{,}8182
+\end{align*}
+\par
+
+Adapun nilai FPR adalah: \par
+
+\begin{align*}
+FPR &= \frac{FP}{FP + TN} \\
+&= \frac{4}{4 + 52} = \frac{4}{56} = 0{,}0714
+\end{align*}
+\par
+
+Dengan demikian, pada satu nilai \textit{threshold} tertentu diperoleh satu titik ROC, yaitu $(FPR, TPR) = (0{,}0714, 0{,}8182)$. Jika secara sederhana kurva ROC dibentuk oleh tiga titik, yaitu $(0,0)$, $(0{,}0714, 0{,}8182)$, dan $(1,1)$, maka nilai AUC dapat dihampiri menggunakan aturan trapesium sebagai berikut. \par
+
+\begin{align*}
+AUC &= \frac{0 + 0{,}8182}{2}(0{,}0714 - 0) + \frac{0{,}8182 + 1}{2}(1 - 0{,}0714) \\
+&= 0{,}0292 + 0{,}8442 = 0{,}8734
+\end{align*}
+\par
+\endgroup
+
+Berdasarkan hasil perhitungan tersebut, model pada ilustrasi ini memiliki \textit{accuracy} 88\%, \textit{precision} 90\%, \textit{recall} 81{,}82\%, $F1$-\textit{score} 85{,}71\%, dan AUC 0{,}8734. Nilai-nilai tersebut menunjukkan bahwa model memiliki kemampuan klasifikasi yang baik dalam membedakan video \textit{real} dan \textit{fake}, meskipun masih terdapat kesalahan prediksi pada sebagian sampel positif dan negatif. \par
