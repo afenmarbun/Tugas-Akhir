@@ -122,7 +122,69 @@ Pada rancangan asli VideoMAE, \textit{encoder} dan \textit{decoder} digunakan be
 
 Pada rancangan VideoMAE, \textit{strided temporal sampling} digunakan sebagai strategi \textit{temporal downsampling} untuk mengatasi redundansi antar-\textit{frame} berurutan \cite{tong2022videomaemaskedautoencodersdataefficient}. Melalui strategi ini, satu klip video terlebih dahulu diambil dari video asli, kemudian dikompresi menjadi jumlah \textit{frame} yang lebih sedikit melalui proses \textit{temporal sampling} dengan \textit{stride} tertentu \cite{tong2022videomaemaskedautoencodersdataefficient}. Pendekatan ini membuat model tidak perlu memproses seluruh \textit{frame} dalam satu sekuens secara langsung, tetapi tetap dapat mempelajari pola perubahan visual yang penting pada dimensi waktu \cite{tong2022videomaemaskedautoencodersdataefficient}. Dengan demikian, \textit{strided temporal sampling} berperan sebagai langkah awal yang penting untuk membentuk representasi video yang lebih ringkas dan efisien sebelum diproses oleh model spasiotemporal \cite{tong2022videomaemaskedautoencodersdataefficient}. \par
 
-Kebutuhan untuk mengendalikan panjang sekuens masukan juga muncul pada berbagai model \textit{video transformer} lain. TimeSformer menunjukkan bahwa video dapat dimodelkan melalui perhatian ruang-waktu secara langsung, tetapi representasi semacam ini secara alami menghasilkan urutan token yang panjang \cite{bertasius2021spacetimeattentionneedvideo}. Demikian pula, ViViT menegaskan bahwa video menghasilkan token spasiotemporal dalam jumlah besar, sehingga diperlukan rancangan yang efisien untuk mengelola masukan pada domain video \cite{arnab2021vivitvideovisiontransformer}. Dalam konteks tersebut, \textit{strided temporal sampling} dapat dipahami sebagai salah satu strategi praktis untuk mereduksi jumlah \textit{frame} yang diproses, sehingga efisiensi komputasi dapat ditingkatkan tanpa menghilangkan cakupan dinamika temporal yang representatif \cite{tong2022videomaemaskedautoencodersdataefficient,bertasius2021spacetimeattentionneedvideo,arnab2021vivitvideovisiontransformer}. \par
+Secara umum, apabila indeks \textit{frame} awal dinyatakan sebagai $s$, jumlah \textit{frame} keluaran dinyatakan sebagai $T$, dan nilai \textit{stride} dinyatakan sebagai $\tau$, maka indeks \textit{frame} ke-$k$ yang dipilih pada proses sampling dapat dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+i_k = s + (k-1)\tau, \quad k = 1,2,\ldots,T
+\label{eq:strided-index}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus indeks \textit{frame} pada \textit{strided temporal sampling}}
+
+Berdasarkan definisi tersebut, panjang klip minimum yang diperlukan untuk menghasilkan $T$ \textit{frame} dengan \textit{stride} $\tau$ dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+L = i_T - i_1 + 1
+\label{eq:clip-length-general}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus panjang klip minimum berdasarkan indeks \textit{frame}}
+
+Karena $i_1 = s$ dan $i_T = s + (T-1)\tau$, maka bentuk sederhananya menjadi berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+L = (T-1)\tau + 1
+\label{eq:clip-length-simplified}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus panjang klip minimum bentuk sederhana}
+
+Rumus tersebut menunjukkan bahwa panjang klip minimum ditentukan oleh jumlah \textit{frame} keluaran dan interval sampling yang digunakan. Dengan demikian, semakin besar nilai \textit{stride}, semakin panjang klip awal yang dibutuhkan untuk membentuk representasi temporal dengan jumlah \textit{frame} keluaran yang sama. \par
+
+Dalam penelitian ini, satu sekuens wajah dapat menghasilkan lebih dari satu klip turunan dengan panjang tetap. Jika panjang satu sekuens dinyatakan sebagai $N$ \textit{frame} dan panjang satu klip dinyatakan sebagai $L$, maka jumlah klip turunan yang dapat dibentuk dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+C = \left\lfloor \frac{N}{L} \right\rfloor
+\label{eq:number-of-clips}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus jumlah klip turunan dari satu sekuens}
+
+Rumus tersebut merupakan pembagian bulat ke bawah, sehingga hanya klip penuh yang digunakan. Adapun sisa \textit{frame} yang tidak cukup untuk membentuk satu klip penuh dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+R = N - C \cdot L
+\label{eq:remaining-frames}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus sisa \textit{frame} yang tidak membentuk klip penuh}
+
+Agar pembentukan klip tetap berpusat di tengah sekuens, sisa \textit{frame} tersebut dibuang secara seimbang pada sisi kiri dan kanan. Besar \textit{frame} yang dibuang pada masing-masing sisi dirumuskan sebagai berikut.
+
+\vspace{0.5\baselineskip}
+\begin{equation}
+d_{\text{kiri}} = \left\lfloor \frac{R}{2} \right\rfloor, \quad d_{\text{kanan}} = \left\lceil \frac{R}{2} \right\rceil
+\label{eq:symmetric-discard}
+\end{equation}
+\vspace{0.5\baselineskip}
+\myequations{Rumus pembuangan \textit{frame} sisa secara simetris}
+
+Melalui formulasi tersebut, \textit{strided temporal sampling} tidak hanya dipahami sebagai teknik pemilihan \textit{frame} secara berkala, tetapi juga sebagai dasar matematis untuk menentukan panjang klip, jumlah klip turunan, serta mekanisme pembuangan \textit{frame} sisa secara simetris. Pada penelitian ini, formulasi tersebut digunakan sebagai landasan teoretis dalam tahap \textit{preprocessing} pada Bab III. \par
 
 \subsection{Evaluasi Model} \label{II.Teori7}
 Evaluasi model merupakan tahap yang bertujuan untuk menilai sejauh mana model mampu melakukan klasifikasi video \textit{deepfake} secara tepat pada data uji. Pada penelitian ini, evaluasi dilakukan untuk mengukur kemampuan model dalam membedakan video ke dalam dua kelas, yaitu \textit{real} dan \textit{fake}, sesuai dengan rumusan masalah dan batasan penelitian yang telah ditetapkan. Oleh karena itu, evaluasi tidak hanya dilakukan dengan satu metrik, tetapi menggunakan beberapa ukuran yang saling melengkapi, yaitu \textit{confusion matrix}, \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, dan \textit{Area Under Curve -- Receiver Operating Characteristic} (AUC-ROC). \par

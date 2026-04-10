@@ -121,86 +121,14 @@ Pada penelitian ini, seluruh berkas \textit{.tar.gz} diekstraksi terlebih dahulu
 
 Penyusunan ulang struktur data ini dilakukan untuk memudahkan proses pembacaan data pada tahap berikutnya. Dengan struktur yang telah disusun ulang tersebut, proses \textit{data loading} dan pelacakan identitas sekuens dapat dilakukan secara lebih teratur dan konsisten. Melalui tahapan ini, dataset berada dalam bentuk yang lebih siap untuk digunakan pada proses \textit{data splitting} dan pembentukan klip pada tahap berikutnya. \par
 
-\subsubsection{Pembentukan Klip 46 Frame Berpusat di Tengah}
-\begingroup
-\setlength{\abovedisplayskip}{1pt}
-\setlength{\belowdisplayskip}{5pt}
-\setlength{\abovedisplayshortskip}{1pt}
-\setlength{\belowdisplayshortskip}{5pt}
-\setlength{\jot}{2pt}
-
+\subsubsection{Pembentukan Klip 46 Frame}
 Setelah proses ekstraksi dataset selesai, tahap berikutnya adalah membentuk klip berdurasi tetap dari setiap \textit{face sequence} pada dataset WildDeepfake. Pada penelitian ini, setiap sekuens diproses menjadi satu atau lebih klip turunan yang masing-masing terdiri atas 46 \textit{frame}. Tahap ini dilakukan sebelum \textit{data splitting} dan \textit{strided temporal sampling}, karena unit data yang digunakan pada tahapan berikutnya bukan lagi sekuens asal, melainkan klip turunan hasil segmentasi sekuens. \par
 
-Penetapan panjang klip didasarkan pada konfigurasi masukan model spasiotemporal yang menggunakan 16 \textit{frame}. Pada VideoMAE, video terlebih dahulu dibentuk sebagai klip, kemudian dikompresi melalui \textit{temporal sampling} untuk menghasilkan representasi temporal yang lebih ringkas dan efisien. Konsep tersebut digunakan sebagai dasar pada penelitian ini. \par
+Penetapan panjang klip didasarkan pada konfigurasi masukan model spasiotemporal yang menggunakan 16 \textit{frame}. Pada penelitian ini, jumlah \textit{frame} keluaran dinyatakan sebagai $T = 16$ dan nilai \textit{stride} dinyatakan sebagai $\tau = 3$. Dengan menggunakan \ref{eq:clip-length-simplified}, diperoleh panjang klip minimum $L = 46$. Dengan demikian, setiap klip turunan pada penelitian ini dibentuk sepanjang 46 \textit{frame}. Pemilihan \textit{stride} 3 dilakukan karena panjang minimum sekuens pada dataset penelitian adalah 51 \textit{frame}, sehingga konfigurasi ini masih dapat diterapkan secara konsisten pada seluruh data. Sebaliknya, apabila digunakan \textit{stride} 4, dengan menggunakan \ref{eq:clip-length-simplified} akan diperoleh kebutuhan panjang klip sebesar 61 \textit{frame}, sehingga tidak lagi sesuai dengan panjang minimum sekuens pada dataset. \par
 
-Pada penelitian ini, \textit{strided temporal sampling} didefinisikan sebagai pemilihan \textit{frame} dengan interval tetap sebesar $\tau$. Jika banyak \textit{frame} keluaran yang diinginkan adalah $T$, maka indeks \textit{frame} ke-$k$ dapat dituliskan sebagai berikut.
+Setelah panjang klip ditetapkan, jumlah klip turunan dari setiap sekuens ditentukan berdasarkan panjang sekuens asal. Jika panjang satu sekuens dinyatakan sebagai $N$ dan panjang klip dinyatakan sebagai $L$, maka jumlah klip turunan dihitung dengan menggunakan \ref{eq:number-of-clips}. Adapun sisa \textit{frame} yang tidak cukup untuk membentuk satu klip penuh dihitung menggunakan \ref{eq:remaining-frames}, sedangkan pembuangan \textit{frame} sisa secara simetris pada sisi kiri dan kanan sekuens dilakukan dengan menggunakan \ref{eq:symmetric-discard}. Dengan strategi tersebut, bagian tengah sekuens diprioritaskan sebagai area pembentukan klip, sedangkan \textit{frame} berlebih di awal dan akhir sekuens tidak digunakan. \par
 
-\begin{equation}
-i_k = s + (k - 1)\tau, \quad k = 1, 2, \ldots, T
-\end{equation}
-
-dengan $s$ menyatakan indeks \textit{frame} awal dan $\tau$ menyatakan nilai \textit{stride}. Berdasarkan definisi tersebut, panjang klip turunan minimum yang diperlukan untuk menghasilkan $T$ \textit{frame} dengan \textit{stride} $\tau$ dirumuskan sebagai berikut.
-
-\begin{equation}
-L = i_T - i_1 + 1
-\end{equation}
-
-karena $i_1 = s$ dan $i_T = s + (T - 1)\tau$, maka diperoleh:
-
-\begin{equation}
-L = (T - 1)\tau + 1
-\end{equation}
-
-Rumus ini merupakan turunan matematis dari definisi \textit{stride} pada pemilihan \textit{frame} berinterval tetap, bukan rumus yang dikutip secara langsung dari satu paper tertentu. Adapun dasar konseptual penggunaan \textit{temporal sampling} dan jumlah \textit{frame} masukan tetap mengacu pada VideoMAE. \par
-
-Dengan konfigurasi penelitian ini, jumlah \textit{frame} keluaran ditetapkan sebesar $T = 16$ dan \textit{stride} yang digunakan adalah $\tau = 3$. Oleh karena itu, panjang klip yang diperlukan adalah:
-
-\begin{equation*}
-L = (16 - 1) \times 3 + 1 = 46
-\end{equation*}
-
-Dengan demikian, setiap klip turunan pada penelitian ini dibentuk sepanjang 46 \textit{frame}. Pemilihan \textit{stride} 3 dilakukan karena panjang minimum sekuens pada dataset penelitian adalah 51 \textit{frame}, sehingga konfigurasi ini masih dapat diterapkan secara konsisten pada seluruh data. Sebaliknya, apabila digunakan \textit{stride} 4, maka panjang klip minimum yang dibutuhkan menjadi $L = (16 - 1) \times 4 + 1 = 61$ \textit{frame}, sehingga tidak lagi sesuai dengan panjang minimum sekuens 51 \textit{frame}. \par
-
-Setelah panjang klip ditetapkan, jumlah klip turunan yang dapat dibentuk dari satu sekuens dengan panjang $N$ \textit{frame} dirumuskan sebagai berikut.
-
-\begin{equation}
-C = \left\lfloor \frac{N}{L} \right\rfloor
-\end{equation}
-
-dengan:
-\begin{itemize}[noitemsep]
-\item $C$ = jumlah klip turunan,
-\item $N$ = jumlah \textit{frame} dalam satu sekuens,
-\item $L$ = panjang setiap klip, yaitu 46 \textit{frame}.
-\end{itemize}
-
-Rumus tersebut merupakan hasil pembagian bulat ke bawah, sehingga hanya klip penuh yang digunakan dalam proses pembentukan data. Adapun sisa \textit{frame} yang tidak cukup untuk membentuk satu klip penuh dirumuskan sebagai:
-
-\begin{equation}
-R = N - C \cdot L
-\end{equation}
-
-Agar pembentukan klip tetap berpusat di tengah sekuens, sisa \textit{frame} tersebut dibuang secara seimbang pada sisi kiri dan kanan, yaitu:
-
-\begin{equation}
-d_{\text{kiri}} = \left\lfloor \frac{R}{2} \right\rfloor, \quad d_{\text{kanan}} = \left\lceil \frac{R}{2} \right\rceil
-\end{equation}
-
-Dengan strategi ini, bagian tengah sekuens diprioritaskan sebagai area pembentukan klip, sedangkan \textit{frame} berlebih di awal dan akhir sekuens tidak digunakan. \par
-
-Sebagai contoh, pada sekuens dengan 50 \textit{frame}, jumlah klip yang dapat dibentuk adalah:
-
-\begin{equation*}
-C = \left\lfloor \frac{50}{46} \right\rfloor = 1
-\end{equation*}
-
-dengan sisa \textit{frame}:
-
-\begin{equation*}
-R = 50 - (1 \times 46) = 4
-\end{equation*}
-
-Karena sisa \textit{frame} dibuang secara seimbang, maka dua \textit{frame} dibuang di awal dan dua \textit{frame} dibuang di akhir. Dengan demikian, klip yang digunakan adalah \textit{frame} ke-3 hingga \textit{frame} ke-48. Ilustrasi proses ini ditunjukkan pada Gambar \ref{fig:3.pembentukan-46-frame-from-50}. \par
+Sebagai contoh, pada sekuens dengan $N = 50$ \textit{frame} dan $L = 46$, dengan menggunakan \ref{eq:number-of-clips} diperoleh jumlah klip turunan $C = 1$. Selanjutnya, dengan menggunakan \ref{eq:remaining-frames} diperoleh sisa \textit{frame} $R = 4$. Karena sisa \textit{frame} dibuang secara seimbang menggunakan \ref{eq:symmetric-discard}, maka dua \textit{frame} dibuang di awal dan dua \textit{frame} dibuang di akhir. Dengan demikian, klip yang digunakan adalah \textit{frame} ke-3 hingga \textit{frame} ke-48. Ilustrasi proses ini ditunjukkan pada Gambar \ref{fig:3.pembentukan-46-frame-from-50}. \par
 
 \begin{figure}[H]
 	\centering
@@ -209,19 +137,7 @@ Karena sisa \textit{frame} dibuang secara seimbang, maka dua \textit{frame} dibu
 	\label{fig:3.pembentukan-46-frame-from-50}
 \end{figure}
 
-Pada sekuens yang lebih panjang, satu sekuens dapat menghasilkan lebih dari satu klip turunan. Sebagai contoh, pada sekuens dengan 150 \textit{frame}, jumlah klip yang dapat dibentuk adalah:
-
-\begin{equation*}
-C = \left\lfloor \frac{150}{46} \right\rfloor = 3
-\end{equation*}
-
-dengan sisa \textit{frame}:
-
-\begin{equation*}
-R = 150 - (3 \times 46) = 12
-\end{equation*}
-
-Karena sisa \textit{frame} dibuang secara seimbang, maka enam \textit{frame} dibuang di awal dan enam \textit{frame} dibuang di akhir. Rentang \textit{frame} yang digunakan menjadi \textit{frame} ke-7 hingga \textit{frame} ke-144, yang kemudian dibagi menjadi tiga klip turunan, yaitu \textit{frame} 7--52, \textit{frame} 53--98, dan \textit{frame} 99--144. Ilustrasi proses ini ditunjukkan pada Gambar \ref{fig:3.pembentukan-46-frame-from-150}. \par
+Pada sekuens yang lebih panjang, satu sekuens dapat menghasilkan lebih dari satu klip turunan. Sebagai contoh, pada sekuens dengan $N = 150$ \textit{frame} dan $L = 46$, dengan menggunakan \ref{eq:number-of-clips} diperoleh jumlah klip turunan $C = 3$. Selanjutnya, dengan menggunakan \ref{eq:remaining-frames} diperoleh sisa \textit{frame} $R = 12$. Karena sisa \textit{frame} dibuang secara seimbang menggunakan \ref{eq:symmetric-discard}, maka enam \textit{frame} dibuang di awal dan enam \textit{frame} dibuang di akhir. Rentang \textit{frame} yang digunakan menjadi \textit{frame} ke-7 hingga \textit{frame} ke-144, yang kemudian dibagi menjadi tiga klip turunan, yaitu \textit{frame} 7--52, \textit{frame} 53--98, dan \textit{frame} 99--144. Ilustrasi proses ini ditunjukkan pada Gambar \ref{fig:3.pembentukan-46-frame-from-150}. \par
 
 \begin{figure}[H]
 	\centering
@@ -241,35 +157,11 @@ Struktur folder setelah pembentukan klip dapat diilustrasikan sebagai berikut.
 \end{figure}
 
 Pada struktur tersebut, nama file \textit{frame} tetap mempertahankan indeks aslinya agar keterlacakan posisi temporal terhadap sekuens asal tetap terjaga. Dengan demikian, setelah tahap ini selesai, unit data penelitian tidak lagi berupa sekuens asal, tetapi berupa klip turunan 46 \textit{frame} yang telah disusun secara seragam dan siap digunakan pada tahap berikutnya. \par
-\endgroup
 
 \subsubsection{Strided Temporal Sampling}
-Setelah klip turunan 46 \textit{frame} berhasil dibentuk, tahap berikutnya adalah \textit{strided temporal sampling} untuk menghasilkan masukan akhir model. Pada tahap ini, setiap klip 46 \textit{frame} dipadatkan menjadi 16 \textit{frame} dengan \textit{stride} 3. Teknik ini digunakan untuk memilih \textit{frame} secara berkala pada dimensi waktu, sehingga diperoleh representasi temporal yang lebih ringkas, tetapi tetap mampu merepresentasikan dinamika gerakan dalam video. Konsep tersebut selaras dengan dasar teori pada penelitian ini, yaitu bahwa \textit{strided temporal sampling} berfungsi untuk mengurangi redundansi temporal antar\textit{frame} yang berdekatan, sekaligus menjaga efisiensi pemrosesan video. \par
+Setelah klip turunan 46 \textit{frame} berhasil dibentuk, tahap berikutnya adalah \textit{strided temporal sampling} untuk menghasilkan masukan akhir model. Pada tahap ini, setiap klip 46 \textit{frame} dipadatkan menjadi 16 \textit{frame} dengan \textit{stride} 3. \par
 
-Penerapan teknik ini mengacu pada prinsip \textit{temporal downsampling} pada VideoMAE, yaitu satu klip video terlebih dahulu diambil dari video asli, kemudian dikompresi menjadi jumlah \textit{frame} yang lebih sedikit melalui proses \textit{temporal sampling} \cite{tong2022videomaemaskedautoencodersdataefficient}. Pada penelitian ini, klip turunan yang digunakan telah ditetapkan sepanjang 46 \textit{frame} pada subbab sebelumnya, sedangkan jumlah \textit{frame} keluaran ditetapkan sebesar 16 \textit{frame}. Oleh karena itu, \textit{stride} yang digunakan adalah 3, sehingga proses sampling dapat diterapkan secara konsisten pada seluruh klip turunan yang telah dibentuk. \par
-
-Secara matematis, jika indeks \textit{frame} awal dinyatakan sebagai $s$, jumlah \textit{frame} keluaran dinyatakan sebagai $T$, dan nilai \textit{stride} dinyatakan sebagai $\tau$, maka indeks \textit{frame} ke-$k$ yang dipilih pada proses sampling dapat dirumuskan sebagai berikut.
-
-\begingroup
-\setlength{\abovedisplayskip}{1pt}
-\setlength{\belowdisplayskip}{5pt}
-\setlength{\abovedisplayshortskip}{1pt}
-\setlength{\belowdisplayshortskip}{5pt}
-\setlength{\jot}{2pt}
-
-\begin{equation}
-i_k = s + (k - 1)\tau, \quad k = 1, 2, \ldots, T
-\end{equation}
-
-Dengan konfigurasi penelitian ini, digunakan $T = 16$ dan $\tau = 3$. Maka, \textit{frame} yang dipilih dari setiap klip 46 \textit{frame} mengikuti pola:
-
-\begin{equation*}
-i_1 = s,\ i_2 = s + 3,\ i_3 = s + 6,\ \ldots,\ i_{16} = s + 45
-\end{equation*}
-
-\endgroup
-
-Sebagai ilustrasi, apabila satu klip turunan terdiri atas \textit{frame} ke-1 hingga \textit{frame} ke-46, maka hasil \textit{strided temporal sampling} dengan \textit{stride} 3 adalah \textit{frame} ke-1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, dan 46. Contoh ini menunjukkan bahwa \textit{strided temporal sampling} tidak mengambil \textit{frame} secara berurutan, melainkan melompati dua \textit{frame} di antara setiap \textit{frame} terpilih. Dengan strategi tersebut, informasi temporal masih tetap tercakup, tetapi jumlah \textit{frame} yang diproses menjadi lebih sedikit dan lebih efisien. \par
+Sebagai ilustrasi, apabila satu klip turunan terdiri atas \textit{frame} ke-1 hingga \textit{frame} ke-46, maka dengan menggunakan \ref{eq:strided-index} diperoleh \textit{frame} terpilih ke-1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, dan 46. Contoh ini menunjukkan bahwa \textit{strided temporal sampling} tidak mengambil \textit{frame} secara berurutan, melainkan memilih \textit{frame} dengan interval tetap. Dengan strategi tersebut, informasi temporal masih tetap tercakup, tetapi jumlah \textit{frame} yang diproses menjadi lebih sedikit dan lebih efisien. \par
 
 \begin{figure}[H]
 	\centering
@@ -278,7 +170,7 @@ Sebagai ilustrasi, apabila satu klip turunan terdiri atas \textit{frame} ke-1 hi
 	\label{fig:3.strided-temporal-sampling}
 \end{figure}
 
-Hasil \textit{strided temporal sampling} pada penelitian ini dijadikan sebagai evidensi visual dasar bersama untuk kedua jalur eksperimen, yaitu pendekatan spasial dan pendekatan spasiotemporal. Dengan demikian, kedua pendekatan tidak dibangun dari kumpulan citra yang berbeda, melainkan dari \textit{frame}-\textit{frame} hasil sampling yang sama.\par
+Perbedaan antara pengambilan \textit{frame} berurutan dan \textit{strided temporal sampling} ditunjukkan pada Gambar \ref{fig:3.strided-temporal-sampling}. Dalam penelitian ini, hasil \textit{strided temporal sampling} dijadikan sebagai evidensi visual dasar bersama untuk kedua jalur eksperimen, yaitu pendekatan spasial dan pendekatan spasiotemporal. Dengan demikian, kedua pendekatan tidak dibangun dari kumpulan citra yang berbeda, melainkan dari \textit{frame}-\textit{frame} hasil sampling yang sama.\par
 
 \subsubsection{Data Splitting}
 Pada penelitian ini, pemisahan data mengikuti pembagian resmi yang telah tersedia pada dataset WildDeepfake, yaitu subset \textit{real\_train}, \textit{fake\_train}, \textit{real\_test}, dan \textit{fake\_test}. Dengan demikian, seluruh klip yang berasal dari direktori \textit{real\_test} dan \textit{fake\_test} digunakan sebagai data pengujian akhir, sedangkan klip yang berasal dari direktori \textit{real\_train} dan \textit{fake\_train} digunakan sebagai sumber data untuk proses pelatihan dan validasi \cite{Zi2024}. \par
@@ -397,7 +289,7 @@ Konfigurasi hyperparameter yang digunakan pada model spasiotemporal berbasis Vid
 \subsubsection{Rancangan Eksperimen}
 Rancangan eksperimen pada penelitian ini disusun untuk mengevaluasi performa dasar serta ketahanan model terhadap perubahan kualitas spasial, kepadatan sampling temporal, dan jumlah \textit{frame} masukan. Seluruh eksperimen menggunakan klip asal dengan panjang tetap 46 \textit{frame} yang telah dibentuk pada tahap \textit{preprocessing}. Setiap kode eksperimen pada subbab ini diterapkan pada dua model, yaitu model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis VideoMAE, sehingga perbedaan performa dapat dianalisis secara konsisten pada konfigurasi masukan yang sama. Konfigurasi dasar penelitian mengikuti rancangan utama yang telah ditetapkan sebelumnya, yaitu resolusi $224 \times 224$ piksel, jumlah \textit{frame} masukan 16, dan \textit{stride} 3. \par
 
-Selain eksperimen dasar, dilakukan pula eksperimen tambahan untuk menguji sensitivitas model terhadap tiga aspek, yaitu penurunan resolusi spasial menjadi 50\%, perubahan nilai \textit{stride} dengan jumlah \textit{frame} masukan tetap 16, serta perubahan jumlah \textit{frame} masukan pada klip asal yang sama. Eksperimen resolusi 50\% dilakukan dengan menurunkan resolusi \textit{frame} menjadi $112 \times 112$ piksel, kemudian mengubahnya kembali ke ukuran $224 \times 224$ piksel sebelum diberikan ke model agar ukuran masukan dan arsitektur tetap konsisten. Sementara itu, variasi jumlah \textit{frame} masukan di bawah 16 dan di atas 16 tetap disusun agar tidak melampaui batas klip asal 46 \textit{frame}. Rincian konfigurasi eksperimen yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:3.rancangan-eksperimen}. \par
+Selain eksperimen dasar, dilakukan pula eksperimen tambahan untuk menguji sensitivitas model terhadap tiga aspek, yaitu penurunan resolusi spasial menjadi 50\%, perubahan nilai \textit{stride} dengan jumlah \textit{frame} masukan tetap 16, serta perubahan jumlah \textit{frame} masukan pada klip asal yang sama. Penyusunan variasi kombinasi jumlah \textit{frame} masukan dan \textit{stride} pada penelitian ini mengacu pada formulasi \textit{strided temporal sampling} pada Subbab 2.2.7, sehingga seluruh konfigurasi eksperimen tetap berada dalam batas klip asal 46 \textit{frame}. Eksperimen resolusi 50\% dilakukan dengan menurunkan resolusi \textit{frame} menjadi $112 \times 112$ piksel, kemudian mengubahnya kembali ke ukuran $224 \times 224$ piksel sebelum diberikan ke model agar ukuran masukan dan arsitektur tetap konsisten. Rincian konfigurasi eksperimen yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:3.rancangan-eksperimen}. \par
 
 \begin{table}[H]
 \centering
