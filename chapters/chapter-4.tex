@@ -241,3 +241,110 @@ Hasil pembagian dataset berdasarkan subset dan kelas ditunjukkan pada Tabel~\ref
 \end{table}
 
 Berdasarkan Tabel~\ref{table:4.split}, subset train memiliki jumlah data terbesar, yaitu 15.500 klip. Subset validasi terdiri atas 3.571 klip, sedangkan subset test terdiri atas 3.232 klip. Pada seluruh subset, jumlah klip kelas fake lebih banyak dibandingkan kelas real. Distribusi ini kemudian digunakan secara konsisten pada proses pelatihan, validasi, dan pengujian model.
+
+\subsection{Augmentasi Data} \label{IV.Augmentasi}
+Augmentasi data diterapkan untuk meningkatkan keragaman data pelatihan dan mengurangi risiko overfitting. Pada penelitian ini, augmentasi hanya diterapkan pada subset train, sedangkan subset validasi dan test tidak diberikan augmentasi. Hal ini dilakukan agar proses validasi dan pengujian tetap merepresentasikan performa model pada data yang tidak mengalami transformasi tambahan.
+
+Implementasi augmentasi dilakukan menggunakan library Albumentations. Library ini digunakan karena mendukung berbagai transformasi citra, seperti transformasi geometri, perubahan warna, blur, dan noise. Pada penelitian ini, augmentasi diterapkan secara konsisten pada seluruh frame dalam satu klip. Dengan demikian, transformasi yang diberikan pada satu frame direplikasi pada frame-frame lain dalam klip yang sama agar koherensi visual antar-frame tetap terjaga.
+
+Potongan kode augmentasi data ditunjukkan pada Kode~\ref{code:4.3}.
+
+\begin{lstlisting}[language=Python, caption={Augmentasi Data Menggunakan Albumentations}, label={code:4.3}]
+def _build_train_transform(self):
+	crop_h, crop_w = _sample_fakeformer_crop_size(
+		image_size=self.image_size,
+		crop_limit=AUG_CROP_LIMIT,
+	)
+
+	return A.ReplayCompose(
+		[
+			A.OneOf(
+				[
+					A.RandomCrop(
+						height=crop_h,
+						width=crop_w,
+						p=AUG_CROP_PROB,
+					),
+					A.RandomScale(
+						scale_limit=AUG_SCALE_LIMIT,
+						interpolation=cv2.INTER_LINEAR,
+						p=AUG_SCALE_PROB,
+					),
+				],
+				p=AUG_GEOMETRY_ONEOF_PROB,
+			),
+			A.Resize(
+				height=self.image_size,
+				width=self.image_size,
+				interpolation=cv2.INTER_CUBIC,
+				p=1.0,
+			),
+			A.HorizontalFlip(p=AUG_PROB_HFLIP),
+			A.ColorJitter(
+				brightness=AUG_COLORJITTER_BRIGHTNESS,
+				contrast=AUG_COLORJITTER_CONTRAST,
+				saturation=AUG_COLORJITTER_SATURATION,
+				hue=AUG_COLORJITTER_HUE,
+				p=AUG_COLORJITTER_PROB,
+			),
+			A.OneOf(
+				[
+					A.GaussianBlur(
+						blur_limit=AUG_GAUSSIAN_BLUR_LIMIT,
+						sigma_limit=0,
+						p=AUG_GAUSSIAN_BLUR_PROB,
+					),
+					_make_gauss_noise_transform(
+						p=AUG_GAUSSNOISE_PROB,
+					),
+				],
+				p=AUG_BLUR_OR_NOISE_ONEOF_PROB,
+			),
+		]
+	)
+\end{lstlisting}
+
+Kode~\ref{code:4.3} menunjukkan bahwa augmentasi yang digunakan terdiri atas beberapa jenis transformasi, yaitu random crop, random scale, horizontal flip, color jitter, Gaussian blur, dan Gaussian noise. Transformasi random crop dan random scale digunakan untuk memberikan variasi geometri pada area wajah. Transformasi horizontal flip digunakan untuk menambah variasi orientasi wajah. Transformasi color jitter digunakan untuk mensimulasikan variasi pencahayaan dan warna. Sementara itu, Gaussian blur dan Gaussian noise digunakan untuk menambahkan variasi degradasi visual yang dapat muncul pada data video.
+
+Contoh visualisasi hasil augmentasi ditunjukkan pada Gambar~\ref{fig:4.augmentasi}. Visualisasi tersebut menampilkan perbandingan antara citra asli dan beberapa hasil augmentasi yang diterapkan pada data latih.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figure/augmentation_grid.png}
+	\caption{Contoh Hasil Augmentasi Data Menggunakan Albumentations: (a) citra asli, (b) horizontal flip, (c) random crop, (d) random scale, (e) color jitter, (f) Gaussian blur, dan (g) Gaussian noise}
+	\label{fig:4.augmentasi}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:4.augmentasi}, augmentasi yang diterapkan tidak mengubah label data, tetapi hanya memberikan variasi visual pada citra wajah. Dengan demikian, model diharapkan dapat mempelajari pola yang lebih robust terhadap perubahan posisi wajah, orientasi, pencahayaan, serta degradasi visual pada frame.
+
+\subsection{Normalisasi Data} \label{IV.Normalisasi}
+Setelah proses augmentasi dilakukan, setiap frame dikonversi menjadi tensor dan dinormalisasi sebelum diberikan ke model. Normalisasi dilakukan untuk menyesuaikan distribusi nilai piksel dengan karakteristik model pretrained yang digunakan. Pada penelitian ini, nilai piksel terlebih dahulu diubah ke rentang [0, 1], kemudian dinormalisasi menggunakan nilai mean dan standard deviation ImageNet.
+
+Potongan kode normalisasi data ditunjukkan pada Kode~\ref{code:4.4}.
+
+\begin{lstlisting}[language=Python, caption={Normalisasi Data}, label={code:4.4}]
+NORM_MEAN = (0.485, 0.456, 0.406)
+NORM_STD = (0.229, 0.224, 0.225)
+
+def _array_to_normalized_tensor(self, image_array: np.ndarray):
+	tensor = torch.from_numpy(image_array).permute(2, 0, 1).float()
+
+	if image_array.dtype == np.uint8:
+		tensor = tensor / 255.0
+	elif tensor.max() > 1.0:
+		tensor = tensor / 255.0
+
+	tensor = torch.clamp(tensor, 0.0, 1.0)
+
+	tensor = TF.normalize(
+		tensor,
+		mean=self.mean,
+		std=self.std,
+	)
+
+	return tensor
+\end{lstlisting}
+
+Kode~\ref{code:4.4} menunjukkan bahwa citra yang semula berada dalam format H $\times$ W $\times$ C dikonversi menjadi format tensor C $\times$ H $\times$ W. Selanjutnya, nilai piksel dikonversi ke rentang [0, 1] dengan membagi nilai piksel 8-bit terhadap 255. Setelah itu, normalisasi dilakukan menggunakan nilai mean (0,485, 0,456, 0,406) dan standard deviation (0,229, 0,224, 0,225).
+
+Normalisasi diterapkan pada seluruh subset data, yaitu train, validasi, dan test. Perbedaannya adalah subset train terlebih dahulu melalui proses augmentasi, sedangkan subset validasi dan test hanya melalui proses transformasi dasar, konversi tensor, dan normalisasi. Dengan demikian, seluruh data yang diberikan ke model memiliki format dan skala nilai yang konsisten pada tahap pelatihan, validasi, dan pengujian.
