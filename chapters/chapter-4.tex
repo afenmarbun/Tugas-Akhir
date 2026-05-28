@@ -348,3 +348,90 @@ def _array_to_normalized_tensor(self, image_array: np.ndarray):
 Kode~\ref{code:4.4} menunjukkan bahwa citra yang semula berada dalam format H $\times$ W $\times$ C dikonversi menjadi format tensor C $\times$ H $\times$ W. Selanjutnya, nilai piksel dikonversi ke rentang [0, 1] dengan membagi nilai piksel 8-bit terhadap 255. Setelah itu, normalisasi dilakukan menggunakan nilai mean (0,485, 0,456, 0,406) dan standard deviation (0,229, 0,224, 0,225).
 
 Normalisasi diterapkan pada seluruh subset data, yaitu train, validasi, dan test. Perbedaannya adalah subset train terlebih dahulu melalui proses augmentasi, sedangkan subset validasi dan test hanya melalui proses transformasi dasar, konversi tensor, dan normalisasi. Dengan demikian, seluruh data yang diberikan ke model memiliki format dan skala nilai yang konsisten pada tahap pelatihan, validasi, dan pengujian.
+
+\section{Hasil Rancangan Model} \label{IV.Model}
+Tahap rancangan model dilakukan untuk mengimplementasikan dua pendekatan klasifikasi video \textit{deepfake}, yaitu pendekatan spasial dan pendekatan spasiotemporal. Kedua pendekatan menggunakan data masukan yang berasal dari hasil \textit{strided temporal sampling} yang sama, sehingga perbandingan performa dapat dilakukan secara lebih setara. Perbedaan utama kedua model terletak pada cara model memproses frame dalam satu klip. Model spasial memproses frame secara individual, sedangkan model spasiotemporal memproses seluruh frame dalam satu klip secara langsung.
+
+\subsection{Model Spasial} \label{IV.Model_Spasial}
+Model spasial pada penelitian ini menggunakan arsitektur \textit{Vision Transformer} (ViT). Model ini dirancang untuk memproses informasi visual pada tingkat frame. Oleh karena itu, meskipun data dari dataloader berbentuk klip, setiap frame dalam klip tetap diperlakukan sebagai citra individual sebelum diberikan ke model.
+
+Pada implementasinya, satu batch data memiliki bentuk tensor $B \times T \times C \times H \times W$, dengan $B$ sebagai ukuran batch, $T$ sebagai jumlah frame dalam satu klip, $C$ sebagai jumlah kanal warna, serta $H$ dan $W$ sebagai tinggi dan lebar citra. Karena ViT menerima input berupa citra, tensor klip tersebut terlebih dahulu diubah menjadi bentuk $B \times T \times C \times H \times W$ dengan menggabungkan dimensi batch dan temporal menjadi $B\times T$ sehingga seluruh frame dapat diproses sebagai kumpulan citra tunggal.
+
+Setelah model menghasilkan logit untuk setiap frame, logit tersebut dikembalikan ke bentuk $B \times T \times 2$. Angka 2 menunjukkan jumlah kelas klasifikasi, yaitu \textit{real} dan \textit{fake}. Selanjutnya, logit dari seluruh frame dalam satu klip dirata-ratakan pada dimensi temporal untuk menghasilkan satu prediksi akhir pada tingkat klip. Potongan kode implementasi model spasial ditunjukkan pada Kode~\ref{code:4.5}.
+
+\begin{lstlisting}[language=Python, caption={Implementasi Model Spasial}, label={code:4.5}]
+b, t, c, h, w = clips.shape
+
+clips = clips.to(device, non_blocking=True)
+labels = labels.to(device, non_blocking=True)
+
+frames = clips.reshape(b * t, c, h, w)
+
+with torch.autocast(device_type=DEVICE.type, dtype=AMP_DTYPE, enabled=USE_AMP):
+	frame_logits = model(frames)
+	clip_logits = frame_logits.view(b, t, 2).mean(dim=1)
+	loss = criterion(clip_logits, labels)
+\end{lstlisting}
+
+Kode~\ref{code:4.5} menunjukkan bahwa model spasial tidak memproses video secara langsung, melainkan memproses setiap frame sebagai citra individual. Proses \textit{reshape} digunakan untuk menggabungkan dimensi batch dan dimensi temporal, sehingga input yang diterima ViT berbentuk kumpulan frame. Setelah logit setiap frame diperoleh, hasil tersebut diagregasi menggunakan rata-rata untuk memperoleh logit tingkat klip.
+
+Melalui mekanisme ini, model spasial tetap mempertahankan karakteristik sebagai model berbasis citra, tetapi hasil akhirnya tetap berada pada tingkat klip. Hal ini diperlukan agar hasil evaluasi model spasial dapat dibandingkan secara langsung dengan model spasiotemporal. Dengan demikian, model spasial digunakan untuk mengukur sejauh mana informasi visual statis pada frame mampu membedakan klip \textit{real} dan \textit{fake}.
+
+\subsection{Model Spasiotemporal} \label{IV.Model_Spasiotemporal}
+Model spasiotemporal pada penelitian ini menggunakan arsitektur \textit{VideoMAE}. Berbeda dengan model spasial, model ini dirancang untuk menerima masukan berupa klip video secara langsung. Oleh karena itu, hubungan antar-frame dalam satu klip tetap dipertahankan selama proses pemodelan.
+
+Pada implementasinya, data dari dataloader memiliki bentuk tensor $B \times T \times C \times H \times W$. Bentuk tersebut tidak diubah menjadi kumpulan frame individual, melainkan langsung diberikan ke model \textit{VideoMAE} melalui parameter \texttt{pixel\_values}. Dengan rancangan ini, model dapat mempelajari informasi spasial pada setiap frame sekaligus hubungan temporal antar-frame dalam satu klip.
+
+Model \textit{VideoMAE} menghasilkan logit secara langsung pada tingkat klip. Oleh karena itu, tidak diperlukan proses agregasi logit antar-frame seperti pada model spasial. Potongan kode implementasi model spasiotemporal ditunjukkan pada Kode~\ref{code:4.6}.
+
+\begin{lstlisting}[language=Python, caption={Implementasi Model Spasiotemporal}, label={code:4.6}]
+clips = clips.to(device, non_blocking=True)
+labels = labels.to(device, non_blocking=True)
+
+optimizer.zero_grad(set_to_none=True)
+
+with torch.autocast(device_type=device.type, dtype=AMP_DTYPE, enabled=USE_AMP):
+	outputs = model(pixel_values=clips)
+	logits = outputs.logits
+	loss = criterion(logits, labels)
+\end{lstlisting}
+
+Kode~\ref{code:4.6} menunjukkan bahwa model spasiotemporal menerima input klip secara langsung dalam bentuk $B \times T \times C \times H \times W$. Variabel \texttt{clips} merepresentasikan batch klip hasil sampling yang telah melalui proses normalisasi. Selanjutnya, klip tersebut diberikan ke \textit{VideoMAE} melalui \texttt{model(pixel\_values=clips)}, kemudian model menghasilkan logit untuk dua kelas, yaitu \textit{real} dan \textit{fake}.
+
+Dengan mekanisme tersebut, model spasiotemporal dapat memanfaatkan informasi visual pada setiap frame sekaligus pola perubahan antar-frame dalam satu klip. Pendekatan ini berbeda dari model spasial yang hanya memproses frame secara individual. Oleh karena itu, model spasiotemporal digunakan untuk mengevaluasi apakah pemodelan temporal dapat memberikan kontribusi terhadap peningkatan performa klasifikasi video \textit{deepfake} pada dataset \textit{WildDeepfake}.
+
+\subsection{Konfigurasi Hyperparameter} \label{IV.Hyperparameter}
+Konfigurasi hyperparameter digunakan untuk mengatur proses pelatihan model pada eksperimen baseline. Hyperparameter ini diterapkan untuk membangun konfigurasi awal sebelum dilakukan variasi eksperimen lebih lanjut. Penggunaan konfigurasi baseline bertujuan agar model spasial dan model spasiotemporal memiliki titik awal pelatihan yang konsisten dalam proses evaluasi komparatif.
+
+Konfigurasi hyperparameter model baseline yang digunakan pada penelitian ini ditunjukkan pada Tabel~\ref{table:4.hyperparam}.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Hyperparameter Model Baseline}
+	\label{table:4.hyperparam}
+	\begin{tabular}{|c|l|l|}
+		\hline
+		\textbf{No} & \textbf{Parameter} & \textbf{Nilai} \\
+		\hline
+		1 & Learning rate & $5\times10^{-5}$ \\
+		\hline
+		2 & Batch size & 32 \\
+		\hline
+		3 & Epoch maksimum & 25 \\
+		\hline
+		4 & Optimizer & AdamW \\
+		\hline
+		5 & Weight decay & $1\times10^{-4}$ \\
+		\hline
+		6 & Scheduler & Linear Decay to Zero \\
+		\hline
+		7 & Loss function & CrossEntropyLoss \\
+		\hline
+		8 & Dropout & 0 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.hyperparam}, model baseline dilatih menggunakan learning rate sebesar $5\times10^{-5}$ dengan epoch maksimum sebanyak 25 epoch. Optimizer yang digunakan adalah AdamW dengan weight decay sebesar $1\times10^{-4}$. Penggunaan weight decay bertujuan untuk memberikan regularisasi pada bobot model selama proses pelatihan. Scheduler yang digunakan adalah Linear Decay to Zero, yaitu penurunan learning rate secara bertahap hingga mendekati nol selama proses pelatihan.
+
+Fungsi loss yang digunakan adalah CrossEntropyLoss karena penelitian ini merupakan tugas klasifikasi biner dengan dua kelas, yaitu \textit{real} dan \textit{fake}. Nilai dropout ditetapkan sebesar 0, sehingga tidak terdapat penambahan dropout khusus pada konfigurasi baseline. Dengan konfigurasi ini, model baseline digunakan sebagai acuan awal untuk mengevaluasi performa pendekatan spasial dan spasiotemporal sebelum dibandingkan dengan konfigurasi eksperimen lainnya.
