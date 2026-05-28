@@ -2,11 +2,11 @@
 \chapter{HASIL DAN PEMBAHASAN} \label{Bab IV}
 
 \section{Pengumpulan Data} \label{IV.Pengumpulan_Data}
-Pada tahap ini dilakukan proses pengumpulan dataset yang digunakan dalam penelitian. Dataset yang digunakan adalah \textit{WildDeepfake}, yaitu dataset publik untuk klasifikasi video \textit{deepfake} yang terdiri atas dua kelas, yaitu \textit{real} dan \textit{fake}. Dataset ini digunakan sebagai sumber data utama dalam proses pelatihan, validasi, dan pengujian model.
+Pada tahap ini dilakukan proses pengumpulan \textit{dataset} yang digunakan dalam penelitian. \textit{Dataset} yang digunakan adalah \textit{WildDeepfake}, yaitu \textit{dataset} publik untuk klasifikasi video \textit{deepfake} yang terdiri atas dua kelas, yaitu \textit{real} dan \textit{fake}. \textit{Dataset} ini digunakan sebagai sumber data utama dalam proses pelatihan, validasi, dan pengujian model.
 
 \begin{table}[htbp]
 	\centering
-	\caption{Distribusi Kelas Dataset \textit{WildDeepfake}}
+	\caption{Distribusi Kelas \textit{Dataset} \textit{WildDeepfake}}
 	\label{table:4.wilddeepfake}
 	\begin{tabular}{|c|l|r|}
 		\hline
@@ -21,24 +21,24 @@ Pada tahap ini dilakukan proses pengumpulan dataset yang digunakan dalam penelit
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel \ref{table:4.wilddeepfake}, jumlah data pada kelas \textit{real} lebih banyak dibandingkan kelas \textit{fake}, tetapi selisih keduanya tidak terlalu besar. Data tersebut selanjutnya diproses pada tahap \textit{pre-processing} untuk membentuk klip wajah yang digunakan sebagai masukan model. Contoh sampel citra wajah kelas \textit{real} dan \textit{fake} pada dataset \textit{WildDeepfake} ditunjukkan pada Gambar \ref{fig:4.wilddeepfake-sample}.
+Berdasarkan Tabel \ref{table:4.wilddeepfake}, jumlah data pada kelas \textit{real} lebih banyak dibandingkan kelas \textit{fake}, tetapi selisih keduanya tidak terlalu besar. Data tersebut selanjutnya diproses pada tahap \textit{pre-processing} untuk membentuk klip wajah yang digunakan sebagai masukan model. Contoh sampel citra wajah kelas \textit{real} dan \textit{fake} pada \textit{dataset} \textit{WildDeepfake} ditunjukkan pada Gambar \ref{fig:4.wilddeepfake-sample}.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figure/Sample WildDeepFake.jpg}
-	\caption{Contoh Sampel Citra Wajah Kelas \textit{Real} dan \textit{Fake} pada Dataset \textit{WildDeepfake}}
+	\caption{Contoh Sampel Citra Wajah Kelas \textit{Real} dan \textit{Fake} pada \textit{Dataset} \textit{WildDeepfake}}
 	\label{fig:4.wilddeepfake-sample}
 \end{figure}
 
-\section{Hasil Pre-processing Data} \label{IV.Preprocessing}
-Tahap pre-processing data dilakukan untuk menyiapkan dataset \textit{WildDeepfake} agar dapat digunakan sebagai masukan model. Pada tahap ini, data yang sebelumnya berbentuk sekuens wajah diproses menjadi klip dengan panjang seragam, kemudian dibagi ke dalam subset train, validasi, dan test.
+\section{Hasil \textit{Pre-processing} Data} \label{IV.Preprocessing}
+Tahap \textit{pre-processing} data dilakukan untuk menyiapkan \textit{dataset} \textit{WildDeepfake} agar dapat digunakan sebagai masukan model. Pada tahap ini, data yang sebelumnya berbentuk sekuens wajah diproses menjadi klip dengan panjang seragam, kemudian dibagi ke dalam subset \textit{train}, validasi, dan \textit{test}.
 
-\subsection{Hasil Pembentukan Klip 46 Frame} \label{IV.Klip46}
-Pada tahap ini, setiap sekuens wajah pada dataset \textit{WildDeepfake} diproses menjadi klip turunan dengan panjang tetap 46 frame. Pembentukan klip dilakukan agar seluruh data memiliki panjang temporal yang seragam sebelum digunakan pada proses \textit{strided temporal sampling}. Dengan demikian, unit data yang digunakan pada tahap eksperimen bukan lagi sekuens wajah awal, melainkan klip wajah berdurasi tetap.
+\subsection{Hasil Pembentukan Klip 46 \textit{Frame}} \label{IV.Klip46}
+Pada tahap ini, setiap sekuens wajah pada \textit{dataset} \textit{WildDeepfake} diproses menjadi klip turunan dengan panjang tetap 46 \textit{frame}. Pembentukan klip dilakukan agar seluruh data memiliki panjang temporal yang seragam sebelum digunakan pada proses \textit{strided temporal sampling}. Dengan demikian, unit data yang digunakan pada tahap eksperimen bukan lagi sekuens wajah awal, melainkan klip wajah berdurasi tetap.
 
-Potongan kode yang digunakan untuk membentuk klip 46 frame ditunjukkan pada Kode~\ref{code:4.1}.
+Potongan kode yang digunakan untuk membentuk klip 46 \textit{frame} ditunjukkan pada Kode~\ref{code:4.1}.
 
-\begin{lstlisting}[language=Python, caption={Pembentukan Klip 46 Frame}, label={code:4.1}]
+\begin{lstlisting}[language=Python, caption={Pembentukan Klip 46 \textit{Frame}}, label={code:4.1}]
 CLIP_LEN = 46
 
 def compute_centered_clip_ranges(num_frames: int, clip_len: int = 46):
@@ -126,13 +126,13 @@ def build_46f_clips_for_subset(
 	}
 \end{lstlisting}
 
-Kode~\ref{code:4.1} menunjukkan bahwa setiap sekuens terlebih dahulu dihitung jumlah klip penuhnya berdasarkan panjang klip 46 frame. Apabila terdapat sisa frame yang tidak membentuk satu klip penuh, sisa tersebut dibuang dari sisi kiri dan kanan secara seimbang. Setelah itu, setiap rentang frame disalin ke folder klip baru sehingga satu klip berisi tepat 46 frame.
+Kode~\ref{code:4.1} menunjukkan bahwa setiap sekuens terlebih dahulu dihitung jumlah klip penuhnya berdasarkan panjang klip 46 \textit{frame}. Apabila terdapat sisa \textit{frame} yang tidak membentuk satu klip penuh, sisa tersebut dibuang dari sisi kiri dan kanan secara seimbang. Setelah itu, setiap rentang \textit{frame} disalin ke folder klip baru sehingga satu klip berisi tepat 46 \textit{frame}.
 
-Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip tersebut memiliki panjang 46 frame, sehingga tidak terdapat klip yang tidak valid. Distribusi kelas hasil pembentukan klip 46 frame ditunjukkan pada Tabel~\ref{table:4.klip46}.
+Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip tersebut memiliki panjang 46 \textit{frame}, sehingga tidak terdapat klip yang tidak valid. Distribusi kelas hasil pembentukan klip 46 \textit{frame} ditunjukkan pada Tabel~\ref{table:4.klip46}.
 
 \begin{table}[htbp]
 	\centering
-	\caption{Distribusi Kelas Hasil Pembentukan Klip 46 Frame}
+	\caption{Distribusi Kelas Hasil Pembentukan Klip 46 \textit{Frame}}
 	\label{table:4.klip46}
 	\begin{tabular}{|c|l|r|}
 		\hline
@@ -149,14 +149,14 @@ Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip ters
 
 Berdasarkan Tabel~\ref{table:4.klip46}, jumlah klip kelas fake lebih banyak dibandingkan kelas real. Kelas fake terdiri atas 14.452 klip, sedangkan kelas real terdiri atas 7.851 klip. Hasil ini menunjukkan bahwa setelah sekuens wajah diproses menjadi klip turunan, distribusi data menjadi lebih didominasi oleh kelas fake.
 
-\subsection{Hasil Pembagian Dataset} \label{IV.Split}
-Dataset \textit{WildDeepfake} yang digunakan dalam penelitian ini sebelumnya telah memiliki pembagian awal berupa subset train dan test. Subset tersebut tersusun dalam empat direktori utama, yaitu \textit{real\_train}, \textit{fake\_train}, \textit{real\_test}, dan \textit{fake\_test}. Pada penelitian ini, subset \textit{real\_test} dan \textit{fake\_test} tetap digunakan sebagai data pengujian akhir. Sementara itu, data yang berasal dari subset \textit{real\_train} dan \textit{fake\_train} dibagi kembali menjadi data train dan data validasi.
+\subsection{Hasil Pembagian \textit{Dataset}} \label{IV.Split}
+\textit{Dataset} \textit{WildDeepfake} yang digunakan dalam penelitian ini sebelumnya telah memiliki pembagian awal berupa subset \textit{train} dan \textit{test}. Subset tersebut tersusun dalam empat direktori utama, yaitu \textit{real\_train}, \textit{fake\_train}, \textit{real\_test}, dan \textit{fake\_test}. Pada penelitian ini, subset \textit{real\_test} dan \textit{fake\_test} tetap digunakan sebagai data pengujian akhir. Sementara itu, data yang berasal dari subset \textit{real\_train} dan \textit{fake\_train} dibagi kembali menjadi data \textit{train} dan data validasi.
 
-Pembagian data validasi dilakukan dari subset train dengan rasio 80:20. Proses pembagian dilakukan pada level \textit{group\_id}, bukan pada level klip. Strategi ini digunakan agar klip turunan yang berasal dari sekuens atau sumber yang sama tidak terpisah ke subset yang berbeda. Dengan demikian, risiko kebocoran data antara data latih dan data validasi dapat dikurangi.
+Pembagian data validasi dilakukan dari subset \textit{train} dengan rasio 80:20. Proses pembagian dilakukan pada level \textit{group\_id}, bukan pada level klip. Strategi ini digunakan agar klip turunan yang berasal dari sekuens atau sumber yang sama tidak terpisah ke subset yang berbeda. Dengan demikian, risiko kebocoran data antara data latih dan data validasi dapat dikurangi.
 
-Potongan kode pembagian dataset ditunjukkan pada Kode~\ref{code:4.2}.
+Potongan kode pembagian \textit{dataset} ditunjukkan pada Kode~\ref{code:4.2}.
 
-\begin{lstlisting}[language=Python, caption={Pembagian Dataset Train, Validasi, dan Test}, label={code:4.2}]
+\begin{lstlisting}[language=Python, caption={Pembagian \textit{Dataset} \textit{Train}, Validasi, dan \textit{Test}}, label={code:4.2}]
 SEED = 42
 VAL_RATIO = 0.20
 
@@ -217,35 +217,35 @@ if overlap_groups:
 	)
 \end{lstlisting}
 
-Kode~\ref{code:4.2} menunjukkan bahwa data uji tidak dibagi ulang, melainkan tetap mengikuti subset test resmi dari dataset \textit{WildDeepfake}. Pembagian ulang hanya dilakukan pada subset train untuk membentuk data latih dan data validasi. Selain itu, penggunaan \textit{stratify=group\_df["label"]} bertujuan agar proporsi kelas \textit{real} dan \textit{fake} pada hasil pembagian tetap terjaga.
+Kode~\ref{code:4.2} menunjukkan bahwa data uji tidak dibagi ulang, melainkan tetap mengikuti subset \textit{test} resmi dari \textit{dataset} \textit{WildDeepfake}. Pembagian ulang hanya dilakukan pada subset \textit{train} untuk membentuk data latih dan data validasi. Selain itu, penggunaan \textit{stratify=group\_df["label"]} bertujuan agar proporsi kelas \textit{real} dan \textit{fake} pada hasil pembagian tetap terjaga.
 
-Hasil pembagian dataset berdasarkan subset dan kelas ditunjukkan pada Tabel~\ref{table:4.split}.
+Hasil pembagian \textit{dataset} berdasarkan subset dan kelas ditunjukkan pada Tabel~\ref{table:4.split}.
 
 \begin{table}[htbp]
 	\centering
-	\caption{Hasil Pembagian Dataset Berdasarkan Kelas}
+	\caption{Hasil Pembagian \textit{Dataset} Berdasarkan Kelas}
 	\label{table:4.split}
 	\begin{tabular}{|c|l|r|r|r|}
 		\hline
 		\textbf{No} & \textbf{Subset} & \textbf{Real} & \textbf{Fake} & \textbf{Total} \\
 		\hline
-		1 & Train & 5.376 & 10.124 & 15.500 \\
+		1 & \textit{Train} & 5.376 & 10.124 & 15.500 \\
 		\hline
 		2 & Validasi & 1.382 & 2.189 & 3.571 \\
 		\hline
-		3 & Test & 1.093 & 2.139 & 3.232 \\
+		3 & \textit{Test} & 1.093 & 2.139 & 3.232 \\
 		\hline
 		\multicolumn{2}{|l|}{\textbf{Total}} & \textbf{7.851} & \textbf{14.452} & \textbf{22.303} \\
 		\hline
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel~\ref{table:4.split}, subset train memiliki jumlah data terbesar, yaitu 15.500 klip. Subset validasi terdiri atas 3.571 klip, sedangkan subset test terdiri atas 3.232 klip. Pada seluruh subset, jumlah klip kelas fake lebih banyak dibandingkan kelas real. Distribusi ini kemudian digunakan secara konsisten pada proses pelatihan, validasi, dan pengujian model.
+Berdasarkan Tabel~\ref{table:4.split}, subset \textit{train} memiliki jumlah data terbesar, yaitu 15.500 klip. Subset validasi terdiri atas 3.571 klip, sedangkan subset \textit{test} terdiri atas 3.232 klip. Pada seluruh subset, jumlah klip kelas fake lebih banyak dibandingkan kelas real. Distribusi ini kemudian digunakan secara konsisten pada proses pelatihan, validasi, dan pengujian model.
 
 \subsection{Augmentasi Data} \label{IV.Augmentasi}
-Augmentasi data diterapkan untuk meningkatkan keragaman data pelatihan dan mengurangi risiko overfitting. Pada penelitian ini, augmentasi hanya diterapkan pada subset train, sedangkan subset validasi dan test tidak diberikan augmentasi. Hal ini dilakukan agar proses validasi dan pengujian tetap merepresentasikan performa model pada data yang tidak mengalami transformasi tambahan.
+Augmentasi data diterapkan untuk meningkatkan keragaman data pelatihan dan mengurangi risiko \textit{overfitting}. Pada penelitian ini, augmentasi hanya diterapkan pada subset \textit{train}, sedangkan subset validasi dan \textit{test} tidak diberikan augmentasi. Hal ini dilakukan agar proses validasi dan pengujian tetap merepresentasikan performa model pada data yang tidak mengalami transformasi tambahan.
 
-Implementasi augmentasi dilakukan menggunakan library Albumentations. Library ini digunakan karena mendukung berbagai transformasi citra, seperti transformasi geometri, perubahan warna, blur, dan noise. Pada penelitian ini, augmentasi diterapkan secara konsisten pada seluruh frame dalam satu klip. Dengan demikian, transformasi yang diberikan pada satu frame direplikasi pada frame-frame lain dalam klip yang sama agar koherensi visual antar-frame tetap terjaga.
+Implementasi augmentasi dilakukan menggunakan library Albumentations. Library ini digunakan karena mendukung berbagai transformasi citra, seperti transformasi geometri, perubahan warna, blur, dan noise. Pada penelitian ini, augmentasi diterapkan secara konsisten pada seluruh \textit{frame} dalam satu klip. Dengan demikian, transformasi yang diberikan pada satu \textit{frame} direplikasi pada \textit{frame}-\textit{frame} lain dalam klip yang sama agar koherensi visual antar-\textit{frame} tetap terjaga.
 
 Potongan kode augmentasi data ditunjukkan pada Kode~\ref{code:4.3}.
 
@@ -315,10 +315,10 @@ Contoh visualisasi hasil augmentasi ditunjukkan pada Gambar~\ref{fig:4.augmentas
 	\label{fig:4.augmentasi}
 \end{figure}
 
-Berdasarkan Gambar~\ref{fig:4.augmentasi}, augmentasi yang diterapkan tidak mengubah label data, tetapi hanya memberikan variasi visual pada citra wajah. Dengan demikian, model diharapkan dapat mempelajari pola yang lebih robust terhadap perubahan posisi wajah, orientasi, pencahayaan, serta degradasi visual pada frame.
+Berdasarkan Gambar~\ref{fig:4.augmentasi}, augmentasi yang diterapkan tidak mengubah label data, tetapi hanya memberikan variasi visual pada citra wajah. Dengan demikian, model diharapkan dapat mempelajari pola yang lebih robust terhadap perubahan posisi wajah, orientasi, pencahayaan, serta degradasi visual pada \textit{frame}.
 
 \subsection{Normalisasi Data} \label{IV.Normalisasi}
-Setelah proses augmentasi dilakukan, setiap frame dikonversi menjadi tensor dan dinormalisasi sebelum diberikan ke model. Normalisasi dilakukan untuk menyesuaikan distribusi nilai piksel dengan karakteristik model pretrained yang digunakan. Pada penelitian ini, nilai piksel terlebih dahulu diubah ke rentang [0, 1], kemudian dinormalisasi menggunakan nilai mean dan standard deviation ImageNet.
+Setelah proses augmentasi dilakukan, setiap \textit{frame} dikonversi menjadi \textit{tensor} dan dinormalisasi sebelum diberikan ke model. Normalisasi dilakukan untuk menyesuaikan distribusi nilai piksel dengan karakteristik model \textit{pretrained} yang digunakan. Pada penelitian ini, nilai piksel terlebih dahulu diubah ke rentang [0, 1], kemudian dinormalisasi menggunakan nilai mean dan standard deviation ImageNet.
 
 Potongan kode normalisasi data ditunjukkan pada Kode~\ref{code:4.4}.
 
@@ -345,19 +345,19 @@ def _array_to_normalized_tensor(self, image_array: np.ndarray):
 	return tensor
 \end{lstlisting}
 
-Kode~\ref{code:4.4} menunjukkan bahwa citra yang semula berada dalam format H $\times$ W $\times$ C dikonversi menjadi format tensor C $\times$ H $\times$ W. Selanjutnya, nilai piksel dikonversi ke rentang [0, 1] dengan membagi nilai piksel 8-bit terhadap 255. Setelah itu, normalisasi dilakukan menggunakan nilai mean (0,485, 0,456, 0,406) dan standard deviation (0,229, 0,224, 0,225).
+Kode~\ref{code:4.4} menunjukkan bahwa citra yang semula berada dalam format H $\times$ W $\times$ C dikonversi menjadi format \textit{tensor} C $\times$ H $\times$ W. Selanjutnya, nilai piksel dikonversi ke rentang [0, 1] dengan membagi nilai piksel 8-bit terhadap 255. Setelah itu, normalisasi dilakukan menggunakan nilai mean (0,485, 0,456, 0,406) dan standard deviation (0,229, 0,224, 0,225).
 
-Normalisasi diterapkan pada seluruh subset data, yaitu train, validasi, dan test. Perbedaannya adalah subset train terlebih dahulu melalui proses augmentasi, sedangkan subset validasi dan test hanya melalui proses transformasi dasar, konversi tensor, dan normalisasi. Dengan demikian, seluruh data yang diberikan ke model memiliki format dan skala nilai yang konsisten pada tahap pelatihan, validasi, dan pengujian.
+Normalisasi diterapkan pada seluruh subset data, yaitu \textit{train}, validasi, dan \textit{test}. Perbedaannya adalah subset \textit{train} terlebih dahulu melalui proses augmentasi, sedangkan subset validasi dan \textit{test} hanya melalui proses transformasi dasar, konversi \textit{tensor}, dan normalisasi. Dengan demikian, seluruh data yang diberikan ke model memiliki format dan skala nilai yang konsisten pada tahap pelatihan, validasi, dan pengujian.
 
 \section{Hasil Rancangan Model} \label{IV.Model}
-Tahap rancangan model dilakukan untuk mengimplementasikan dua pendekatan klasifikasi video \textit{deepfake}, yaitu pendekatan spasial dan pendekatan spasiotemporal. Kedua pendekatan menggunakan data masukan yang berasal dari hasil \textit{strided temporal sampling} yang sama, sehingga perbandingan performa dapat dilakukan secara lebih setara. Perbedaan utama kedua model terletak pada cara model memproses frame dalam satu klip. Model spasial memproses frame secara individual, sedangkan model spasiotemporal memproses seluruh frame dalam satu klip secara langsung.
+Tahap rancangan model dilakukan untuk mengimplementasikan dua pendekatan klasifikasi video \textit{deepfake}, yaitu pendekatan spasial dan pendekatan spasiotemporal. Kedua pendekatan menggunakan data masukan yang berasal dari hasil \textit{strided temporal sampling} yang sama, sehingga perbandingan performa dapat dilakukan secara lebih setara. Perbedaan utama kedua model terletak pada cara model memproses \textit{frame} dalam satu klip. Model spasial memproses \textit{frame} secara individual, sedangkan model spasiotemporal memproses seluruh \textit{frame} dalam satu klip secara langsung.
 
 \subsection{Model Spasial} \label{IV.Model_Spasial}
-Model spasial pada penelitian ini menggunakan arsitektur \textit{Vision Transformer} (ViT). Model ini dirancang untuk memproses informasi visual pada tingkat frame. Oleh karena itu, meskipun data dari dataloader berbentuk klip, setiap frame dalam klip tetap diperlakukan sebagai citra individual sebelum diberikan ke model.
+Model spasial pada penelitian ini menggunakan arsitektur \textit{Vision Transformer} (ViT). Model ini dirancang untuk memproses informasi visual pada tingkat \textit{frame}. Oleh karena itu, meskipun data dari dataloader berbentuk klip, setiap \textit{frame} dalam klip tetap diperlakukan sebagai citra individual sebelum diberikan ke model.
 
-Pada implementasinya, satu batch data memiliki bentuk tensor $B \times T \times C \times H \times W$, dengan $B$ sebagai ukuran batch, $T$ sebagai jumlah frame dalam satu klip, $C$ sebagai jumlah kanal warna, serta $H$ dan $W$ sebagai tinggi dan lebar citra. Karena ViT menerima input berupa citra, tensor klip tersebut terlebih dahulu diubah menjadi bentuk $B \times T \times C \times H \times W$ dengan menggabungkan dimensi batch dan temporal menjadi $B\times T$ sehingga seluruh frame dapat diproses sebagai kumpulan citra tunggal.
+Pada implementasinya, satu \textit{batch} data memiliki bentuk \textit{tensor} $B \times T \times C \times H \times W$, dengan $B$ sebagai ukuran \textit{batch}, $T$ sebagai jumlah \textit{frame} dalam satu klip, $C$ sebagai jumlah kanal warna, serta $H$ dan $W$ sebagai tinggi dan lebar citra. Karena ViT menerima input berupa citra, \textit{tensor} klip tersebut terlebih dahulu diubah menjadi bentuk $B \times T \times C \times H \times W$ dengan menggabungkan dimensi \textit{batch} dan temporal menjadi $B\times T$ sehingga seluruh \textit{frame} dapat diproses sebagai kumpulan citra tunggal.
 
-Setelah model menghasilkan logit untuk setiap frame, logit tersebut dikembalikan ke bentuk $B \times T \times 2$. Angka 2 menunjukkan jumlah kelas klasifikasi, yaitu \textit{real} dan \textit{fake}. Selanjutnya, logit dari seluruh frame dalam satu klip dirata-ratakan pada dimensi temporal untuk menghasilkan satu prediksi akhir pada tingkat klip. Potongan kode implementasi model spasial ditunjukkan pada Kode~\ref{code:4.5}.
+Setelah model menghasilkan \textit{logit} untuk setiap \textit{frame}, \textit{logit} tersebut dikembalikan ke bentuk $B \times T \times 2$. Angka 2 menunjukkan jumlah kelas klasifikasi, yaitu \textit{real} dan \textit{fake}. Selanjutnya, \textit{logit} dari seluruh \textit{frame} dalam satu klip dirata-ratakan pada dimensi temporal untuk menghasilkan satu prediksi akhir pada tingkat klip. Potongan kode implementasi model spasial ditunjukkan pada Kode~\ref{code:4.5}.
 
 \begin{lstlisting}[language=Python, caption={Implementasi Model Spasial}, label={code:4.5}]
 b, t, c, h, w = clips.shape
@@ -373,16 +373,16 @@ with torch.autocast(device_type=DEVICE.type, dtype=AMP_DTYPE, enabled=USE_AMP):
 	loss = criterion(clip_logits, labels)
 \end{lstlisting}
 
-Kode~\ref{code:4.5} menunjukkan bahwa model spasial tidak memproses video secara langsung, melainkan memproses setiap frame sebagai citra individual. Proses \textit{reshape} digunakan untuk menggabungkan dimensi batch dan dimensi temporal, sehingga input yang diterima ViT berbentuk kumpulan frame. Setelah logit setiap frame diperoleh, hasil tersebut diagregasi menggunakan rata-rata untuk memperoleh logit tingkat klip.
+Kode~\ref{code:4.5} menunjukkan bahwa model spasial tidak memproses video secara langsung, melainkan memproses setiap \textit{frame} sebagai citra individual. Proses \textit{reshape} digunakan untuk menggabungkan dimensi \textit{batch} dan dimensi temporal, sehingga input yang diterima ViT berbentuk kumpulan \textit{frame}. Setelah \textit{logit} setiap \textit{frame} diperoleh, hasil tersebut diagregasi menggunakan rata-rata untuk memperoleh \textit{logit} tingkat klip.
 
-Melalui mekanisme ini, model spasial tetap mempertahankan karakteristik sebagai model berbasis citra, tetapi hasil akhirnya tetap berada pada tingkat klip. Hal ini diperlukan agar hasil evaluasi model spasial dapat dibandingkan secara langsung dengan model spasiotemporal. Dengan demikian, model spasial digunakan untuk mengukur sejauh mana informasi visual statis pada frame mampu membedakan klip \textit{real} dan \textit{fake}.
+Melalui mekanisme ini, model spasial tetap mempertahankan karakteristik sebagai model berbasis citra, tetapi hasil akhirnya tetap berada pada tingkat klip. Hal ini diperlukan agar hasil evaluasi model spasial dapat dibandingkan secara langsung dengan model spasiotemporal. Dengan demikian, model spasial digunakan untuk mengukur sejauh mana informasi visual statis pada \textit{frame} mampu membedakan klip \textit{real} dan \textit{fake}.
 
 \subsection{Model Spasiotemporal} \label{IV.Model_Spasiotemporal}
-Model spasiotemporal pada penelitian ini menggunakan arsitektur \textit{VideoMAE}. Berbeda dengan model spasial, model ini dirancang untuk menerima masukan berupa klip video secara langsung. Oleh karena itu, hubungan antar-frame dalam satu klip tetap dipertahankan selama proses pemodelan.
+Model spasiotemporal pada penelitian ini menggunakan arsitektur \textit{VideoMAE}. Berbeda dengan model spasial, model ini dirancang untuk menerima masukan berupa klip video secara langsung. Oleh karena itu, hubungan antar-\textit{frame} dalam satu klip tetap dipertahankan selama proses pemodelan.
 
-Pada implementasinya, data dari dataloader memiliki bentuk tensor $B \times T \times C \times H \times W$. Bentuk tersebut tidak diubah menjadi kumpulan frame individual, melainkan langsung diberikan ke model \textit{VideoMAE} melalui parameter \texttt{pixel\_values}. Dengan rancangan ini, model dapat mempelajari informasi spasial pada setiap frame sekaligus hubungan temporal antar-frame dalam satu klip.
+Pada implementasinya, data dari dataloader memiliki bentuk \textit{tensor} $B \times T \times C \times H \times W$. Bentuk tersebut tidak diubah menjadi kumpulan \textit{frame} individual, melainkan langsung diberikan ke model \textit{VideoMAE} melalui parameter \texttt{pixel\_values}. Dengan rancangan ini, model dapat mempelajari informasi spasial pada setiap \textit{frame} sekaligus hubungan temporal antar-\textit{frame} dalam satu klip.
 
-Model \textit{VideoMAE} menghasilkan logit secara langsung pada tingkat klip. Oleh karena itu, tidak diperlukan proses agregasi logit antar-frame seperti pada model spasial. Potongan kode implementasi model spasiotemporal ditunjukkan pada Kode~\ref{code:4.6}.
+Model \textit{VideoMAE} menghasilkan \textit{logit} secara langsung pada tingkat klip. Oleh karena itu, tidak diperlukan proses agregasi \textit{logit} antar-\textit{frame} seperti pada model spasial. Potongan kode implementasi model spasiotemporal ditunjukkan pada Kode~\ref{code:4.6}.
 
 \begin{lstlisting}[language=Python, caption={Implementasi Model Spasiotemporal}, label={code:4.6}]
 clips = clips.to(device, non_blocking=True)
@@ -396,12 +396,12 @@ with torch.autocast(device_type=device.type, dtype=AMP_DTYPE, enabled=USE_AMP):
 	loss = criterion(logits, labels)
 \end{lstlisting}
 
-Kode~\ref{code:4.6} menunjukkan bahwa model spasiotemporal menerima input klip secara langsung dalam bentuk $B \times T \times C \times H \times W$. Variabel \texttt{clips} merepresentasikan batch klip hasil sampling yang telah melalui proses normalisasi. Selanjutnya, klip tersebut diberikan ke \textit{VideoMAE} melalui \texttt{model(pixel\_values=clips)}, kemudian model menghasilkan logit untuk dua kelas, yaitu \textit{real} dan \textit{fake}.
+Kode~\ref{code:4.6} menunjukkan bahwa model spasiotemporal menerima input klip secara langsung dalam bentuk $B \times T \times C \times H \times W$. Variabel \texttt{clips} merepresentasikan \textit{batch} klip hasil sampling yang telah melalui proses normalisasi. Selanjutnya, klip tersebut diberikan ke \textit{VideoMAE} melalui \texttt{model(pixel\_values=clips)}, kemudian model menghasilkan \textit{logit} untuk dua kelas, yaitu \textit{real} dan \textit{fake}.
 
-Dengan mekanisme tersebut, model spasiotemporal dapat memanfaatkan informasi visual pada setiap frame sekaligus pola perubahan antar-frame dalam satu klip. Pendekatan ini berbeda dari model spasial yang hanya memproses frame secara individual. Oleh karena itu, model spasiotemporal digunakan untuk mengevaluasi apakah pemodelan temporal dapat memberikan kontribusi terhadap peningkatan performa klasifikasi video \textit{deepfake} pada dataset \textit{WildDeepfake}.
+Dengan mekanisme tersebut, model spasiotemporal dapat memanfaatkan informasi visual pada setiap \textit{frame} sekaligus pola perubahan antar-\textit{frame} dalam satu klip. Pendekatan ini berbeda dari model spasial yang hanya memproses \textit{frame} secara individual. Oleh karena itu, model spasiotemporal digunakan untuk mengevaluasi apakah pemodelan temporal dapat memberikan kontribusi terhadap peningkatan performa klasifikasi video \textit{deepfake} pada \textit{dataset} \textit{WildDeepfake}.
 
-\subsection{Konfigurasi Hyperparameter} \label{IV.Hyperparameter}
-Konfigurasi hyperparameter digunakan untuk mengatur proses pelatihan model pada eksperimen baseline. Hyperparameter ini diterapkan untuk membangun konfigurasi awal sebelum dilakukan variasi eksperimen lebih lanjut. Penggunaan konfigurasi baseline bertujuan agar model spasial dan model spasiotemporal memiliki titik awal pelatihan yang konsisten dalam proses evaluasi komparatif.
+\subsection{Konfigurasi \textit{Hyperparameter}} \label{IV.Hyperparameter}
+Konfigurasi \textit{hyperparameter} digunakan untuk mengatur proses pelatihan model pada eksperimen \textit{baseline}. \textit{Hyperparameter} ini diterapkan untuk membangun konfigurasi awal sebelum dilakukan variasi eksperimen lebih lanjut. Penggunaan konfigurasi \textit{baseline} bertujuan agar model spasial dan model spasiotemporal memiliki titik awal pelatihan yang konsisten dalam proses evaluasi komparatif.
 
 Konfigurasi hyperparameter model baseline yang digunakan pada penelitian ini ditunjukkan pada Tabel~\ref{table:4.hyperparam}.
 
@@ -413,25 +413,122 @@ Konfigurasi hyperparameter model baseline yang digunakan pada penelitian ini dit
 		\hline
 		\textbf{No} & \textbf{Parameter} & \textbf{Nilai} \\
 		\hline
-		1 & Learning rate & $5\times10^{-5}$ \\
+		1 & \textit{Learning rate} & $5\times10^{-5}$ \\
 		\hline
-		2 & Batch size & 32 \\
+		2 & \textit{Batch size} & 32 \\
 		\hline
 		3 & Epoch maksimum & 25 \\
 		\hline
-		4 & Optimizer & AdamW \\
+		4 & \textit{Optimizer} & AdamW \\
 		\hline
-		5 & Weight decay & $1\times10^{-4}$ \\
+		5 & \textit{Weight decay} & $1\times10^{-4}$ \\
 		\hline
-		6 & Scheduler & Linear Decay to Zero \\
+		6 & \textit{Scheduler} & \textit{Linear Decay to Zero} \\
 		\hline
-		7 & Loss function & CrossEntropyLoss \\
+		7 & \textit{Loss function} & CrossEntropyLoss \\
 		\hline
-		8 & Dropout & 0 \\
+		8 & \textit{Dropout} & 0 \\
 		\hline
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel~\ref{table:4.hyperparam}, model baseline dilatih menggunakan learning rate sebesar $5\times10^{-5}$ dengan epoch maksimum sebanyak 25 epoch. Optimizer yang digunakan adalah AdamW dengan weight decay sebesar $1\times10^{-4}$. Penggunaan weight decay bertujuan untuk memberikan regularisasi pada bobot model selama proses pelatihan. Scheduler yang digunakan adalah Linear Decay to Zero, yaitu penurunan learning rate secara bertahap hingga mendekati nol selama proses pelatihan.
+Berdasarkan Tabel~\ref{table:4.hyperparam}, model \textit{baseline} dilatih menggunakan \textit{learning rate} sebesar $5\times10^{-5}$ dengan \textit{epoch} maksimum sebanyak 25 \textit{epoch}. \textit{Optimizer} yang digunakan adalah AdamW dengan \textit{weight decay} sebesar $1\times10^{-4}$. Penggunaan \textit{weight decay} bertujuan untuk memberikan regularisasi pada bobot model selama proses pelatihan. \textit{Scheduler} yang digunakan adalah \textit{Linear Decay to Zero}, yaitu penurunan \textit{learning rate} secara bertahap hingga mendekati nol selama proses pelatihan.
 
-Fungsi loss yang digunakan adalah CrossEntropyLoss karena penelitian ini merupakan tugas klasifikasi biner dengan dua kelas, yaitu \textit{real} dan \textit{fake}. Nilai dropout ditetapkan sebesar 0, sehingga tidak terdapat penambahan dropout khusus pada konfigurasi baseline. Dengan konfigurasi ini, model baseline digunakan sebagai acuan awal untuk mengevaluasi performa pendekatan spasial dan spasiotemporal sebelum dibandingkan dengan konfigurasi eksperimen lainnya.
+Fungsi \textit{loss} yang digunakan adalah CrossEntropyLoss karena penelitian ini merupakan tugas klasifikasi biner dengan dua kelas, yaitu \textit{real} dan \textit{fake}. Nilai \textit{dropout} ditetapkan sebesar 0, sehingga tidak terdapat penambahan \textit{dropout} khusus pada konfigurasi \textit{baseline}. Dengan konfigurasi ini, model \textit{baseline} digunakan sebagai acuan awal untuk mengevaluasi performa pendekatan spasial dan spasiotemporal sebelum dibandingkan dengan konfigurasi eksperimen lainnya.
+
+\section{Hasil Eksperimen} \label{IV.Eksperimen}
+Pada sub bab ini, hasil eksperimen disajikan dalam empat subbab utama. Pertama, hasil eksperimen \textit{baseline} digunakan sebagai acuan awal performa model. Kedua, \textit{ablation study} digunakan untuk menganalisis pengaruh perubahan konfigurasi pelatihan terhadap performa model. Ketiga, eksperimen utama digunakan untuk mengevaluasi pengaruh konfigurasi input terhadap pendekatan spasial dan spasiotemporal. Keempat, analisis perbandingan model digunakan untuk merangkum performa terbaik dan membahas pendekatan yang paling efektif dalam klasifikasi video \textit{deepfake}.
+
+\subsection{Hasil Eksperimen \textit{Baseline}} \label{IV.Eksperimen_Baseline}
+Eksperimen \textit{baseline} dilakukan untuk memperoleh gambaran performa awal dari pendekatan spasial dan spasiotemporal sebelum dilakukan variasi konfigurasi pada tahap eksperimen berikutnya. Pada eksperimen ini, kedua model menggunakan konfigurasi dasar, yaitu resolusi input 224 $\times$ 224 piksel, jumlah \textit{frame} masukan sebanyak 16 \textit{frame}, dan nilai \textit{stride} sebesar 3. Model spasial menggunakan \textit{Vision Transformer} untuk memproses \textit{frame} secara individual, sedangkan model spasiotemporal menggunakan \textit{VideoMAE} untuk memproses klip video secara langsung.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Hasil Eksperimen \textit{Baseline}}
+	\label{table:4.baseline}
+	\begin{tabular}{|l|l|r|r|r|r|r|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{Kode}} &
+		\multicolumn{1}{c|}{\textbf{Model}} &
+		\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+		\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+		\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+		\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+		\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+		\hline
+			E01-F & Spasial & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+		\hline
+			E01-V & Spasiotemporal & \textbf{85,8\%} & \textbf{83,9\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.baseline}, model spasiotemporal E01-V memperoleh performa yang lebih tinggi dibandingkan model spasial E01-F pada seluruh metrik evaluasi. Pada metrik \textit{accuracy}, model spasiotemporal mencapai nilai sebesar 85,8\%, sedangkan model spasial mencapai 79,2\%. Pada metrik \textit{F1}, model spasiotemporal memperoleh nilai 84,5\%, lebih tinggi dibandingkan model spasial sebesar 76,7\%. Demikian pula pada metrik \textit{AUC}, model spasiotemporal memperoleh nilai 92,3\%, sedangkan model spasial memperoleh 86,8\%. Hasil ini menunjukkan bahwa pada konfigurasi \textit{baseline}, pendekatan spasiotemporal memiliki kemampuan klasifikasi dan kemampuan diskriminasi kelas yang lebih baik dibandingkan pendekatan spasial.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Loss.png}}
+		\\(a) Model spasial
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Loss.png}}
+		\\(b) Model spasiotemporal
+	\end{minipage}
+	\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{baseline}.}
+	\label{fig:4.baseline-loss}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:4.baseline-loss}, kurva \textit{training loss} pada model spasial dan spasiotemporal sama-sama menurun secara bertahap selama proses pelatihan. Pola ini menunjukkan bahwa kedua model mampu mempelajari pola dari data latih dengan baik. Sementara itu, \textit{validation loss} pada kedua model masih menunjukkan fluktuasi pada beberapa \textit{epoch}, tetapi tidak mengalami peningkatan secara terus-menerus. Hal ini mengindikasikan bahwa proses pelatihan masih berjalan stabil dan tidak menunjukkan gejala \textit{overfitting} yang berat pada konfigurasi \textit{baseline}.
+
+Jika dibandingkan, model spasiotemporal menunjukkan nilai \textit{validation loss} akhir yang lebih rendah dibandingkan model spasial. Kondisi ini menunjukkan bahwa model spasiotemporal memiliki kemampuan generalisasi yang lebih baik terhadap data validasi. Temuan tersebut sejalan dengan hasil evaluasi pada data uji, yaitu model spasiotemporal memperoleh performa yang lebih tinggi dibandingkan model spasial.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Accuracy.png}}
+		\\(a) Model spasial
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Accuracy.png}}
+		\\(b) Model spasiotemporal
+	\end{minipage}
+	\caption{Kurva \textit{training accuracy} dan \textit{validation accuracy} pada eksperimen \textit{baseline}.}
+	\label{fig:4.baseline-acc}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:4.baseline-acc}, kurva \textit{training accuracy} pada kedua model menunjukkan peningkatan secara bertahap dari awal hingga akhir pelatihan. \textit{validation accuracy} juga memperlihatkan tren peningkatan dan cenderung stabil pada \textit{epoch} akhir. Hal ini menunjukkan bahwa kedua model mampu meningkatkan kemampuan klasifikasi selama proses pelatihan.
+
+Namun, model spasiotemporal menghasilkan \textit{validation accuracy} yang lebih tinggi dibandingkan model spasial. Dengan demikian, kurva \textit{accuracy} memperkuat hasil pada Tabel~\ref{table:4.baseline} bahwa pendekatan spasiotemporal memiliki performa pembelajaran dan generalisasi yang lebih baik pada eksperimen \textit{baseline}. Secara keseluruhan, pola kurva \textit{loss} dan \textit{accuracy} menunjukkan bahwa kedua model berhasil dilatih dengan stabil, tetapi model spasiotemporal memberikan hasil yang lebih unggul.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/confusion-matrix.png}}
+		\\(a) Model spasial
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/confusion-matrix.png}}
+		\\(b) Model spasiotemporal
+	\end{minipage}
+	\caption{\textit{Confusion matrix} pada eksperimen \textit{baseline}.}
+	\label{fig:4.baseline-cm}
+\end{figure}
+
+
+Berdasarkan \textit{confusion matrix} pada Gambar~\ref{fig:4.baseline-cm}, jumlah \textit{false positive} dan \textit{false negative} pada model spasial masih relatif tinggi. \textit{False positive} menunjukkan bahwa sebagian data \textit{real} masih keliru diklasifikasikan sebagai \textit{fake}. Kondisi ini mengindikasikan bahwa model spasial cenderung sensitif terhadap karakteristik visual tertentu yang dianggap menyerupai artefak manipulasi. Akibatnya, sebagian video \textit{real} dengan variasi pencahayaan, pose, kompresi, atau kualitas visual tertentu dapat salah dikenali sebagai \textit{fake}. Sementara itu, \textit{false negative} menunjukkan bahwa sebagian data \textit{fake} belum berhasil terdeteksi dan masih diklasifikasikan sebagai \textit{real}. Hal ini memperlihatkan keterbatasan pendekatan spasial dalam menangkap klip \textit{fake} yang artefak manipulasinya tidak cukup jelas pada tingkat \textit{frame} individual.
+
+Pada model spasiotemporal, jumlah \textit{false positive} lebih rendah dibandingkan model spasial. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{VideoMAE} lebih mampu membedakan variasi visual alami pada video \textit{real} dari pola manipulasi pada video \textit{fake}. Dengan kata lain, model spasiotemporal lebih jarang memberikan prediksi \textit{fake} terhadap data yang sebenarnya \textit{real}. Hal ini penting karena \textit{false positive} yang tinggi dapat menyebabkan video asli keliru dianggap sebagai \textit{deepfake}.
+
+Selain itu, model spasiotemporal juga menghasilkan \textit{false negative} yang lebih rendah dibandingkan model spasial, meskipun penurunannya tidak sebesar penurunan \textit{false positive}. Hal ini menunjukkan bahwa pemanfaatan informasi temporal antar-\textit{frame} membantu model dalam mendeteksi sebagian klip \textit{fake} yang tidak cukup kuat apabila hanya dianalisis melalui informasi spasial pada \textit{frame} tunggal. Namun, masih adanya \textit{false negative} menunjukkan bahwa beberapa klip \textit{fake} tetap sulit dikenali, terutama apabila pola manipulasinya halus atau tidak konsisten sepanjang \textit{frame}.
+
+Jika dibandingkan, peningkatan utama model spasiotemporal terlihat pada kemampuannya menekan \textit{false positive} secara lebih besar dibandingkan model spasial. Artinya, keunggulan \textit{VideoMAE} pada eksperimen \textit{baseline} tidak hanya berasal dari peningkatan kemampuan mendeteksi kelas \textit{fake}, tetapi juga dari peningkatan kemampuan mempertahankan data \textit{real} agar tidak salah diklasifikasikan sebagai \textit{fake}. Pola ini sejalan dengan nilai \textit{accuracy}, \textit{F1}, dan \textit{AUC} yang lebih tinggi pada model spasiotemporal.
