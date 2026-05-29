@@ -534,3 +534,103 @@ Selain itu, model spasiotemporal juga menghasilkan \textit{false negative} yang 
 Jika dibandingkan, peningkatan utama model spasiotemporal terlihat pada kemampuannya menekan \textit{false positive} secara lebih besar dibandingkan model spasial. Artinya, keunggulan \textit{VideoMAE} pada eksperimen \textit{baseline} tidak hanya berasal dari peningkatan kemampuan mendeteksi kelas \textit{fake}, tetapi juga dari peningkatan kemampuan mempertahankan data \textit{real} agar tidak salah diklasifikasikan sebagai \textit{fake}. Pola ini sejalan dengan nilai \textit{accuracy}, \textit{F1}, dan \textit{AUC} yang lebih tinggi pada model spasiotemporal.
 
 Secara keseluruhan, hasil eksperimen \textit{baseline} menunjukkan bahwa model spasiotemporal memberikan performa yang lebih baik dibandingkan model spasial. Keunggulan tersebut terlihat dari nilai metrik evaluasi yang lebih tinggi, pola kurva pelatihan yang lebih stabil, serta jumlah kesalahan klasifikasi yang lebih rendah pada \textit{confusion matrix}. Oleh karena itu, hasil \textit{baseline} ini digunakan sebagai acuan awal untuk menilai pengaruh perubahan konfigurasi pada tahap \textit{ablation study}.
+
+\subsection{Hasil \textit{Ablation Study}} \label{IV.Eksperimen_Ablation}
+\textit{Ablation study} dilakukan untuk menganalisis pengaruh perubahan satu komponen konfigurasi pelatihan terhadap performa model spasial dan spasiotemporal. Pada setiap eksperimen, satu parameter diubah dari konfigurasi \textit{baseline}, sedangkan parameter lainnya dipertahankan tetap. Dengan demikian, perubahan performa dapat dianalisis secara lebih terarah berdasarkan parameter yang diuji.
+
+Setiap hasil \textit{ablation study} dibandingkan langsung dengan \textit{baseline} E01-F dan E01-V. Model E01-F digunakan sebagai acuan pendekatan spasial, sedangkan E01-V digunakan sebagai acuan pendekatan spasiotemporal. Pembahasan disusun secara bertahap, dimulai dari pengaruh \textit{epoch} maksimum, \textit{learning rate}, \textit{loss function}, augmentasi data, \textit{dropout}, hingga \textit{scheduler}. Pada setiap subbab, analisis difokuskan pada tujuan perubahan konfigurasi, alasan pemilihan nilai parameter, serta dampaknya terhadap metrik evaluasi model.
+
+\subsubsection{Pengaruh \textit{Epoch} Maksimum} \label{IV.Eksperimen_Ablation_Epoch}
+Eksperimen ini dilakukan untuk melihat apakah peningkatan jumlah \textit{epoch} maksimum dapat meningkatkan performa model atau justru tidak memberikan perbaikan terhadap kemampuan generalisasi. Pada \textit{baseline}, pelatihan dilakukan dengan \textit{epoch} maksimum sebanyak \textbf{25 \textit{epoch}}. Pada eksperimen ini, \textit{epoch} maksimum dinaikkan menjadi \textbf{40 \textit{epoch}}. Nilai tersebut dipilih untuk memberikan kesempatan pelatihan yang lebih panjang kepada model, tetapi tetap berada dalam batas komputasi yang wajar. Dengan demikian, eksperimen ini digunakan untuk mengamati apakah model spasial dan spasiotemporal masih memperoleh manfaat dari durasi pelatihan yang lebih panjang.
+
+Hasil pengaruh \textit{epoch} maksimum terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-epoch}.
+
+\begin{table}[htbp]
+\centering
+\caption{Pengaruh \textit{Epoch} Maksimum terhadap Performa Model}
+\label{table:4.ablation-epoch}
+\begin{tabular}{|l|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Epoch}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E01-F & 25 \textit{epoch} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+\hline
+M01-F & 40 \textit{epoch} & 78,0\% & 75,8\% & 77,5\% & 76,3\% & 85,1\% \\
+\hline
+E01-V & 25 \textit{epoch} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+\hline
+M01-V & 40 \textit{epoch} & 84,5\% & 82,5\% & 84,3\% & 83,2\% & 91,7\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.ablation-epoch}, peningkatan \textit{epoch} maksimum dari 25 menjadi 40 tidak memberikan peningkatan performa pada kedua pendekatan. Pada model spasial, \textit{accuracy} menurun dari 79,2\% menjadi 78,0\%, sedangkan \textit{F1} menurun dari 76,7\% menjadi 76,3\%. Meskipun \textit{recall} meningkat dari 76,7\% menjadi 77,5\%, peningkatan tersebut tidak diikuti oleh kenaikan \textit{precision}, \textit{accuracy}, maupun \textit{AUC}. Hal ini menunjukkan bahwa tambahan \textit{epoch} membuat model spasial sedikit lebih sensitif dalam mengenali kelas tertentu, tetapi tidak meningkatkan kualitas klasifikasi secara keseluruhan.
+
+Pada model spasiotemporal, penambahan \textit{epoch} juga menurunkan performa pada seluruh metrik utama. \textit{accuracy} menurun dari 85,8\% menjadi 84,5\%, \textit{F1} menurun dari 84,5\% menjadi 83,2\%, dan \textit{AUC} menurun dari 92,3\% menjadi 91,7\%. Penurunan ini menunjukkan bahwa pelatihan lebih lama tidak memberikan keuntungan tambahan bagi VideoMAE pada konfigurasi ini.
+
+Untuk mendukung hasil tersebut, Gambar~\ref{fig:4.ablation-epoch-loss} menampilkan kurva \textit{training loss} dan \textit{validation loss} pada konfigurasi 40 \textit{epoch} untuk model spasial dan spasiotemporal.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/Loss.png}}
+\\(a) model spasial
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Loss.png}}
+\\(b) model spasiotemporal
+\end{minipage}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40: (a) model spasial dan (b) model spasiotemporal.}
+\label{fig:4.ablation-epoch-loss}
+\end{figure}
+
+Secara umum, \textit{training loss} pada kedua model terus menurun hingga akhir pelatihan, yang menunjukkan bahwa model semakin menyesuaikan diri terhadap data latih. Namun, \textit{validation loss} tidak menunjukkan penurunan yang konsisten dan cenderung berfluktuasi pada \textit{epoch}-\textit{epoch} lanjutan. Pola ini menunjukkan bahwa penambahan \textit{epoch} tidak lagi memberikan perbaikan pada data validasi.
+
+Pada model spasial, fluktuasi \textit{validation loss} mulai terlihat setelah pertengahan pelatihan dan cenderung bertahan hingga akhir \textit{epoch}. Sementara itu, pada model spasiotemporal, \textit{validation loss} juga menunjukkan pola yang tidak stabil, bahkan beberapa kali meningkat meskipun \textit{training loss} terus menurun. Kondisi tersebut menunjukkan adanya kecenderungan model untuk terus menyesuaikan diri pada data latih tanpa diikuti peningkatan kemampuan generalisasi pada data validasi.
+
+Dengan demikian, analisis kurva \textit{loss} sejalan dengan hasil evaluasi pada Tabel~\ref{table:4.ablation-epoch}, yaitu bahwa penambahan \textit{epoch} maksimum menjadi 40 belum memberikan manfaat pada kedua pendekatan. Sebaliknya, konfigurasi ini cenderung membuat proses pelatihan berlangsung lebih lama tanpa menghasilkan peningkatan performa pada data uji. Oleh karena itu, konfigurasi \textit{baseline} 25 \textit{epoch} dinilai sudah memadai dan lebih efisien dibandingkan konfigurasi 40 \textit{epoch}.
+
+\subsubsection{Pengaruh \textit{Learning Rate}} \label{IV.Eksperimen_Ablation_LR}
+Setelah pengaruh \textit{epoch} maksimum dianalisis, eksperimen berikutnya dilakukan untuk melihat sensitivitas model terhadap perubahan \textit{learning rate}. Pada \textit{baseline}, \textit{learning rate} yang digunakan adalah 5e-5. Pada eksperimen ini, \textit{learning rate} dinaikkan menjadi 5e-4. Nilai tersebut dipilih untuk menguji apakah pembaruan bobot yang lebih besar dapat mempercepat adaptasi model terhadap \textit{dataset} atau justru menurunkan stabilitas proses \textit{fine-tuning}.
+
+Hasil pengaruh \textit{learning rate} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-lr}.
+
+\begin{table}[htbp]
+\centering
+\caption{Pengaruh \textit{Learning Rate} terhadap Performa Model}
+\label{table:4.ablation-lr}
+\begin{tabular}{|l|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{LR}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E01-F & 5e-5 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+\hline
+M02-F & 5e-4 & 64,0\% & 58,9\% & 58,3\% & 58,5\% & 64,2\% \\
+\hline
+E01-V & 5e-5 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+\hline
+M02-V & 5e-4 & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.ablation-lr}, peningkatan \textit{learning rate} menjadi 5e-4 menyebabkan penurunan performa yang signifikan pada kedua pendekatan. Penurunan tersebut terlihat pada seluruh metrik evaluasi, baik pada model spasial maupun spasiotemporal. Hal ini menunjukkan bahwa \textit{learning rate} yang lebih besar tidak membuat proses \textit{fine-tuning} menjadi lebih baik, tetapi justru mengganggu kestabilan pembelajaran model.
+
+Dampak negatif \textit{learning rate} yang lebih besar terlihat lebih kuat pada model spasiotemporal. Hal ini mengindikasikan bahwa \textit{VideoMAE} lebih sensitif terhadap perubahan \textit{learning rate} pada konfigurasi ini. Kemungkinan penyebabnya adalah pembaruan bobot yang terlalu besar dapat mengganggu representasi \textit{pretrained} yang telah dimiliki model, sehingga kemampuan generalisasi pada data uji menurun.
+
+Jika dibandingkan dengan eksperimen \textit{epoch} maksimum, perubahan \textit{learning rate} memberikan dampak yang lebih besar terhadap penurunan performa. Dengan demikian, \textit{learning rate} 5e-4 dinilai terlalu besar untuk proses \textit{fine-tuning} pada penelitian ini. Konfigurasi \textit{baseline} dengan \textit{learning rate} 5e-5 tetap lebih sesuai karena menghasilkan performa yang lebih stabil pada kedua pendekatan.
