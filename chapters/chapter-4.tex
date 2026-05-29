@@ -690,3 +690,113 @@ Berdasarkan Gambar~\ref{fig:4.ablation-loss-cm-spatial}, penggunaan \textit{Foca
 Pada model spasiotemporal, pola yang ditunjukkan pada Gambar~\ref{fig:4.ablation-loss-cm-spatiotemporal} juga memperlihatkan penurunan \textit{false positive} setelah menggunakan \textit{Focal Loss}. Model menjadi lebih jarang mengklasifikasikan data \textit{real} sebagai \textit{fake}. Akan tetapi, peningkatan \textit{false negative} pada model spasiotemporal lebih besar dibandingkan model spasial. Kondisi ini menunjukkan bahwa \textit{Focal Loss} membuat model spasiotemporal menjadi lebih konservatif dalam memprediksi kelas \textit{fake}, sehingga sebagian data \textit{fake} justru diklasifikasikan sebagai \textit{real}. Pola tersebut menjelaskan mengapa metrik evaluasi model spasiotemporal menurun dibandingkan \textit{baseline}, meskipun \textit{false positive} berhasil ditekan.
 
 Secara keseluruhan, eksperimen ini menunjukkan bahwa \textit{Focal Loss} efektif dalam mengurangi \textit{false positive} pada kedua pendekatan, tetapi memiliki konsekuensi berupa peningkatan \textit{false negative}. Pada model spasial, perubahan tersebut masih menghasilkan peningkatan performa secara keseluruhan. Namun, pada model spasiotemporal, peningkatan \textit{false negative} membuat performa akhir lebih rendah dibandingkan \textit{baseline}. Oleh karena itu, \textit{Focal Loss} dapat meningkatkan ketepatan model dalam menghindari kesalahan prediksi \textit{fake} pada data \textit{real}, tetapi belum tentu optimal apabila tujuan utama adalah mempertahankan kemampuan deteksi terhadap seluruh data \textit{fake}.
+
+\subsubsection{Pengaruh Augmentasi Data} \label{IV.Eksperimen_Ablation_Augmentasi}
+Setelah pengaruh \textit{loss function} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh augmentasi data terhadap performa model. Pada \textit{baseline}, augmentasi diterapkan dengan konfigurasi standar yang terdiri atas transformasi geometri, perubahan warna, \textit{blur}, dan \textit{noise}. Pada eksperimen ini, konfigurasi augmentasi dibuat lebih berat untuk menguji apakah peningkatan variasi visual pada data latih dapat membantu model menjadi lebih \textit{robust} terhadap karakteristik data \textit{in-the-wild}. Pengujian ini relevan karena data video \textit{deepfake} dunia nyata memiliki variasi visual yang beragam, seperti perubahan pose, pencahayaan, kualitas kompresi, \textit{blur}, dan \textit{noise}.
+
+Hasil pengaruh augmentasi data terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-augment}.
+
+\begin{table}[htbp]
+\centering
+\caption{Pengaruh Augmentasi Data terhadap Performa Model}
+\label{table:4.ablation-augment}
+\begin{tabular}{|l|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{Augmentasi}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E01-F & \textit{Baseline} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+\hline
+M04-F & Lebih berat & 71,8\% & 69,7\% & 71,4\% & 70,1\% & 77,5\% \\
+\hline
+E01-V & \textit{Baseline} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+\hline
+M04-V & Lebih berat & 81,4\% & 79,2\% & 79,3\% & 79,3\% & 87,9\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.ablation-augment}, penggunaan augmentasi yang lebih berat menyebabkan penurunan performa pada kedua pendekatan. Pada model spasial, penurunan terlihat pada seluruh metrik evaluasi, terutama \textit{accuracy}, \textit{F1}, dan \textit{AUC}. Hal ini menunjukkan bahwa augmentasi yang terlalu kuat tidak membantu model spasial dalam meningkatkan generalisasi, tetapi justru dapat mengubah karakteristik visual yang dibutuhkan untuk membedakan kelas \textit{real} dan \textit{fake}.
+
+Penurunan juga terjadi pada model spasiotemporal, meskipun performanya tetap lebih tinggi dibandingkan model spasial pada konfigurasi augmentasi yang sama. Hasil ini menunjukkan bahwa \textit{VideoMAE} masih lebih stabil dalam menghadapi variasi visual tambahan, tetapi augmentasi yang lebih berat tetap menurunkan kemampuan model dalam mengenali pola klasifikasi pada data uji. Dengan demikian, penambahan intensitas augmentasi tidak selalu menghasilkan peningkatan performa, terutama apabila transformasi yang diberikan terlalu mengganggu informasi visual yang relevan.
+
+Jika dibandingkan dengan \textit{baseline}, konfigurasi augmentasi standar lebih sesuai untuk kedua pendekatan. Augmentasi tetap diperlukan untuk meningkatkan keragaman data latih, tetapi intensitasnya perlu dikendalikan agar tidak mengaburkan artefak visual atau pola temporal yang menjadi dasar klasifikasi \textit{deepfake}. Secara keseluruhan, eksperimen ini menunjukkan bahwa augmentasi yang lebih berat tidak dipilih sebagai konfigurasi lanjutan karena menurunkan performa model spasial maupun spasiotemporal.
+
+\subsubsection{Pengaruh \textit{Dropout}} \label{IV.Eksperimen_Ablation_Dropout}
+Setelah pengaruh augmentasi data dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh regularisasi dari sisi model melalui \textit{dropout}. Pada \textit{baseline}, nilai \textit{dropout} yang digunakan adalah 0, sedangkan pada eksperimen ini nilai \textit{dropout} dinaikkan menjadi 0,1. Nilai tersebut dipilih untuk menguji apakah regularisasi tambahan dapat membantu model mengurangi ketergantungan terhadap pola tertentu pada data latih. Pengujian ini relevan karena model berbasis \textit{Transformer} memiliki kapasitas representasi yang besar, sehingga regularisasi dapat berperan dalam mengendalikan risiko \textit{overfitting} selama proses \textit{fine-tuning}.
+
+Hasil pengaruh \textit{dropout} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-dropout}.
+
+\begin{table}[htbp]
+\centering
+\caption{Pengaruh \textit{Dropout} terhadap Performa Model}
+\label{table:4.ablation-dropout}
+\begin{tabular}{|l|r|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Dropout}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E01-F & 0 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+\hline
+M05-F & 0,1 & 79,4\% & 77,0\% & 77,9\% & 77,4\% & 87,1\% \\
+\hline
+E01-V & 0 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+\hline
+M05-V & 0,1 & 83,8\% & 82,0\% & 84,7\% & 82,8\% & 91,0\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.ablation-dropout}, penggunaan \textit{dropout} 0,1 memberikan dampak yang berbeda pada model spasial dan spasiotemporal. Pada model spasial, \textit{dropout} memberikan peningkatan kecil pada seluruh metrik evaluasi. Peningkatan tersebut menunjukkan bahwa regularisasi tambahan dapat membantu model spasial menghasilkan keputusan klasifikasi yang sedikit lebih baik dibandingkan \textit{baseline}. Hal ini mengindikasikan bahwa model spasial memperoleh manfaat dari pembatasan ketergantungan terhadap pola visual tertentu pada data latih.
+
+Namun, pengaruh \textit{dropout} pada model spasiotemporal menunjukkan pola yang berbeda. Pada model \textit{VideoMAE}, penggunaan \textit{dropout} 0,1 justru menurunkan performa dibandingkan \textit{baseline}. Penurunan tersebut terlihat pada \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1}, dan \textit{AUC}. Hal ini menunjukkan bahwa regularisasi tambahan tidak selalu memberikan manfaat pada model spasiotemporal, khususnya ketika model sudah memiliki representasi \textit{pretrained} yang kuat dan memproses informasi dalam bentuk klip video.
+
+Jika dibandingkan dengan \textit{baseline}, \textit{dropout} 0,1 dapat memberikan perbaikan terbatas pada pendekatan spasial, tetapi tidak memberikan keuntungan pada pendekatan spasiotemporal. Dengan demikian, \textit{dropout} tidak dipilih sebagai konfigurasi utama yang dilanjutkan, karena pengaruhnya tidak konsisten pada kedua pendekatan. Hasil ini juga menunjukkan bahwa regularisasi model perlu diterapkan secara hati-hati, sebab konfigurasi yang membantu model spasial belum tentu memberikan dampak yang sama pada model spasiotemporal.
+
+\subsubsection{Pengaruh \textit{Scheduler}} \label{IV.Eksperimen_Ablation_Scheduler}
+Setelah pengaruh \textit{dropout} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh \textit{scheduler} terhadap performa model. Pada \textit{baseline}, \textit{scheduler} yang digunakan adalah \textit{LinearDecayLR}, sedangkan pada eksperimen ini digunakan \textit{CosineAnnealingLR}. Eksperimen ini dilakukan untuk menguji apakah pola penurunan \textit{learning rate} yang berbeda dapat menghasilkan proses optimasi yang lebih baik. \textit{Scheduler} menjadi komponen penting dalam \textit{fine-tuning} karena tidak hanya menentukan nilai awal \textit{learning rate}, tetapi juga mengatur perubahan \textit{learning rate} selama pelatihan berlangsung.
+
+Hasil pengaruh \textit{scheduler} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-scheduler}.
+
+\begin{table}[htbp]
+\centering
+\caption{Pengaruh \textit{Scheduler} terhadap Performa Model}
+\label{table:4.ablation-scheduler}
+\begin{tabular}{|l|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Scheduler}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E01-F & \textit{LinearDecayLR} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+\hline
+M06-F & \textit{CosineAnnealingLR} & 82,5\% & 80,4\% & 80,7\% & 80,6\% & 88,7\% \\
+\hline
+E01-V & \textit{LinearDecayLR} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+\hline
+M06-V & \textit{CosineAnnealingLR} & 84,1\% & 82,1\% & 84,4\% & 82,9\% & 91,5\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.ablation-scheduler}, penggunaan \textit{CosineAnnealingLR} memberikan dampak yang berbeda pada model spasial dan spasiotemporal. Pada model spasial, \textit{CosineAnnealingLR} menghasilkan peningkatan pada seluruh metrik evaluasi dibandingkan \textit{baseline}. Peningkatan ini menunjukkan bahwa pola penurunan \textit{learning rate} berbasis \textit{cosine} lebih membantu proses optimasi model spasial dibandingkan \textit{LinearDecayLR}.
+
+Pada model spasiotemporal, penggunaan \textit{CosineAnnealingLR} tidak menghasilkan peningkatan dibandingkan \textit{baseline}. Nilai \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1}, dan \textit{AUC} lebih rendah daripada konfigurasi awal. Meskipun demikian, penurunan performa pada model spasiotemporal tidak sebesar penurunan yang terjadi pada beberapa variasi \textit{ablation} lain, seperti \textit{learning rate} yang lebih besar atau augmentasi yang lebih berat. Hal ini menunjukkan bahwa \textit{CosineAnnealingLR} masih menghasilkan performa yang relatif kompetitif pada model spasiotemporal.
+
+Jika dilihat secara komparatif, \textit{CosineAnnealingLR} memberikan keuntungan yang lebih jelas pada pendekatan spasial, sementara pendekatan spasiotemporal tetap lebih baik pada \textit{baseline LinearDecayLR}. Oleh karena itu, pemilihan konfigurasi \textit{scheduler} tidak hanya didasarkan pada performa salah satu model, tetapi mempertimbangkan rata-rata \textit{accuracy} dari kedua pendekatan. Berdasarkan kriteria tersebut, konfigurasi \textit{CosineAnnealingLR} memberikan rata-rata \textit{accuracy} yang lebih tinggi dibandingkan \textit{baseline}, sehingga dipilih sebagai konfigurasi pelatihan untuk eksperimen utama.
+
+Secara keseluruhan, hasil \textit{ablation study} menunjukkan bahwa setiap perubahan konfigurasi memberikan pengaruh yang berbeda pada model spasial dan spasiotemporal. Beberapa konfigurasi hanya meningkatkan salah satu pendekatan, sedangkan konfigurasi lainnya menurunkan performa pada kedua pendekatan. Pada tahap ini, \textit{scheduler} dipilih sebagai konfigurasi lanjutan karena memberikan hasil rata-rata yang paling baik untuk digunakan secara adil pada kedua model. Dengan demikian, eksperimen utama pada subbab berikutnya menggunakan konfigurasi \textit{scheduler} hasil \textit{ablation study} sebagai dasar pelatihan.
