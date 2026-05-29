@@ -634,3 +634,59 @@ Berdasarkan Tabel~\ref{table:4.ablation-lr}, peningkatan \textit{learning rate} 
 Dampak negatif \textit{learning rate} yang lebih besar terlihat lebih kuat pada model spasiotemporal. Hal ini mengindikasikan bahwa \textit{VideoMAE} lebih sensitif terhadap perubahan \textit{learning rate} pada konfigurasi ini. Kemungkinan penyebabnya adalah pembaruan bobot yang terlalu besar dapat mengganggu representasi \textit{pretrained} yang telah dimiliki model, sehingga kemampuan generalisasi pada data uji menurun.
 
 Jika dibandingkan dengan eksperimen \textit{epoch} maksimum, perubahan \textit{learning rate} memberikan dampak yang lebih besar terhadap penurunan performa. Dengan demikian, \textit{learning rate} 5e-4 dinilai terlalu besar untuk proses \textit{fine-tuning} pada penelitian ini. Konfigurasi \textit{baseline} dengan \textit{learning rate} 5e-5 tetap lebih sesuai karena menghasilkan performa yang lebih stabil pada kedua pendekatan.
+
+\subsubsection{Pengaruh \textit{Loss Function}} \label{IV.Eksperimen_Ablation_Loss}
+Setelah pengaruh \textit{learning rate} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh fungsi \textit{loss} terhadap performa model. Pada \textit{baseline}, fungsi \textit{loss} yang digunakan adalah \textit{Cross Entropy Loss}. Pada eksperimen ini, fungsi \textit{loss} diubah menjadi \textit{Focal Loss}. Pemilihan \textit{Focal Loss} didasarkan pada karakteristiknya yang memberikan bobot lebih besar terhadap sampel yang sulit diklasifikasikan, sehingga fungsi \textit{loss} ini dapat digunakan untuk mengevaluasi apakah model menjadi lebih baik dalam menangani kesalahan klasifikasi yang masih muncul pada konfigurasi \textit{baseline}. Dalam konteks klasifikasi \textit{deepfake}, pengujian ini penting karena kesalahan model tidak hanya dilihat dari jumlah prediksi benar secara umum, tetapi juga dari pola \textit{false positive} dan \textit{false negative} pada kelas \textit{real} dan \textit{fake}.
+
+Hasil pengaruh \textit{loss function} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-loss}.
+
+\begin{table}[htbp]
+\centering
+\caption{Pengaruh \textit{Loss Function} terhadap Performa Model}
+\label{table:4.ablation-loss}
+\begin{tabular}{|l|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Loss Function}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E01-F & \textit{Cross Entropy Loss} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+\hline
+M03-F & \textit{Focal Loss} & 81,8\% & 79,7\% & 81,3\% & 80,3\% & 88,1\% \\
+\hline
+E01-V & \textit{Cross Entropy Loss} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+\hline
+M03-V & \textit{Focal Loss} & 83,5\% & 81,8\% & 84,7\% & 82,5\% & 92,1\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.ablation-loss}, penggunaan \textit{Focal Loss} memberikan dampak yang berbeda pada model spasial dan spasiotemporal. Pada model spasial, \textit{Focal Loss} meningkatkan seluruh metrik evaluasi dibandingkan \textit{baseline}. Peningkatan ini menunjukkan bahwa perubahan fungsi \textit{loss} membantu model spasial dalam menghasilkan keputusan klasifikasi yang lebih baik pada data uji. Dengan demikian, pendekatan spasial memperoleh manfaat yang cukup jelas dari penggunaan \textit{Focal Loss}.
+
+Sebaliknya, pada model spasiotemporal, penggunaan \textit{Focal Loss} tidak memberikan peningkatan performa secara keseluruhan. \textit{Accuracy}, \textit{precision}, \textit{recall}, \textit{F1}, dan \textit{AUC} cenderung lebih rendah dibandingkan \textit{baseline Cross Entropy Loss}. Meskipun penurunannya tidak sebesar eksperimen \textit{learning rate}, hasil ini menunjukkan bahwa \textit{Focal Loss} tidak selalu memberikan manfaat yang sama pada model yang telah memanfaatkan informasi temporal. Dengan kata lain, pengaruh \textit{Focal Loss} bergantung pada karakteristik model yang digunakan.
+
+Untuk menganalisis perubahan pola kesalahan secara lebih rinci, \textit{confusion matrix baseline} dan \textit{Focal Loss} ditunjukkan pada Gambar~\ref{fig:4.ablation-loss-cm-spatial} dan Gambar~\ref{fig:4.ablation-loss-cm-spatiotemporal}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M03/Perbandingan Confusion Matrix - Model Spasial.jpg}}
+\caption{\textit{Confusion matrix} model spasial pada \textit{Cross Entropy Loss} dan \textit{Focal Loss}.}
+\label{fig:4.ablation-loss-cm-spatial}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M03/Perbandingan Confusion Matrix - Model Spasiotemporal.jpg}}
+\caption{\textit{Confusion matrix} model spasiotemporal pada \textit{Cross Entropy Loss} dan \textit{Focal Loss}.}
+\label{fig:4.ablation-loss-cm-spatiotemporal}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:4.ablation-loss-cm-spatial}, penggunaan \textit{Focal Loss} pada model spasial mampu menurunkan \textit{false positive} dibandingkan \textit{Cross Entropy Loss}. Artinya, jumlah data \textit{real} yang salah diprediksi sebagai \textit{fake} menjadi lebih sedikit. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{Focal Loss} membantu model spasial menjadi lebih hati-hati dalam memberikan prediksi \textit{fake} terhadap data \textit{real}. Namun, penurunan \textit{false positive} tersebut disertai dengan peningkatan \textit{false negative}, sehingga sebagian data \textit{fake} menjadi lebih banyak yang tidak terdeteksi dibandingkan \textit{baseline}. Meskipun demikian, secara keseluruhan perubahan ini tetap menghasilkan peningkatan metrik pada model spasial.
+
+Pada model spasiotemporal, pola yang ditunjukkan pada Gambar~\ref{fig:4.ablation-loss-cm-spatiotemporal} juga memperlihatkan penurunan \textit{false positive} setelah menggunakan \textit{Focal Loss}. Model menjadi lebih jarang mengklasifikasikan data \textit{real} sebagai \textit{fake}. Akan tetapi, peningkatan \textit{false negative} pada model spasiotemporal lebih besar dibandingkan model spasial. Kondisi ini menunjukkan bahwa \textit{Focal Loss} membuat model spasiotemporal menjadi lebih konservatif dalam memprediksi kelas \textit{fake}, sehingga sebagian data \textit{fake} justru diklasifikasikan sebagai \textit{real}. Pola tersebut menjelaskan mengapa metrik evaluasi model spasiotemporal menurun dibandingkan \textit{baseline}, meskipun \textit{false positive} berhasil ditekan.
+
+Secara keseluruhan, eksperimen ini menunjukkan bahwa \textit{Focal Loss} efektif dalam mengurangi \textit{false positive} pada kedua pendekatan, tetapi memiliki konsekuensi berupa peningkatan \textit{false negative}. Pada model spasial, perubahan tersebut masih menghasilkan peningkatan performa secara keseluruhan. Namun, pada model spasiotemporal, peningkatan \textit{false negative} membuat performa akhir lebih rendah dibandingkan \textit{baseline}. Oleh karena itu, \textit{Focal Loss} dapat meningkatkan ketepatan model dalam menghindari kesalahan prediksi \textit{fake} pada data \textit{real}, tetapi belum tentu optimal apabila tujuan utama adalah mempertahankan kemampuan deteksi terhadap seluruh data \textit{fake}.
