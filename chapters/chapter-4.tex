@@ -456,14 +456,14 @@ Eksperimen \textit{baseline} dilakukan untuk memperoleh gambaran performa awal d
 		\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 		\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 		\hline
-			E01-F & Spasial & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+			BASE-SP & Spasial & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 		\hline
-			E01-V & Spasiotemporal & \textbf{85,8\%} & \textbf{83,9\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+			BASE-ST & Spasiotemporal & \textbf{85,8\%} & \textbf{83,9\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
 		\hline
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel~\ref{table:4.baseline}, model spasiotemporal E01-V memperoleh performa yang lebih tinggi dibandingkan model spasial E01-F pada seluruh metrik evaluasi. Pada metrik \textit{accuracy}, model spasiotemporal mencapai nilai sebesar 85,8\%, sedangkan model spasial mencapai 79,2\%. Pada metrik \textit{F1}, model spasiotemporal memperoleh nilai 84,5\%, lebih tinggi dibandingkan model spasial sebesar 76,7\%. Demikian pula pada metrik \textit{AUC}, model spasiotemporal memperoleh nilai 92,3\%, sedangkan model spasial memperoleh 86,8\%. Hasil ini menunjukkan bahwa pada konfigurasi \textit{baseline}, pendekatan spasiotemporal memiliki kemampuan klasifikasi dan kemampuan diskriminasi kelas yang lebih baik dibandingkan pendekatan spasial.
+Berdasarkan Tabel~\ref{table:4.baseline}, model spasiotemporal BASE-ST memperoleh performa yang lebih tinggi dibandingkan model spasial BASE-SP pada seluruh metrik evaluasi. Pada metrik \textit{accuracy}, model spasiotemporal mencapai nilai sebesar 85,8\%, sedangkan model spasial mencapai 79,2\%. Pada metrik \textit{F1}, model spasiotemporal memperoleh nilai 84,5\%, lebih tinggi dibandingkan model spasial sebesar 76,7\%. Demikian pula pada metrik \textit{AUC}, model spasiotemporal memperoleh nilai 92,3\%, sedangkan model spasial memperoleh 86,8\%. Hasil ini menunjukkan bahwa pada konfigurasi \textit{baseline}, pendekatan spasiotemporal memiliki kemampuan klasifikasi dan kemampuan diskriminasi kelas yang lebih baik dibandingkan pendekatan spasial.
 
 \begin{figure}[htbp]
 	\centering
@@ -538,7 +538,35 @@ Secara keseluruhan, hasil eksperimen \textit{baseline} menunjukkan bahwa model s
 \subsection{Hasil \textit{Ablation Study}} \label{IV.Eksperimen_Ablation}
 \textit{Ablation study} dilakukan untuk menganalisis pengaruh perubahan satu komponen konfigurasi pelatihan terhadap performa model spasial dan spasiotemporal. Pada setiap eksperimen, satu parameter diubah dari konfigurasi \textit{baseline}, sedangkan parameter lainnya dipertahankan tetap. Dengan demikian, perubahan performa dapat dianalisis secara lebih terarah berdasarkan parameter yang diuji.
 
-Setiap hasil \textit{ablation study} dibandingkan langsung dengan \textit{baseline} E01-F dan E01-V. Model E01-F digunakan sebagai acuan pendekatan spasial, sedangkan E01-V digunakan sebagai acuan pendekatan spasiotemporal. Pembahasan disusun secara bertahap, dimulai dari pengaruh \textit{epoch} maksimum, \textit{learning rate}, \textit{loss function}, augmentasi data, \textit{dropout}, hingga \textit{scheduler}. Pada setiap subbab, analisis difokuskan pada tujuan perubahan konfigurasi, alasan pemilihan nilai parameter, serta dampaknya terhadap metrik evaluasi model.
+Setiap hasil \textit{ablation study} dibandingkan langsung dengan \textit{baseline} BASE-SP dan BASE-ST. Model BASE-SP digunakan sebagai acuan pendekatan spasial, sedangkan BASE-ST digunakan sebagai acuan pendekatan spasiotemporal. Pembahasan disusun secara bertahap, dimulai dari pengaruh \textit{epoch} maksimum, \textit{learning rate}, \textit{loss function}, augmentasi data, \textit{dropout}, hingga \textit{scheduler}. Pada setiap subbab, analisis difokuskan pada tujuan perubahan konfigurasi, alasan pemilihan nilai parameter, serta dampaknya terhadap metrik evaluasi model.
+
+Ringkasan konfigurasi \textit{ablation study} yang digunakan pada penelitian ini ditunjukkan pada Tabel~\ref{table:4.ablation-config}.
+
+\begin{table}[htbp]
+\centering
+\caption{Konfigurasi \textit{Ablation Study}}
+\label{table:4.ablation-config}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{Parameter}} &
+\multicolumn{1}{c|}{\textbf{Nilai \textit{Baseline}}} &
+\multicolumn{1}{c|}{\textbf{Nilai Uji}} \\
+\hline
+M1 & \textit{Epoch} & 25 \textit{epoch} & 40 \textit{epoch} \\
+\hline
+M2 & \textit{Learning rate} & 5e-5 & 5e-4 \\
+\hline
+M3 & \textit{Loss function} & \textit{Cross Entropy Loss} & \textit{Focal Loss} \\
+\hline
+M4 & Augmentasi data & Standar & Lebih berat \\
+\hline
+M5 & \textit{Dropout} & 0 & 0,1 \\
+\hline
+M6 & \textit{Scheduler} & \textit{LinearDecayLR} & \textit{CosineAnnealingLR} \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsubsection{Pengaruh \textit{Epoch} Maksimum} \label{IV.Eksperimen_Ablation_Epoch}
 Eksperimen ini dilakukan untuk melihat apakah peningkatan jumlah \textit{epoch} maksimum dapat meningkatkan performa model atau justru tidak memberikan perbaikan terhadap kemampuan generalisasi. Pada \textit{baseline}, pelatihan dilakukan dengan \textit{epoch} maksimum sebanyak \textbf{25 \textit{epoch}}. Pada eksperimen ini, \textit{epoch} maksimum dinaikkan menjadi \textbf{40 \textit{epoch}}. Nilai tersebut dipilih untuk memberikan kesempatan pelatihan yang lebih panjang kepada model, tetapi tetap berada dalam batas komputasi yang wajar. Dengan demikian, eksperimen ini digunakan untuk mengamati apakah model spasial dan spasiotemporal masih memperoleh manfaat dari durasi pelatihan yang lebih panjang.
@@ -559,13 +587,13 @@ Hasil pengaruh \textit{epoch} maksimum terhadap performa model ditunjukkan pada 
 \multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 \multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 \hline
-E01-F & 25 \textit{epoch} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+BASE-SP & 25 \textit{epoch} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 \hline
-M01-F & 40 \textit{epoch} & 78,0\% & 75,8\% & 77,5\% & 76,3\% & 85,1\% \\
+M1-SP & 40 \textit{epoch} & 78,0\% & 75,8\% & 77,5\% & 76,3\% & 85,1\% \\
 \hline
-E01-V & 25 \textit{epoch} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+BASE-ST & 25 \textit{epoch} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
 \hline
-M01-V & 40 \textit{epoch} & 84,5\% & 82,5\% & 84,3\% & 83,2\% & 91,7\% \\
+M1-ST & 40 \textit{epoch} & 84,5\% & 82,5\% & 84,3\% & 83,2\% & 91,7\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -618,13 +646,13 @@ Hasil pengaruh \textit{learning rate} terhadap performa model ditunjukkan pada T
 \multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 \multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 \hline
-E01-F & 5e-5 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+BASE-SP & 5e-5 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 \hline
-M02-F & 5e-4 & 64,0\% & 58,9\% & 58,3\% & 58,5\% & 64,2\% \\
+M2-SP & 5e-4 & 64,0\% & 58,9\% & 58,3\% & 58,5\% & 64,2\% \\
 \hline
-E01-V & 5e-5 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+BASE-ST & 5e-5 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
 \hline
-M02-V & 5e-4 & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
+M2-ST & 5e-4 & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -654,13 +682,13 @@ Hasil pengaruh \textit{loss function} terhadap performa model ditunjukkan pada T
 \multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 \multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 \hline
-E01-F & \textit{Cross Entropy Loss} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+BASE-SP & \textit{Cross Entropy Loss} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 \hline
-M03-F & \textit{Focal Loss} & 81,8\% & 79,7\% & 81,3\% & 80,3\% & 88,1\% \\
+M3-SP & \textit{Focal Loss} & 81,8\% & 79,7\% & 81,3\% & 80,3\% & 88,1\% \\
 \hline
-E01-V & \textit{Cross Entropy Loss} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+BASE-ST & \textit{Cross Entropy Loss} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
 \hline
-M03-V & \textit{Focal Loss} & 83,5\% & 81,8\% & 84,7\% & 82,5\% & 92,1\% \\
+M3-ST & \textit{Focal Loss} & 83,5\% & 81,8\% & 84,7\% & 82,5\% & 92,1\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -710,13 +738,13 @@ Hasil pengaruh augmentasi data terhadap performa model ditunjukkan pada Tabel~\r
 \multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 \multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 \hline
-E01-F & \textit{Baseline} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+BASE-SP & \textit{Baseline} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 \hline
-M04-F & Lebih berat & 71,8\% & 69,7\% & 71,4\% & 70,1\% & 77,5\% \\
+M4-SP & Lebih berat & 71,8\% & 69,7\% & 71,4\% & 70,1\% & 77,5\% \\
 \hline
-E01-V & \textit{Baseline} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+BASE-ST & \textit{Baseline} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
 \hline
-M04-V & Lebih berat & 81,4\% & 79,2\% & 79,3\% & 79,3\% & 87,9\% \\
+M4-ST & Lebih berat & 81,4\% & 79,2\% & 79,3\% & 79,3\% & 87,9\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -746,13 +774,13 @@ Hasil pengaruh \textit{dropout} terhadap performa model ditunjukkan pada Tabel~\
 \multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 \multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 \hline
-E01-F & 0 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+BASE-SP & 0 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 \hline
-M05-F & 0,1 & 79,4\% & 77,0\% & 77,9\% & 77,4\% & 87,1\% \\
+M5-SP & 0,1 & 79,4\% & 77,0\% & 77,9\% & 77,4\% & 87,1\% \\
 \hline
-E01-V & 0 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+BASE-ST & 0 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
 \hline
-M05-V & 0,1 & 83,8\% & 82,0\% & 84,7\% & 82,8\% & 91,0\% \\
+M5-ST & 0,1 & 83,8\% & 82,0\% & 84,7\% & 82,8\% & 91,0\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -782,13 +810,13 @@ Hasil pengaruh \textit{scheduler} terhadap performa model ditunjukkan pada Tabel
 \multicolumn{1}{c|}{\textbf{\textit{F1}}} &
 \multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
 \hline
-E01-F & \textit{LinearDecayLR} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+BASE-SP & \textit{LinearDecayLR} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
 \hline
-M06-F & \textit{CosineAnnealingLR} & 82,5\% & 80,4\% & 80,7\% & 80,6\% & 88,7\% \\
+M6-SP & \textit{CosineAnnealingLR} & 82,5\% & 80,4\% & 80,7\% & 80,6\% & 88,7\% \\
 \hline
-E01-V & \textit{LinearDecayLR} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
+BASE-ST & \textit{LinearDecayLR} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
 \hline
-M06-V & \textit{CosineAnnealingLR} & 84,1\% & 82,1\% & 84,4\% & 82,9\% & 91,5\% \\
+M6-ST & \textit{CosineAnnealingLR} & 84,1\% & 82,1\% & 84,4\% & 82,9\% & 91,5\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -800,3 +828,164 @@ Pada model spasiotemporal, penggunaan \textit{CosineAnnealingLR} tidak menghasil
 Jika dilihat secara komparatif, \textit{CosineAnnealingLR} memberikan keuntungan yang lebih jelas pada pendekatan spasial, sementara pendekatan spasiotemporal tetap lebih baik pada \textit{baseline LinearDecayLR}. Oleh karena itu, pemilihan konfigurasi \textit{scheduler} tidak hanya didasarkan pada performa salah satu model, tetapi mempertimbangkan rata-rata \textit{accuracy} dari kedua pendekatan. Berdasarkan kriteria tersebut, konfigurasi \textit{CosineAnnealingLR} memberikan rata-rata \textit{accuracy} yang lebih tinggi dibandingkan \textit{baseline}, sehingga dipilih sebagai konfigurasi pelatihan untuk eksperimen utama.
 
 Secara keseluruhan, hasil \textit{ablation study} menunjukkan bahwa setiap perubahan konfigurasi memberikan pengaruh yang berbeda pada model spasial dan spasiotemporal. Beberapa konfigurasi hanya meningkatkan salah satu pendekatan, sedangkan konfigurasi lainnya menurunkan performa pada kedua pendekatan. Pada tahap ini, \textit{scheduler} dipilih sebagai konfigurasi lanjutan karena memberikan hasil rata-rata yang paling baik untuk digunakan secara adil pada kedua model. Dengan demikian, eksperimen utama pada subbab berikutnya menggunakan konfigurasi \textit{scheduler} hasil \textit{ablation study} sebagai dasar pelatihan.
+
+\subsection{Hasil Eksperimen Utama} \label{IV.Eksperimen_Utama}
+
+Eksperimen utama dilakukan untuk mengevaluasi pengaruh konfigurasi input terhadap performa model spasial dan spasiotemporal. Berbeda dari \textit{ablation study} yang berfokus pada perubahan konfigurasi pelatihan, eksperimen utama berfokus pada perubahan karakteristik masukan, yaitu resolusi, jumlah \textit{frame}, dan \textit{stride}. Konfigurasi BASE telah digunakan dan dianalisis sebelumnya pada eksperimen \textit{baseline} sebagai konfigurasi dasar, yaitu resolusi 224 $\times$ 224, jumlah \textit{frame} masukan 16, dan \textit{stride} 3. Oleh karena itu, pada bagian ini BASE digunakan sebagai acuan konfigurasi, sedangkan eksperimen E2 sampai E5 digunakan untuk menganalisis pengaruh variasi input terhadap performa kedua pendekatan.
+
+Konfigurasi eksperimen utama yang digunakan ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-config}.
+
+\begin{table}[htbp]
+\centering
+\caption{Konfigurasi Eksperimen Utama}
+\label{table:4.eksperimen-utama-config}
+\begin{tabular}{|l|l|c|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{Variasi Eksperimen}} &
+\multicolumn{1}{c|}{\textbf{Resolusi}} &
+\multicolumn{1}{c|}{\textbf{\textit{Frame}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Stride}}} \\
+\hline
+BASE-SP / BASE-ST & Konfigurasi dasar & 224 $\times$ 224 & 16 & 3 \\
+\hline
+E2-SP / E2-ST & Penurunan resolusi & 112 $\times$ 112 & 16 & 3 \\
+\hline
+E3-SP / E3-ST & \textit{Stride} lebih rapat & 224 $\times$ 224 & 16 & 1 \\
+\hline
+E4-SP / E4-ST & \textit{Frame} lebih sedikit & 224 $\times$ 224 & 8 & 3 \\
+\hline
+E5-SP / E5-ST & \textit{Frame} lebih banyak & 224 $\times$ 224 & 24 & 1 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Eksperimen Penurunan Resolusi} \label{IV.Eksperimen_Utama_Resolusi}
+
+Eksperimen penurunan resolusi dilakukan untuk mengevaluasi pengaruh berkurangnya informasi spasial terhadap performa model. Pada konfigurasi ini, resolusi masukan diturunkan menjadi 112 $\times$ 112 piksel. Pengujian ini penting karena data video dunia nyata tidak selalu berada dalam kualitas visual yang ideal. Video yang beredar di internet dapat mengalami penurunan resolusi, kompresi, \textit{blur}, atau degradasi visual lain yang berpotensi mengurangi detail wajah. Oleh karena itu, eksperimen ini digunakan untuk melihat sejauh mana model spasial dan spasiotemporal tetap mampu melakukan klasifikasi ketika informasi visual pada \textit{frame} menjadi lebih terbatas.
+
+Hasil eksperimen penurunan resolusi ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-resolusi}.
+
+\begin{table}[htbp]
+\centering
+\caption{Hasil Eksperimen Penurunan Resolusi}
+\label{table:4.eksperimen-utama-resolusi}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E2-SP & 76,0\% & 73,8\% & 75,6\% & 74,3\% & 84,6\% \\
+\hline
+E2-ST & 78,4\% & 75,9\% & 76,7\% & 76,2\% & 84,9\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.eksperimen-utama-resolusi}, penurunan resolusi menghasilkan performa yang lebih terbatas pada kedua pendekatan. Pada model spasial, nilai metrik menunjukkan bahwa berkurangnya detail visual pada \textit{frame} memengaruhi kemampuan model dalam membedakan kelas \textit{real} dan \textit{fake}. Hal ini dapat terjadi karena pendekatan spasial bergantung pada informasi visual statis dari setiap \textit{frame}, sehingga detail kecil seperti tekstur wajah, batas area manipulasi, atau artefak visual halus menjadi lebih sulit ditangkap ketika resolusi masukan diturunkan.
+
+Pada model spasiotemporal, performa yang diperoleh lebih tinggi dibandingkan model spasial pada konfigurasi resolusi rendah. Hasil ini menunjukkan bahwa meskipun informasi spasial pada setiap \textit{frame} berkurang, model spasiotemporal masih dapat memanfaatkan hubungan antar-\textit{frame} sebagai sumber informasi tambahan. Dengan demikian, \textit{VideoMAE} relatif lebih mampu mempertahankan performa pada kondisi resolusi rendah dibandingkan model spasial.
+
+Secara umum, eksperimen ini menunjukkan bahwa resolusi masukan merupakan faktor penting dalam klasifikasi video \textit{deepfake}. Penurunan resolusi dapat mengurangi detail visual yang dibutuhkan model untuk mengenali pola manipulasi, terutama pada artefak yang bersifat halus. Namun, pendekatan spasiotemporal menunjukkan ketahanan yang lebih baik pada konfigurasi ini karena tidak hanya bergantung pada informasi spasial per \textit{frame}, tetapi juga memanfaatkan konteks temporal dalam satu klip.
+
+\subsubsection{Eksperimen \textit{Stride} Lebih Rapat} \label{IV.Eksperimen_Utama_Stride}
+
+Eksperimen \textit{stride} lebih rapat dilakukan untuk mengevaluasi pengaruh kepadatan sampling temporal terhadap performa model. Pada konfigurasi ini, jumlah \textit{frame} masukan tetap sebanyak 16 \textit{frame}, tetapi nilai \textit{stride} dibuat lebih rapat menjadi 1 dari yang sebelumnya 3. Dengan demikian, \textit{frame} yang digunakan berasal dari posisi temporal yang lebih berdekatan. Pengujian ini dilakukan untuk melihat apakah penggunaan \textit{frame} yang lebih rapat dapat membantu model menangkap perubahan visual yang lebih halus antar-\textit{frame}, atau justru menghasilkan informasi yang lebih redundan karena jarak temporal antar-\textit{frame} menjadi terlalu dekat.
+
+Hasil eksperimen \textit{stride} lebih rapat ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-stride}.
+
+\begin{table}[htbp]
+\centering
+\caption{Hasil Eksperimen \textit{Stride} Lebih Rapat}
+\label{table:4.eksperimen-utama-stride}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E3-SP & 81,0\% & 78,7\% & 79,6\% & 79,1\% & 88,0\% \\
+\hline
+E3-ST & 82,9\% & 80,9\% & 83,1\% & 81,6\% & 90,1\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.eksperimen-utama-stride}, konfigurasi \textit{stride} lebih rapat menghasilkan performa yang cukup baik pada kedua pendekatan. Pada model spasial, hasil ini menunjukkan bahwa penggunaan \textit{frame} yang lebih berdekatan tetap dapat memberikan evidensi visual yang berguna ketika prediksi \textit{frame-level} diagregasi menjadi prediksi tingkat klip. Hal ini mengindikasikan bahwa \textit{frame} yang rapat masih memuat variasi visual yang cukup untuk membantu model membedakan kelas \textit{real} dan \textit{fake}.
+
+Pada model spasiotemporal, performa yang diperoleh tetap lebih tinggi dibandingkan model spasial. Hal ini menunjukkan bahwa \textit{VideoMAE} masih memperoleh manfaat dari hubungan antar-\textit{frame}, meskipun \textit{frame} yang digunakan memiliki jarak temporal yang lebih dekat. Akan tetapi, konfigurasi \textit{stride} 1 juga membuat cakupan temporal menjadi lebih sempit karena \textit{frame} yang dipilih berada pada rentang waktu yang lebih pendek. Kondisi ini dapat membatasi kemampuan model dalam menangkap perubahan temporal yang lebih luas pada satu klip.
+
+Secara umum, eksperimen ini menunjukkan bahwa penggunaan \textit{stride} yang lebih rapat dapat mempertahankan performa klasifikasi pada kedua pendekatan, terutama karena \textit{frame} yang diproses memiliki kontinuitas visual yang lebih tinggi. Namun, kepadatan sampling temporal yang lebih besar tidak selalu berarti informasi temporal yang diperoleh menjadi lebih kaya. Pada konfigurasi ini, \textit{frame} yang terlalu berdekatan dapat meningkatkan redundansi antar-\textit{frame}, sehingga manfaatnya terhadap model spasiotemporal tidak sepenuhnya optimal. Oleh karena itu, pemilihan \textit{stride} perlu mempertimbangkan keseimbangan antara kepadatan informasi antar-\textit{frame} dan cakupan temporal yang ingin direpresentasikan.
+
+\subsubsection{Eksperimen \textit{Frame} Lebih Sedikit} \label{IV.Eksperimen_Utama_Frame_Sedikit}
+
+Eksperimen \textit{frame} lebih sedikit dilakukan untuk mengevaluasi pengaruh pengurangan jumlah \textit{frame} masukan terhadap performa model. Pada konfigurasi ini, jumlah \textit{frame} masukan dikurangi menjadi 8 \textit{frame}. Pengujian ini dilakukan untuk melihat apakah jumlah \textit{frame} yang lebih sedikit masih cukup merepresentasikan informasi visual dalam satu klip, atau justru mengurangi evidensi yang dibutuhkan model dalam membedakan kelas \textit{real} dan \textit{fake}.
+
+Hasil eksperimen \textit{frame} lebih sedikit ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-frame-sedikit}.
+
+\begin{table}[htbp]
+\centering
+\caption{Hasil Eksperimen \textit{Frame} Lebih Sedikit}
+\label{table:4.eksperimen-utama-frame-sedikit}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E4-SP & 78,4\% & 75,9\% & 76,7\% & 76,3\% & 85,8\% \\
+\hline
+E4-ST & 85,0\% & 83,5\% & 86,7\% & 84,2\% & 92,4\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.eksperimen-utama-frame-sedikit}, pengurangan jumlah \textit{frame} masukan memberikan dampak yang berbeda pada model spasial dan spasiotemporal. Pada model spasial, performa yang diperoleh menunjukkan bahwa jumlah \textit{frame} yang lebih sedikit masih dapat digunakan untuk melakukan klasifikasi, tetapi kemampuan model menjadi lebih terbatas. Hal ini dapat terjadi karena model spasial melakukan prediksi pada tingkat \textit{frame}, kemudian hasilnya diagregasi pada tingkat klip. Ketika jumlah \textit{frame} berkurang, jumlah evidensi visual yang digunakan dalam proses agregasi juga berkurang, sehingga keputusan akhir model menjadi lebih bergantung pada informasi dari \textit{frame} yang lebih sedikit.
+
+Pada model spasiotemporal, performa yang diperoleh tetap relatif tinggi. Hal ini menunjukkan bahwa \textit{VideoMAE} masih mampu memanfaatkan informasi antar-\textit{frame} meskipun jumlah \textit{frame} masukan dikurangi. Nilai \textit{recall} yang tinggi mengindikasikan bahwa model spasiotemporal tetap cukup baik dalam mengenali klip \textit{fake} pada konfigurasi \textit{frame} yang lebih sedikit. Dengan demikian, representasi spasiotemporal masih dapat bekerja secara efektif meskipun konteks temporal yang diberikan lebih terbatas.
+
+Secara umum, eksperimen ini menunjukkan bahwa pengurangan jumlah \textit{frame} tidak selalu menyebabkan penurunan performa yang besar, terutama pada model spasiotemporal. Namun, pada pendekatan spasial, jumlah \textit{frame} yang lebih sedikit dapat mengurangi jumlah bukti visual yang tersedia untuk membentuk prediksi tingkat klip. Oleh karena itu, konfigurasi \textit{frame} lebih sedikit dapat menjadi alternatif yang lebih efisien, tetapi perlu dipertimbangkan berdasarkan keseimbangan antara kebutuhan komputasi dan stabilitas performa model.
+
+\subsubsection{Eksperimen \textit{Frame} Lebih Banyak} \label{IV.Eksperimen_Utama_Frame_Banyak}
+
+Eksperimen \textit{frame} lebih banyak dilakukan untuk mengevaluasi pengaruh penambahan jumlah \textit{frame} masukan terhadap performa model. Pada konfigurasi ini, jumlah \textit{frame} masukan ditingkatkan menjadi 24 \textit{frame} dengan \textit{stride} 1. Dengan demikian, model memperoleh representasi temporal yang lebih panjang dan lebih rapat dibandingkan konfigurasi dasar. Pengujian ini dilakukan untuk melihat apakah penambahan jumlah \textit{frame} dapat memberikan informasi visual dan temporal yang lebih kaya, atau justru menghasilkan redundansi karena \textit{frame} yang digunakan memiliki jarak temporal yang sangat dekat.
+
+Hasil eksperimen \textit{frame} lebih banyak ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-frame-banyak}.
+
+\begin{table}[htbp]
+\centering
+\caption{Hasil Eksperimen \textit{Frame} Lebih Banyak}
+\label{table:4.eksperimen-utama-frame-banyak}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kode}} &
+\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
+\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
+\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
+\hline
+E5-SP & 80,2\% & 78,1\% & 80,1\% & 78,8\% & 88,4\% \\
+\hline
+E5-ST & 85,1\% & 83,3\% & 86,3\% & 84,1\% & 92,7\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.eksperimen-utama-frame-banyak}, penambahan jumlah \textit{frame} menghasilkan performa yang baik pada kedua pendekatan. Pada model spasial, penggunaan 24 \textit{frame} memberikan lebih banyak evidensi visual \textit{frame-level} sebelum hasil prediksi diagregasi pada tingkat klip. Dengan jumlah \textit{frame} yang lebih banyak, keputusan akhir model tidak hanya bergantung pada sedikit \textit{frame}, tetapi dibentuk dari cakupan informasi visual yang lebih luas. Hal ini dapat membantu model spasial dalam menangkap variasi tampilan wajah pada satu klip.
+
+Pada model spasiotemporal, konfigurasi 24 \textit{frame} dengan \textit{stride} 1 menghasilkan performa yang lebih tinggi dibandingkan model spasial. Hasil ini menunjukkan bahwa \textit{VideoMAE} mampu memanfaatkan tambahan \textit{frame} untuk membangun representasi spasiotemporal yang lebih kuat. Nilai \textit{AUC} yang tinggi juga menunjukkan bahwa model spasiotemporal memiliki kemampuan diskriminatif yang baik dalam membedakan kelas \textit{real} dan \textit{fake} pada konfigurasi ini.
+
+Namun, konfigurasi \textit{frame} lebih banyak juga perlu dilihat secara hati-hati karena penambahan \textit{frame} dilakukan bersamaan dengan penggunaan \textit{stride} yang rapat. \textit{Frame} yang berdekatan dapat memperkaya kontinuitas temporal, tetapi juga berpotensi meningkatkan redundansi antar-\textit{frame}. Oleh karena itu, peningkatan jumlah \textit{frame} tidak selalu dapat dimaknai hanya sebagai penambahan informasi baru, melainkan sebagai kombinasi antara cakupan temporal yang lebih panjang, kepadatan sampling yang lebih tinggi, dan peningkatan jumlah evidensi visual yang diproses model.
+
+Secara umum, eksperimen ini menunjukkan bahwa penggunaan \textit{frame} lebih banyak dapat memberikan hasil yang kompetitif, terutama pada pendekatan spasiotemporal. \textit{VideoMAE} tetap menunjukkan keunggulan dibandingkan model spasial karena mampu memproses seluruh \textit{frame} sebagai satu klip dan memodelkan hubungan antar-\textit{frame} secara langsung. Dengan demikian, konfigurasi \textit{frame} lebih banyak memperkuat temuan bahwa informasi temporal memberikan kontribusi penting dalam klasifikasi video \textit{deepfake}.
