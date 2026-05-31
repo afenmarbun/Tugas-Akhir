@@ -8,16 +8,15 @@ Pada tahap ini dilakukan proses pengumpulan \textit{dataset} yang digunakan dala
 	\centering
 	\caption{Distribusi Kelas \textit{Dataset} \textit{WildDeepfake}}
 	\label{table:4.wilddeepfake}
-	\begin{tabular}{|c|l|r|}
-		\hline
+	\begin{tabular}{clr}
+		\toprule
 			\textbf{No} & \textbf{Kelas} & \textbf{Jumlah Data} \\
-		\hline
+		\midrule
 		1 & \textit{Real} & 3.805 \\
-		\hline
 		2 & \textit{Fake} & 3.509 \\
-		\hline
-		\multicolumn{2}{|l|}{\textbf{Total}} & \textbf{7.314} \\
-		\hline
+		\midrule
+		\multicolumn{2}{l}{\textbf{Total}} & \textbf{7.314} \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -134,16 +133,15 @@ Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip ters
 	\centering
 	\caption{Distribusi Kelas Hasil Pembentukan Klip 46 \textit{Frame}}
 	\label{table:4.klip46}
-	\begin{tabular}{|c|l|r|}
-		\hline
+	\begin{tabular}{clr}
+		\toprule
 		\textbf{No} & \textbf{Kelas} & \textbf{Jumlah Data} \\
-		\hline
+		\midrule
 		1 & \textit{Real} & 7.851 \\
-		\hline
 		2 & \textit{Fake} & 14.452 \\
-		\hline
-		\multicolumn{2}{|l|}{\textbf{Total}} & \textbf{22.303} \\
-		\hline
+		\midrule
+		\multicolumn{2}{l}{\textbf{Total}} & \textbf{22.303} \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -225,18 +223,16 @@ Hasil pembagian \textit{dataset} berdasarkan subset dan kelas ditunjukkan pada T
 	\centering
 	\caption{Hasil Pembagian \textit{Dataset} Berdasarkan Kelas}
 	\label{table:4.split}
-	\begin{tabular}{|c|l|r|r|r|}
-		\hline
+	\begin{tabular}{clrrr}
+		\toprule
 		\textbf{No} & \textbf{Subset} & \textbf{Real} & \textbf{Fake} & \textbf{Total} \\
-		\hline
+		\midrule
 		1 & \textit{Train} & 5.376 & 10.124 & 15.500 \\
-		\hline
 		2 & Validasi & 1.382 & 2.189 & 3.571 \\
-		\hline
 		3 & \textit{Test} & 1.093 & 2.139 & 3.232 \\
-		\hline
-		\multicolumn{2}{|l|}{\textbf{Total}} & \textbf{7.851} & \textbf{14.452} & \textbf{22.303} \\
-		\hline
+		\midrule
+		\multicolumn{2}{l}{\textbf{Total}} & \textbf{7.851} & \textbf{14.452} & \textbf{22.303} \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -409,26 +405,19 @@ Konfigurasi hyperparameter model baseline yang digunakan pada penelitian ini dit
 	\centering
 	\caption{Hyperparameter Model Baseline}
 	\label{table:4.hyperparam}
-	\begin{tabular}{|c|l|l|}
-		\hline
+	\begin{tabular}{cll}
+		\toprule
 		\textbf{No} & \textbf{Parameter} & \textbf{Nilai} \\
-		\hline
+		\midrule
 		1 & \textit{Learning rate} & $5\times10^{-5}$ \\
-		\hline
 		2 & \textit{Batch size} & 32 \\
-		\hline
 		3 & Epoch maksimum & 25 \\
-		\hline
 		4 & \textit{Optimizer} & AdamW \\
-		\hline
 		5 & \textit{Weight decay} & $1\times10^{-4}$ \\
-		\hline
 		6 & \textit{Scheduler} & \textit{Linear Decay to Zero} \\
-		\hline
 		7 & \textit{Loss function} & CrossEntropyLoss \\
-		\hline
 		8 & \textit{Dropout} & 0 \\
-		\hline
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -446,20 +435,18 @@ Eksperimen \textit{baseline} dilakukan untuk memperoleh gambaran performa awal d
 	\centering
 	\caption{Hasil Eksperimen \textit{Baseline}}
 	\label{table:4.baseline}
-	\begin{tabular}{|l|l|r|r|r|r|r|}
-		\hline
-		\multicolumn{1}{|c|}{\textbf{Kode}} &
-		\multicolumn{1}{c|}{\textbf{Model}} &
-		\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-		\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-		\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-		\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-		\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-		\hline
-			BASE-SP & Spasial & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-		\hline
-			BASE-ST & Spasiotemporal & \textbf{85,8\%} & \textbf{83,9\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
-		\hline
+	\begin{tabular}{lccccc}
+		\toprule
+		\textbf{Kode} &
+		\textbf{\textit{Acc}} &
+		\textbf{\textit{Prec}} &
+		\textbf{\textit{Rec}} &
+		\textbf{\textit{F1}} &
+		\textbf{\textit{AUC}} \\
+		\midrule
+			BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+			BASE-ST & \textbf{85,8\%} & \textbf{83,9\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -546,25 +533,20 @@ Ringkasan konfigurasi \textit{ablation study} yang digunakan pada penelitian ini
 \centering
 \caption{Konfigurasi \textit{Ablation Study}}
 \label{table:4.ablation-config}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{Parameter}} &
-\multicolumn{1}{c|}{\textbf{Nilai \textit{Baseline}}} &
-\multicolumn{1}{c|}{\textbf{Nilai Uji}} \\
-\hline
+\begin{tabular}{llll}
+\toprule
+\textbf{Kode} &
+\textbf{Parameter} &
+\textbf{Nilai \textit{Baseline}} &
+\textbf{Nilai Uji} \\
+\midrule
 M1 & \textit{Epoch} & 25 \textit{epoch} & 40 \textit{epoch} \\
-\hline
 M2 & \textit{Learning rate} & 5e-5 & 5e-4 \\
-\hline
 M3 & \textit{Loss function} & \textit{Cross Entropy Loss} & \textit{Focal Loss} \\
-\hline
 M4 & Augmentasi data & Standar & Lebih berat \\
-\hline
 M5 & \textit{Dropout} & 0 & 0,1 \\
-\hline
 M6 & \textit{Scheduler} & \textit{LinearDecayLR} & \textit{CosineAnnealingLR} \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -577,24 +559,20 @@ Hasil pengaruh \textit{epoch} maksimum terhadap performa model ditunjukkan pada 
 \centering
 \caption{Pengaruh \textit{Epoch} Maksimum terhadap Performa Model}
 \label{table:4.ablation-epoch}
-\begin{tabular}{|l|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Epoch}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
-BASE-SP & 25 \textit{epoch} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-\hline
-M1-SP & 40 \textit{epoch} & 78,0\% & 75,8\% & 77,5\% & 76,3\% & 85,1\% \\
-\hline
-BASE-ST & 25 \textit{epoch} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
-\hline
-M1-ST & 40 \textit{epoch} & 84,5\% & 82,5\% & 84,3\% & 83,2\% & 91,7\% \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+M1-SP & 78,0\% & 75,8\% & \textbf{77,5\%} & 76,3\% & 85,1\% \\
+BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+M1-ST & 84,5\% & 82,5\% & 84,3\% & 83,2\% & 91,7\% \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -609,15 +587,15 @@ Untuk mendukung hasil tersebut, Gambar~\ref{fig:4.ablation-epoch-loss} menampilk
 \begin{minipage}{0.48\textwidth}
 \centering
 \includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/Loss.png}}
-\\(a) model spasial
+\\(a) Model spasial
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
 \centering
 \includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Loss.png}}
-\\(b) model spasiotemporal
+\\(b) Model spasiotemporal
 \end{minipage}
-\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40: (a) model spasial dan (b) model spasiotemporal.}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40: (a) Model spasial dan (b) Model spasiotemporal.}
 \label{fig:4.ablation-epoch-loss}
 \end{figure}
 
@@ -636,24 +614,20 @@ Hasil pengaruh \textit{learning rate} terhadap performa model ditunjukkan pada T
 \centering
 \caption{Pengaruh \textit{Learning Rate} terhadap Performa Model}
 \label{table:4.ablation-lr}
-\begin{tabular}{|l|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{LR}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
-BASE-SP & 5e-5 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-\hline
-M2-SP & 5e-4 & 64,0\% & 58,9\% & 58,3\% & 58,5\% & 64,2\% \\
-\hline
-BASE-ST & 5e-5 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
-\hline
-M2-ST & 5e-4 & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+M2-SP & 64,0\% & 58,9\% & 58,3\% & 58,5\% & 64,2\% \\
+BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+M2-ST & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -672,24 +646,20 @@ Hasil pengaruh \textit{loss function} terhadap performa model ditunjukkan pada T
 \centering
 \caption{Pengaruh \textit{Loss Function} terhadap Performa Model}
 \label{table:4.ablation-loss}
-\begin{tabular}{|l|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Loss Function}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
-BASE-SP & \textit{Cross Entropy Loss} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-\hline
-M3-SP & \textit{Focal Loss} & 81,8\% & 79,7\% & 81,3\% & 80,3\% & 88,1\% \\
-\hline
-BASE-ST & \textit{Cross Entropy Loss} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
-\hline
-M3-ST & \textit{Focal Loss} & 83,5\% & 81,8\% & 84,7\% & 82,5\% & 92,1\% \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+M3-SP & \textbf{81,8\%} & \textbf{79,7\%} & \textbf{81,3\%} & \textbf{80,3\%} & \textbf{88,1\%} \\
+BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+M3-ST & 83,5\% & 81,8\% & 84,7\% & 82,5\% & 92,1\% \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -728,24 +698,20 @@ Hasil pengaruh augmentasi data terhadap performa model ditunjukkan pada Tabel~\r
 \centering
 \caption{Pengaruh Augmentasi Data terhadap Performa Model}
 \label{table:4.ablation-augment}
-\begin{tabular}{|l|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{Augmentasi}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
-BASE-SP & \textit{Baseline} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-\hline
-M4-SP & Lebih berat & 71,8\% & 69,7\% & 71,4\% & 70,1\% & 77,5\% \\
-\hline
-BASE-ST & \textit{Baseline} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
-\hline
-M4-ST & Lebih berat & 81,4\% & 79,2\% & 79,3\% & 79,3\% & 87,9\% \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+M4-SP & 71,8\% & 69,7\% & 71,4\% & 70,1\% & 77,5\% \\
+BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+M4-ST & 81,4\% & 79,2\% & 79,3\% & 79,3\% & 87,9\% \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -764,24 +730,20 @@ Hasil pengaruh \textit{dropout} terhadap performa model ditunjukkan pada Tabel~\
 \centering
 \caption{Pengaruh \textit{Dropout} terhadap Performa Model}
 \label{table:4.ablation-dropout}
-\begin{tabular}{|l|r|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Dropout}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
-BASE-SP & 0 & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-\hline
-M5-SP & 0,1 & 79,4\% & 77,0\% & 77,9\% & 77,4\% & 87,1\% \\
-\hline
-BASE-ST & 0 & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
-\hline
-M5-ST & 0,1 & 83,8\% & 82,0\% & 84,7\% & 82,8\% & 91,0\% \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+M5-SP & \textbf{79,4\%} & \textbf{77,0\%} & \textbf{77,9\%} & \textbf{77,4\%} & \textbf{87,1\%} \\
+BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+M5-ST & 83,8\% & 82,0\% & 84,7\% & 82,8\% & 91,0\% \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -800,24 +762,20 @@ Hasil pengaruh \textit{scheduler} terhadap performa model ditunjukkan pada Tabel
 \centering
 \caption{Pengaruh \textit{Scheduler} terhadap Performa Model}
 \label{table:4.ablation-scheduler}
-\begin{tabular}{|l|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Scheduler}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
-BASE-SP & \textit{LinearDecayLR} & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-\hline
-M6-SP & \textit{CosineAnnealingLR} & 82,5\% & 80,4\% & 80,7\% & 80,6\% & 88,7\% \\
-\hline
-BASE-ST & \textit{LinearDecayLR} & 85,8\% & 83,8\% & 85,5\% & 84,5\% & 92,3\% \\
-\hline
-M6-ST & \textit{CosineAnnealingLR} & 84,1\% & 82,1\% & 84,4\% & 82,9\% & 91,5\% \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
+M6-SP & \textbf{82,5\%} & \textbf{80,4\%} & \textbf{80,7\%} & \textbf{80,6\%} & \textbf{88,7\%} \\
+BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
+M6-ST & 84,1\% & 82,1\% & 84,4\% & 82,9\% & 91,5\% \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -839,24 +797,20 @@ Konfigurasi eksperimen utama yang digunakan ditunjukkan pada Tabel~\ref{table:4.
 \centering
 \caption{Konfigurasi Eksperimen Utama}
 \label{table:4.eksperimen-utama-config}
-\begin{tabular}{|l|l|c|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{Variasi Eksperimen}} &
-\multicolumn{1}{c|}{\textbf{Resolusi}} &
-\multicolumn{1}{c|}{\textbf{\textit{Frame}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Stride}}} \\
-\hline
+\begin{tabular}{llcrr}
+\toprule
+\textbf{Kode} &
+\textbf{Variasi Eksperimen} &
+\textbf{Resolusi} &
+\textbf{\textit{Frame}} &
+\textbf{\textit{Stride}} \\
+\midrule
 BASE-SP / BASE-ST & Konfigurasi dasar & 224 $\times$ 224 & 16 & 3 \\
-\hline
 E2-SP / E2-ST & Penurunan resolusi & 112 $\times$ 112 & 16 & 3 \\
-\hline
 E3-SP / E3-ST & \textit{Stride} lebih rapat & 224 $\times$ 224 & 16 & 1 \\
-\hline
 E4-SP / E4-ST & \textit{Frame} lebih sedikit & 224 $\times$ 224 & 8 & 3 \\
-\hline
 E5-SP / E5-ST & \textit{Frame} lebih banyak & 224 $\times$ 224 & 24 & 1 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -870,19 +824,18 @@ Hasil eksperimen penurunan resolusi ditunjukkan pada Tabel~\ref{table:4.eksperim
 \centering
 \caption{Hasil Eksperimen Penurunan Resolusi}
 \label{table:4.eksperimen-utama-resolusi}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
 E2-SP & 76,0\% & 73,8\% & 75,6\% & 74,3\% & 84,6\% \\
-\hline
-E2-ST & 78,4\% & 75,9\% & 76,7\% & 76,2\% & 84,9\% \\
-\hline
+E2-ST & \textbf{78,4\%} & \textbf{75,9\%} & \textbf{76,7\%} & \textbf{76,2\%} & \textbf{84,9\%} \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -902,19 +855,18 @@ Hasil eksperimen \textit{stride} lebih rapat ditunjukkan pada Tabel~\ref{table:4
 \centering
 \caption{Hasil Eksperimen \textit{Stride} Lebih Rapat}
 \label{table:4.eksperimen-utama-stride}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
 E3-SP & 81,0\% & 78,7\% & 79,6\% & 79,1\% & 88,0\% \\
-\hline
-E3-ST & 82,9\% & 80,9\% & 83,1\% & 81,6\% & 90,1\% \\
-\hline
+E3-ST & \textbf{82,9\%} & \textbf{80,9\%} & \textbf{83,1\%} & \textbf{81,6\%} & \textbf{90,1\%} \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -934,19 +886,18 @@ Hasil eksperimen \textit{frame} lebih sedikit ditunjukkan pada Tabel~\ref{table:
 \centering
 \caption{Hasil Eksperimen \textit{Frame} Lebih Sedikit}
 \label{table:4.eksperimen-utama-frame-sedikit}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
 E4-SP & 78,4\% & 75,9\% & 76,7\% & 76,3\% & 85,8\% \\
-\hline
-E4-ST & 85,0\% & 83,5\% & 86,7\% & 84,2\% & 92,4\% \\
-\hline
+E4-ST & \textbf{85,0\%} & \textbf{83,5\%} & \textbf{86,7\%} & \textbf{84,2\%} & \textbf{92,4\%} \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -966,19 +917,18 @@ Hasil eksperimen \textit{frame} lebih banyak ditunjukkan pada Tabel~\ref{table:4
 \centering
 \caption{Hasil Eksperimen \textit{Frame} Lebih Banyak}
 \label{table:4.eksperimen-utama-frame-banyak}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Kode}} &
-\multicolumn{1}{c|}{\textbf{\textit{Acc}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Prec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{Rec}}} &
-\multicolumn{1}{c|}{\textbf{\textit{F1}}} &
-\multicolumn{1}{c|}{\textbf{\textit{AUC}}} \\
-\hline
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
 E5-SP & 80,2\% & 78,1\% & 80,1\% & 78,8\% & 88,4\% \\
-\hline
-E5-ST & 85,1\% & 83,3\% & 86,3\% & 84,1\% & 92,7\% \\
-\hline
+E5-ST & \textbf{85,1\%} & \textbf{83,3\%} & \textbf{86,3\%} & \textbf{84,1\%} & \textbf{92,7\%} \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -989,3 +939,38 @@ Pada model spasiotemporal, konfigurasi 24 \textit{frame} dengan \textit{stride} 
 Namun, konfigurasi \textit{frame} lebih banyak juga perlu dilihat secara hati-hati karena penambahan \textit{frame} dilakukan bersamaan dengan penggunaan \textit{stride} yang rapat. \textit{Frame} yang berdekatan dapat memperkaya kontinuitas temporal, tetapi juga berpotensi meningkatkan redundansi antar-\textit{frame}. Oleh karena itu, peningkatan jumlah \textit{frame} tidak selalu dapat dimaknai hanya sebagai penambahan informasi baru, melainkan sebagai kombinasi antara cakupan temporal yang lebih panjang, kepadatan sampling yang lebih tinggi, dan peningkatan jumlah evidensi visual yang diproses model.
 
 Secara umum, eksperimen ini menunjukkan bahwa penggunaan \textit{frame} lebih banyak dapat memberikan hasil yang kompetitif, terutama pada pendekatan spasiotemporal. \textit{VideoMAE} tetap menunjukkan keunggulan dibandingkan model spasial karena mampu memproses seluruh \textit{frame} sebagai satu klip dan memodelkan hubungan antar-\textit{frame} secara langsung. Dengan demikian, konfigurasi \textit{frame} lebih banyak memperkuat temuan bahwa informasi temporal memberikan kontribusi penting dalam klasifikasi video \textit{deepfake}.
+
+\subsection{Evaluasi Lintas-\textit{Dataset}} \label{IV.Evaluasi_Lintas_Dataset}
+
+Evaluasi lintas-\textit{dataset} dilakukan untuk mengukur kemampuan generalisasi model terhadap \textit{dataset} eksternal yang memiliki distribusi berbeda dari \textit{dataset} pelatihan. Pada penelitian ini, model dilatih menggunakan \textit{dataset} \textit{WildDeepfake}, kemudian dievaluasi pada \textit{dataset} \textit{Celeb-DF v2}. Evaluasi ini dilakukan secara \textit{zero-shot}, yaitu model tidak dilatih ulang dan tidak dilakukan \textit{fine-tuning} pada \textit{dataset} \textit{Celeb-DF v2}. Dengan demikian, \textit{dataset} \textit{Celeb-DF v2} hanya digunakan sebagai data uji eksternal untuk menilai ketahanan model ketika dihadapkan pada karakteristik data yang berbeda dari \textit{dataset} sumber.
+
+Pada evaluasi ini, \textit{checkpoint} model yang digunakan berasal dari hasil \textit{ablation study scheduler}, yaitu M6-SP untuk model spasial dan M6-ST untuk model spasiotemporal. Kedua \textit{checkpoint} tersebut dipilih karena konfigurasi \textit{scheduler} pada M6 telah ditetapkan sebagai konfigurasi lanjutan pada eksperimen sebelumnya. Hasil pengujian pada \textit{Celeb-DF v2} diberi kode E6-SP untuk model spasial dan E6-ST untuk model spasiotemporal. Evaluasi dilakukan terhadap 518 klip uji dari \textit{dataset} \textit{Celeb-DF v2}.
+
+Hasil evaluasi lintas-\textit{dataset} pada \textit{dataset} \textit{Celeb-DF v2} ditunjukkan pada Tabel~\ref{table:4.cross-dataset}.
+
+\begin{table}[htbp]
+\centering
+\caption{Hasil Evaluasi Lintas-\textit{Dataset} pada \textit{Dataset} \textit{Celeb-DF v2}}
+\label{table:4.cross-dataset}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Kode} &
+\textbf{\textit{Acc}} &
+\textbf{\textit{Prec}} &
+\textbf{\textit{Rec}} &
+\textbf{\textit{F1}} &
+\textbf{\textit{AUC}} \\
+\midrule
+E6-SP & \textbf{72,9\%} & \textbf{69,9\%} & \textbf{68,1\%} & \textbf{68,7\%} & \textbf{77,7\%} \\
+E6-ST & 64,2\% & 65,5\% & 67,1\% & 63,7\% & 72,6\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Berdasarkan Tabel~\ref{table:4.cross-dataset}, performa kedua model pada evaluasi lintas-\textit{dataset} lebih rendah dibandingkan performa pada \textit{dataset} \textit{WildDeepfake}. Kondisi ini menunjukkan bahwa perbedaan distribusi data antara \textit{WildDeepfake} dan \textit{Celeb-DF v2} memberikan tantangan terhadap kemampuan generalisasi model. Karena tidak dilakukan \textit{fine-tuning} pada \textit{Celeb-DF v2}, hasil E6-SP dan E6-ST merepresentasikan kemampuan transfer langsung dari representasi yang dipelajari pada \textit{WildDeepfake} ke \textit{dataset} eksternal.
+
+Pada evaluasi ini, model spasial E6-SP memperoleh performa lebih tinggi dibandingkan model spasiotemporal E6-ST pada seluruh metrik evaluasi. Hasil tersebut menunjukkan bahwa representasi visual statis yang dipelajari oleh model spasial lebih mampu bertahan pada skenario lintas-\textit{dataset} dibandingkan representasi spasiotemporal dari model \textit{VideoMAE}. Hal ini dapat terjadi karena pola temporal yang dipelajari pada \textit{WildDeepfake} tidak sepenuhnya sesuai dengan karakteristik temporal pada \textit{Celeb-DF v2}, sehingga informasi temporal yang sebelumnya membantu pada \textit{dataset} sumber tidak selalu memberikan keuntungan yang sama pada \textit{dataset} eksternal.
+
+Sebaliknya, model spasial hanya bergantung pada informasi visual \textit{frame-level}, sehingga representasi yang digunakan cenderung lebih sederhana dan tidak terlalu dipengaruhi oleh perbedaan dinamika antar-\textit{frame}. Meskipun demikian, nilai metrik E6-SP juga tetap mengalami penurunan dibandingkan hasil pada \textit{WildDeepfake}. Hal ini menunjukkan bahwa pendekatan spasial juga masih terdampak oleh perbedaan domain, seperti kualitas visual, karakteristik manipulasi, distribusi wajah, dan pola artefak pada \textit{dataset} yang berbeda.
+
+Secara umum, evaluasi lintas-\textit{dataset} menunjukkan bahwa kemampuan generalisasi model masih menjadi tantangan penting dalam klasifikasi video \textit{deepfake}. Pada eksperimen utama \textit{WildDeepfake}, model spasiotemporal cenderung lebih unggul karena mampu memanfaatkan hubungan antar-\textit{frame}. Namun, pada evaluasi \textit{zero-shot} terhadap \textit{Celeb-DF v2}, model spasial justru menghasilkan performa yang lebih baik. Temuan ini menunjukkan bahwa keunggulan pendekatan spasiotemporal tidak selalu bersifat mutlak ketika model diuji pada domain data yang berbeda. Oleh karena itu, pemilihan pendekatan model perlu mempertimbangkan tidak hanya performa pada \textit{dataset} sumber, tetapi juga ketahanan model terhadap pergeseran distribusi data pada skenario lintas-\textit{dataset}.
