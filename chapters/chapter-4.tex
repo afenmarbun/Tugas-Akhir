@@ -217,8 +217,6 @@ if overlap_groups:
 
 Kode~\ref{code:4.2} menunjukkan bahwa data uji tidak dibagi ulang, melainkan tetap mengikuti subset \textit{test} resmi dari \textit{dataset} \textit{WildDeepfake}. Pembagian ulang hanya dilakukan pada subset \textit{train} untuk membentuk data latih dan data validasi. Selain itu, penggunaan \textit{stratify=group\_df["label"]} bertujuan agar proporsi kelas \textit{real} dan \textit{fake} pada hasil pembagian tetap terjaga.
 
-Hasil pembagian \textit{dataset} berdasarkan subset dan kelas ditunjukkan pada Tabel~\ref{table:4.split}.
-
 \begin{table}[htbp]
 	\centering
 	\caption{Hasil Pembagian \textit{Dataset} Berdasarkan Kelas}
@@ -399,8 +397,6 @@ Dengan mekanisme tersebut, model spasiotemporal dapat memanfaatkan informasi vis
 \subsection{Konfigurasi \textit{Hyperparameter}} \label{IV.Hyperparameter}
 Konfigurasi \textit{hyperparameter} digunakan untuk mengatur proses pelatihan model pada eksperimen \textit{baseline}. \textit{Hyperparameter} ini diterapkan untuk membangun konfigurasi awal sebelum dilakukan variasi eksperimen lebih lanjut. Penggunaan konfigurasi \textit{baseline} bertujuan agar model spasial dan model spasiotemporal memiliki titik awal pelatihan yang konsisten dalam proses evaluasi komparatif.
 
-Konfigurasi hyperparameter model baseline yang digunakan pada penelitian ini ditunjukkan pada Tabel~\ref{table:4.hyperparam}.
-
 \begin{table}[htbp]
 	\centering
 	\caption{Hyperparameter Model Baseline}
@@ -426,7 +422,7 @@ Berdasarkan Tabel~\ref{table:4.hyperparam}, model \textit{baseline} dilatih meng
 Fungsi \textit{loss} yang digunakan adalah CrossEntropyLoss karena penelitian ini merupakan tugas klasifikasi biner dengan dua kelas, yaitu \textit{real} dan \textit{fake}. Nilai \textit{dropout} ditetapkan sebesar 0, sehingga tidak terdapat penambahan \textit{dropout} khusus pada konfigurasi \textit{baseline}. Dengan konfigurasi ini, model \textit{baseline} digunakan sebagai acuan awal untuk mengevaluasi performa pendekatan spasial dan spasiotemporal sebelum dibandingkan dengan konfigurasi eksperimen lainnya.
 
 \section{Hasil Eksperimen} \label{IV.Eksperimen}
-Pada sub bab ini, hasil eksperimen disajikan dalam empat subbab utama. Pertama, hasil eksperimen \textit{baseline} digunakan sebagai acuan awal performa model. Kedua, \textit{ablation study} digunakan untuk menganalisis pengaruh perubahan konfigurasi pelatihan terhadap performa model. Ketiga, eksperimen utama digunakan untuk mengevaluasi pengaruh konfigurasi input terhadap pendekatan spasial dan spasiotemporal. Keempat, analisis perbandingan model digunakan untuk merangkum performa terbaik dan membahas pendekatan yang paling efektif dalam klasifikasi video \textit{deepfake}.
+Pada sub bab ini, hasil eksperimen disajikan dalam lima subbab utama. Pertama, hasil eksperimen \textit{baseline} digunakan sebagai acuan awal performa model. Kedua, \textit{ablation study} digunakan untuk menganalisis pengaruh perubahan konfigurasi pelatihan terhadap performa model. Ketiga, eksperimen utama digunakan untuk mengevaluasi pengaruh konfigurasi input terhadap pendekatan spasial dan spasiotemporal. Keempat, evaluasi lintas-\textit{dataset} digunakan untuk menguji kemampuan generalisasi model pada \textit{dataset} eksternal secara \textit{zero-shot}. Kelima, analisis perbandingan model digunakan untuk merangkum pola performa kedua pendekatan dan membahas pendekatan yang paling efektif dalam klasifikasi video \textit{deepfake}.
 
 \subsection{Hasil Eksperimen \textit{Baseline}} \label{IV.Eksperimen_Baseline}
 Eksperimen \textit{baseline} dilakukan untuk memperoleh gambaran performa awal dari pendekatan spasial dan spasiotemporal sebelum dilakukan variasi konfigurasi pada tahap eksperimen berikutnya. Pada eksperimen ini, kedua model menggunakan konfigurasi dasar, yaitu resolusi input 224 $\times$ 224 piksel, jumlah \textit{frame} masukan sebanyak 16 \textit{frame}, dan nilai \textit{stride} sebesar 3. Model spasial menggunakan \textit{Vision Transformer} untuk memproses \textit{frame} secara individual, sedangkan model spasiotemporal menggunakan \textit{VideoMAE} untuk memproses klip video secara langsung.
@@ -527,8 +523,6 @@ Secara keseluruhan, hasil eksperimen \textit{baseline} menunjukkan bahwa model s
 
 Setiap hasil \textit{ablation study} dibandingkan langsung dengan \textit{baseline} BASE-SP dan BASE-ST. Model BASE-SP digunakan sebagai acuan pendekatan spasial, sedangkan BASE-ST digunakan sebagai acuan pendekatan spasiotemporal. Pembahasan disusun secara bertahap, dimulai dari pengaruh \textit{epoch} maksimum, \textit{learning rate}, \textit{loss function}, augmentasi data, \textit{dropout}, hingga \textit{scheduler}. Pada setiap subbab, analisis difokuskan pada tujuan perubahan konfigurasi, alasan pemilihan nilai parameter, serta dampaknya terhadap metrik evaluasi model.
 
-Ringkasan konfigurasi \textit{ablation study} yang digunakan pada penelitian ini ditunjukkan pada Tabel~\ref{table:4.ablation-config}.
-
 \begin{table}[htbp]
 \centering
 \caption{Konfigurasi \textit{Ablation Study}}
@@ -553,8 +547,6 @@ M6 & \textit{Scheduler} & \textit{LinearDecayLR} & \textit{CosineAnnealingLR} \\
 \subsubsection{Pengaruh \textit{Epoch} Maksimum} \label{IV.Eksperimen_Ablation_Epoch}
 Eksperimen ini dilakukan untuk melihat apakah peningkatan jumlah \textit{epoch} maksimum dapat meningkatkan performa model atau justru tidak memberikan perbaikan terhadap kemampuan generalisasi. Pada \textit{baseline}, pelatihan dilakukan dengan \textit{epoch} maksimum sebanyak \textbf{25 \textit{epoch}}. Pada eksperimen ini, \textit{epoch} maksimum dinaikkan menjadi \textbf{40 \textit{epoch}}. Nilai tersebut dipilih untuk memberikan kesempatan pelatihan yang lebih panjang kepada model, tetapi tetap berada dalam batas komputasi yang wajar. Dengan demikian, eksperimen ini digunakan untuk mengamati apakah model spasial dan spasiotemporal masih memperoleh manfaat dari durasi pelatihan yang lebih panjang.
 
-Hasil pengaruh \textit{epoch} maksimum terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-epoch}.
-
 \begin{table}[htbp]
 \centering
 \caption{Pengaruh \textit{Epoch} Maksimum terhadap Performa Model}
@@ -569,7 +561,7 @@ Hasil pengaruh \textit{epoch} maksimum terhadap performa model ditunjukkan pada 
 \textbf{\textit{AUC}} \\
 \midrule
 BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-M1-SP & 78,0\% & 75,8\% & \textbf{77,5\%} & 76,3\% & 85,1\% \\
+M1-SP & 78,0\% & 75,8\% & 77,5\% & 76,3\% & 85,1\% \\
 BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
 M1-ST & 84,5\% & 82,5\% & 84,3\% & 83,2\% & 91,7\% \\
 \bottomrule
@@ -608,8 +600,6 @@ Dengan demikian, analisis kurva \textit{loss} sejalan dengan hasil evaluasi pada
 \subsubsection{Pengaruh \textit{Learning Rate}} \label{IV.Eksperimen_Ablation_LR}
 Setelah pengaruh \textit{epoch} maksimum dianalisis, eksperimen berikutnya dilakukan untuk melihat sensitivitas model terhadap perubahan \textit{learning rate}. Pada \textit{baseline}, \textit{learning rate} yang digunakan adalah 5e-5. Pada eksperimen ini, \textit{learning rate} dinaikkan menjadi 5e-4. Nilai tersebut dipilih untuk menguji apakah pembaruan bobot yang lebih besar dapat mempercepat adaptasi model terhadap \textit{dataset} atau justru menurunkan stabilitas proses \textit{fine-tuning}.
 
-Hasil pengaruh \textit{learning rate} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-lr}.
-
 \begin{table}[htbp]
 \centering
 \caption{Pengaruh \textit{Learning Rate} terhadap Performa Model}
@@ -631,16 +621,41 @@ M2-ST & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
 \end{tabular}
 \end{table}
 
+Untuk mendukung analisis terhadap penurunan performa tersebut, kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 ditunjukkan pada Gambar~\ref{fig:4.ablation-lr-loss}.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/Loss.png}}
+\\(a) Model spasial
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/Loss.png}}
+\\(b) Model spasiotemporal
+\end{minipage}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4: (a) model spasial dan (b) model spasiotemporal.}
+\label{fig:4.ablation-lr-loss}
+\end{figure}
+
 Berdasarkan Tabel~\ref{table:4.ablation-lr}, peningkatan \textit{learning rate} menjadi 5e-4 menyebabkan penurunan performa yang signifikan pada kedua pendekatan. Penurunan tersebut terlihat pada seluruh metrik evaluasi, baik pada model spasial maupun spasiotemporal. Hal ini menunjukkan bahwa \textit{learning rate} yang lebih besar tidak membuat proses \textit{fine-tuning} menjadi lebih baik, tetapi justru mengganggu kestabilan pembelajaran model.
 
-Dampak negatif \textit{learning rate} yang lebih besar terlihat lebih kuat pada model spasiotemporal. Hal ini mengindikasikan bahwa \textit{VideoMAE} lebih sensitif terhadap perubahan \textit{learning rate} pada konfigurasi ini. Kemungkinan penyebabnya adalah pembaruan bobot yang terlalu besar dapat mengganggu representasi \textit{pretrained} yang telah dimiliki model, sehingga kemampuan generalisasi pada data uji menurun.
+Pola pada Gambar~\ref{fig:4.ablation-lr-loss} memperkuat temuan tersebut. Pada kedua model, \textit{training loss} terus menurun selama proses pelatihan, tetapi \textit{validation loss} tidak mengikuti pola penurunan yang sama. \textit{Validation loss} justru cenderung berfluktuasi dan berada pada nilai yang relatif tinggi sepanjang pelatihan. Pola ini menunjukkan bahwa model masih mampu menyesuaikan diri terhadap data latih, tetapi penyesuaian tersebut tidak menghasilkan peningkatan kemampuan generalisasi pada data validasi. Dengan demikian, \textit{learning rate} 5e-4 membuat proses \textit{fine-tuning} menjadi tidak stabil dan menyebabkan jarak antara performa pelatihan dan validasi semakin jelas.
 
-Jika dibandingkan dengan eksperimen \textit{epoch} maksimum, perubahan \textit{learning rate} memberikan dampak yang lebih besar terhadap penurunan performa. Dengan demikian, \textit{learning rate} 5e-4 dinilai terlalu besar untuk proses \textit{fine-tuning} pada penelitian ini. Konfigurasi \textit{baseline} dengan \textit{learning rate} 5e-5 tetap lebih sesuai karena menghasilkan performa yang lebih stabil pada kedua pendekatan.
+Anomali yang paling menonjol terlihat pada model spasiotemporal M2-ST. Pada konfigurasi \textit{baseline}, model spasiotemporal BASE-ST menghasilkan \textit{accuracy} sebesar 85,8\% dan \textit{AUC} sebesar 92,3\%. Namun, ketika \textit{learning rate} dinaikkan menjadi 5e-4, performa M2-ST turun menjadi \textit{accuracy} 60,4\% dan \textit{AUC} 57,4\%. Penurunan ini bahkan membuat performa M2-ST lebih rendah dibandingkan M2-SP. Dengan demikian, eksperimen ini menunjukkan bahwa model spasiotemporal lebih sensitif terhadap \textit{learning rate} tinggi dibandingkan model spasial.
+
+Secara teoretis, sensitivitas tersebut dapat dijelaskan dari kompleksitas representasi yang dipelajari oleh \textit{VideoMAE}. Berbeda dari model spasial yang memproses \textit{frame} secara individual, \textit{VideoMAE} memodelkan hubungan spasial dan temporal secara bersamaan melalui representasi klip video. Mekanisme ini membuat model harus mempertahankan koordinasi antara informasi visual pada setiap \textit{frame} dan relasi temporal antar-\textit{frame}. Akibatnya, lanskap optimasi pada model spasiotemporal cenderung lebih kompleks dibandingkan pendekatan spasial murni. Ketika \textit{learning rate} terlalu besar, langkah pembaruan bobot menjadi terlalu agresif dan berisiko melewati area solusi yang stabil selama proses \textit{fine-tuning}.
+
+Penurunan tajam pada M2-ST juga dapat diinterpretasikan sebagai indikasi terganggunya representasi \textit{pretrained} yang dimiliki \textit{VideoMAE}. Model \textit{VideoMAE} yang digunakan pada penelitian ini telah memiliki representasi awal dari proses \textit{pre-training} pada \textit{dataset} video. Representasi tersebut mencakup pola spasial dan temporal yang telah dipelajari sebelum model diadaptasikan ke tugas klasifikasi \textit{deepfake}. \textit{Learning rate} yang terlalu besar dapat mengubah bobot model secara agresif, terutama pada fitur temporal yang bersifat halus dan bergantung pada keteraturan hubungan antar-\textit{frame}. Kondisi ini dapat dikaitkan dengan indikasi \textit{catastrophic forgetting}, yaitu ketika representasi yang telah dipelajari sebelumnya mengalami degradasi akibat proses \textit{fine-tuning} yang terlalu agresif.
+
+Pada model spasial, penurunan performa juga terjadi, tetapi tidak sedrastis model spasiotemporal. Hal ini dapat terjadi karena \textit{ViT} hanya memproses informasi visual statis pada tingkat \textit{frame}, sehingga struktur representasi yang perlu disesuaikan selama \textit{fine-tuning} relatif lebih sederhana dibandingkan \textit{VideoMAE}. Dengan kata lain, pembaruan bobot yang besar tetap merugikan model spasial, tetapi dampaknya tidak sebesar pada model yang harus menjaga keterkaitan representasi ruang dan waktu secara simultan.
+
+Jika dibandingkan dengan eksperimen \textit{epoch} maksimum, perubahan \textit{learning rate} memberikan dampak yang jauh lebih besar terhadap penurunan performa. Oleh karena itu, \textit{learning rate} 5e-4 dinilai terlalu besar untuk proses \textit{fine-tuning} pada penelitian ini. Konfigurasi \textit{baseline} dengan \textit{learning rate} 5e-5 tetap lebih sesuai karena menghasilkan proses optimasi yang lebih stabil dan mampu mempertahankan representasi \textit{pretrained} pada kedua pendekatan, khususnya pada model spasiotemporal yang lebih sensitif terhadap pembaruan bobot yang agresif.
 
 \subsubsection{Pengaruh \textit{Loss Function}} \label{IV.Eksperimen_Ablation_Loss}
 Setelah pengaruh \textit{learning rate} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh fungsi \textit{loss} terhadap performa model. Pada \textit{baseline}, fungsi \textit{loss} yang digunakan adalah \textit{Cross Entropy Loss}. Pada eksperimen ini, fungsi \textit{loss} diubah menjadi \textit{Focal Loss}. Pemilihan \textit{Focal Loss} didasarkan pada karakteristiknya yang memberikan bobot lebih besar terhadap sampel yang sulit diklasifikasikan, sehingga fungsi \textit{loss} ini dapat digunakan untuk mengevaluasi apakah model menjadi lebih baik dalam menangani kesalahan klasifikasi yang masih muncul pada konfigurasi \textit{baseline}. Dalam konteks klasifikasi \textit{deepfake}, pengujian ini penting karena kesalahan model tidak hanya dilihat dari jumlah prediksi benar secara umum, tetapi juga dari pola \textit{false positive} dan \textit{false negative} pada kelas \textit{real} dan \textit{fake}.
-
-Hasil pengaruh \textit{loss function} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-loss}.
 
 \begin{table}[htbp]
 \centering
@@ -656,7 +671,7 @@ Hasil pengaruh \textit{loss function} terhadap performa model ditunjukkan pada T
 \textbf{\textit{AUC}} \\
 \midrule
 BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-M3-SP & \textbf{81,8\%} & \textbf{79,7\%} & \textbf{81,3\%} & \textbf{80,3\%} & \textbf{88,1\%} \\
+M3-SP & 81,8\% & 79,7\% & 81,3\% & 80,3\% & 88,1\% \\
 BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
 M3-ST & 83,5\% & 81,8\% & 84,7\% & 82,5\% & 92,1\% \\
 \bottomrule
@@ -692,8 +707,6 @@ Secara keseluruhan, eksperimen ini menunjukkan bahwa \textit{Focal Loss} efektif
 \subsubsection{Pengaruh Augmentasi Data} \label{IV.Eksperimen_Ablation_Augmentasi}
 Setelah pengaruh \textit{loss function} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh augmentasi data terhadap performa model. Pada \textit{baseline}, augmentasi diterapkan dengan konfigurasi standar yang terdiri atas transformasi geometri, perubahan warna, \textit{blur}, dan \textit{noise}. Pada eksperimen ini, konfigurasi augmentasi dibuat lebih berat untuk menguji apakah peningkatan variasi visual pada data latih dapat membantu model menjadi lebih \textit{robust} terhadap karakteristik data \textit{in-the-wild}. Pengujian ini relevan karena data video \textit{deepfake} dunia nyata memiliki variasi visual yang beragam, seperti perubahan pose, pencahayaan, kualitas kompresi, \textit{blur}, dan \textit{noise}.
 
-Hasil pengaruh augmentasi data terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-augment}.
-
 \begin{table}[htbp]
 \centering
 \caption{Pengaruh Augmentasi Data terhadap Performa Model}
@@ -724,8 +737,6 @@ Jika dibandingkan dengan \textit{baseline}, konfigurasi augmentasi standar lebih
 \subsubsection{Pengaruh \textit{Dropout}} \label{IV.Eksperimen_Ablation_Dropout}
 Setelah pengaruh augmentasi data dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh regularisasi dari sisi model melalui \textit{dropout}. Pada \textit{baseline}, nilai \textit{dropout} yang digunakan adalah 0, sedangkan pada eksperimen ini nilai \textit{dropout} dinaikkan menjadi 0,1. Nilai tersebut dipilih untuk menguji apakah regularisasi tambahan dapat membantu model mengurangi ketergantungan terhadap pola tertentu pada data latih. Pengujian ini relevan karena model berbasis \textit{Transformer} memiliki kapasitas representasi yang besar, sehingga regularisasi dapat berperan dalam mengendalikan risiko \textit{overfitting} selama proses \textit{fine-tuning}.
 
-Hasil pengaruh \textit{dropout} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-dropout}.
-
 \begin{table}[htbp]
 \centering
 \caption{Pengaruh \textit{Dropout} terhadap Performa Model}
@@ -740,7 +751,7 @@ Hasil pengaruh \textit{dropout} terhadap performa model ditunjukkan pada Tabel~\
 \textbf{\textit{AUC}} \\
 \midrule
 BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-M5-SP & \textbf{79,4\%} & \textbf{77,0\%} & \textbf{77,9\%} & \textbf{77,4\%} & \textbf{87,1\%} \\
+M5-SP & 79,4\% & 77,0\% & 77,9\% & 77,4\% & 87,1\% \\
 BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
 M5-ST & 83,8\% & 82,0\% & 84,7\% & 82,8\% & 91,0\% \\
 \bottomrule
@@ -756,8 +767,6 @@ Jika dibandingkan dengan \textit{baseline}, \textit{dropout} 0,1 dapat memberika
 \subsubsection{Pengaruh \textit{Scheduler}} \label{IV.Eksperimen_Ablation_Scheduler}
 Setelah pengaruh \textit{dropout} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh \textit{scheduler} terhadap performa model. Pada \textit{baseline}, \textit{scheduler} yang digunakan adalah \textit{LinearDecayLR}, sedangkan pada eksperimen ini digunakan \textit{CosineAnnealingLR}. Eksperimen ini dilakukan untuk menguji apakah pola penurunan \textit{learning rate} yang berbeda dapat menghasilkan proses optimasi yang lebih baik. \textit{Scheduler} menjadi komponen penting dalam \textit{fine-tuning} karena tidak hanya menentukan nilai awal \textit{learning rate}, tetapi juga mengatur perubahan \textit{learning rate} selama pelatihan berlangsung.
 
-Hasil pengaruh \textit{scheduler} terhadap performa model ditunjukkan pada Tabel~\ref{table:4.ablation-scheduler}.
-
 \begin{table}[htbp]
 \centering
 \caption{Pengaruh \textit{Scheduler} terhadap Performa Model}
@@ -772,7 +781,7 @@ Hasil pengaruh \textit{scheduler} terhadap performa model ditunjukkan pada Tabel
 \textbf{\textit{AUC}} \\
 \midrule
 BASE-SP & 79,2\% & 76,8\% & 76,7\% & 76,7\% & 86,8\% \\
-M6-SP & \textbf{82,5\%} & \textbf{80,4\%} & \textbf{80,7\%} & \textbf{80,6\%} & \textbf{88,7\%} \\
+M6-SP & 82,5\% & 80,4\% & 80,7\% & 80,6\% & 88,7\% \\
 BASE-ST & \textbf{85,8\%} & \textbf{83,8\%} & \textbf{85,5\%} & \textbf{84,5\%} & \textbf{92,3\%} \\
 M6-ST & 84,1\% & 82,1\% & 84,4\% & 82,9\% & 91,5\% \\
 \bottomrule
@@ -790,8 +799,6 @@ Secara keseluruhan, hasil \textit{ablation study} menunjukkan bahwa setiap perub
 \subsection{Hasil Eksperimen Utama} \label{IV.Eksperimen_Utama}
 
 Eksperimen utama dilakukan untuk mengevaluasi pengaruh konfigurasi input terhadap performa model spasial dan spasiotemporal. Berbeda dari \textit{ablation study} yang berfokus pada perubahan konfigurasi pelatihan, eksperimen utama berfokus pada perubahan karakteristik masukan, yaitu resolusi, jumlah \textit{frame}, dan \textit{stride}. Konfigurasi BASE telah digunakan dan dianalisis sebelumnya pada eksperimen \textit{baseline} sebagai konfigurasi dasar, yaitu resolusi 224 $\times$ 224, jumlah \textit{frame} masukan 16, dan \textit{stride} 3. Oleh karena itu, pada bagian ini BASE digunakan sebagai acuan konfigurasi, sedangkan eksperimen E2 sampai E5 digunakan untuk menganalisis pengaruh variasi input terhadap performa kedua pendekatan.
-
-Konfigurasi eksperimen utama yang digunakan ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-config}.
 
 \begin{table}[htbp]
 \centering
@@ -817,8 +824,6 @@ E5-SP / E5-ST & \textit{Frame} lebih banyak & 224 $\times$ 224 & 24 & 1 \\
 \subsubsection{Eksperimen Penurunan Resolusi} \label{IV.Eksperimen_Utama_Resolusi}
 
 Eksperimen penurunan resolusi dilakukan untuk mengevaluasi pengaruh berkurangnya informasi spasial terhadap performa model. Pada konfigurasi ini, resolusi masukan diturunkan menjadi 112 $\times$ 112 piksel. Pengujian ini penting karena data video dunia nyata tidak selalu berada dalam kualitas visual yang ideal. Video yang beredar di internet dapat mengalami penurunan resolusi, kompresi, \textit{blur}, atau degradasi visual lain yang berpotensi mengurangi detail wajah. Oleh karena itu, eksperimen ini digunakan untuk melihat sejauh mana model spasial dan spasiotemporal tetap mampu melakukan klasifikasi ketika informasi visual pada \textit{frame} menjadi lebih terbatas.
-
-Hasil eksperimen penurunan resolusi ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-resolusi}.
 
 \begin{table}[htbp]
 \centering
@@ -849,8 +854,6 @@ Secara umum, eksperimen ini menunjukkan bahwa resolusi masukan merupakan faktor 
 
 Eksperimen \textit{stride} lebih rapat dilakukan untuk mengevaluasi pengaruh kepadatan sampling temporal terhadap performa model. Pada konfigurasi ini, jumlah \textit{frame} masukan tetap sebanyak 16 \textit{frame}, tetapi nilai \textit{stride} dibuat lebih rapat menjadi 1 dari yang sebelumnya 3. Dengan demikian, \textit{frame} yang digunakan berasal dari posisi temporal yang lebih berdekatan. Pengujian ini dilakukan untuk melihat apakah penggunaan \textit{frame} yang lebih rapat dapat membantu model menangkap perubahan visual yang lebih halus antar-\textit{frame}, atau justru menghasilkan informasi yang lebih redundan karena jarak temporal antar-\textit{frame} menjadi terlalu dekat.
 
-Hasil eksperimen \textit{stride} lebih rapat ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-stride}.
-
 \begin{table}[htbp]
 \centering
 \caption{Hasil Eksperimen \textit{Stride} Lebih Rapat}
@@ -880,8 +883,6 @@ Secara umum, eksperimen ini menunjukkan bahwa penggunaan \textit{stride} yang le
 
 Eksperimen \textit{frame} lebih sedikit dilakukan untuk mengevaluasi pengaruh pengurangan jumlah \textit{frame} masukan terhadap performa model. Pada konfigurasi ini, jumlah \textit{frame} masukan dikurangi menjadi 8 \textit{frame}. Pengujian ini dilakukan untuk melihat apakah jumlah \textit{frame} yang lebih sedikit masih cukup merepresentasikan informasi visual dalam satu klip, atau justru mengurangi evidensi yang dibutuhkan model dalam membedakan kelas \textit{real} dan \textit{fake}.
 
-Hasil eksperimen \textit{frame} lebih sedikit ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-frame-sedikit}.
-
 \begin{table}[htbp]
 \centering
 \caption{Hasil Eksperimen \textit{Frame} Lebih Sedikit}
@@ -910,8 +911,6 @@ Secara umum, eksperimen ini menunjukkan bahwa pengurangan jumlah \textit{frame} 
 \subsubsection{Eksperimen \textit{Frame} Lebih Banyak} \label{IV.Eksperimen_Utama_Frame_Banyak}
 
 Eksperimen \textit{frame} lebih banyak dilakukan untuk mengevaluasi pengaruh penambahan jumlah \textit{frame} masukan terhadap performa model. Pada konfigurasi ini, jumlah \textit{frame} masukan ditingkatkan menjadi 24 \textit{frame} dengan \textit{stride} 1. Dengan demikian, model memperoleh representasi temporal yang lebih panjang dan lebih rapat dibandingkan konfigurasi dasar. Pengujian ini dilakukan untuk melihat apakah penambahan jumlah \textit{frame} dapat memberikan informasi visual dan temporal yang lebih kaya, atau justru menghasilkan redundansi karena \textit{frame} yang digunakan memiliki jarak temporal yang sangat dekat.
-
-Hasil eksperimen \textit{frame} lebih banyak ditunjukkan pada Tabel~\ref{table:4.eksperimen-utama-frame-banyak}.
 
 \begin{table}[htbp]
 \centering
@@ -944,9 +943,7 @@ Secara umum, eksperimen ini menunjukkan bahwa penggunaan \textit{frame} lebih ba
 
 Evaluasi lintas-\textit{dataset} dilakukan untuk mengukur kemampuan generalisasi model terhadap \textit{dataset} eksternal yang memiliki distribusi berbeda dari \textit{dataset} pelatihan. Pada penelitian ini, model dilatih menggunakan \textit{dataset} \textit{WildDeepfake}, kemudian dievaluasi pada \textit{dataset} \textit{Celeb-DF v2}. Evaluasi ini dilakukan secara \textit{zero-shot}, yaitu model tidak dilatih ulang dan tidak dilakukan \textit{fine-tuning} pada \textit{dataset} \textit{Celeb-DF v2}. Dengan demikian, \textit{dataset} \textit{Celeb-DF v2} hanya digunakan sebagai data uji eksternal untuk menilai ketahanan model ketika dihadapkan pada karakteristik data yang berbeda dari \textit{dataset} sumber.
 
-Pada evaluasi ini, \textit{checkpoint} model yang digunakan berasal dari hasil \textit{ablation study scheduler}, yaitu M6-SP untuk model spasial dan M6-ST untuk model spasiotemporal. Kedua \textit{checkpoint} tersebut dipilih karena konfigurasi \textit{scheduler} pada M6 telah ditetapkan sebagai konfigurasi lanjutan pada eksperimen sebelumnya. Hasil pengujian pada \textit{Celeb-DF v2} diberi kode E6-SP untuk model spasial dan E6-ST untuk model spasiotemporal. Evaluasi dilakukan terhadap 518 klip uji dari \textit{dataset} \textit{Celeb-DF v2}.
-
-Hasil evaluasi lintas-\textit{dataset} pada \textit{dataset} \textit{Celeb-DF v2} ditunjukkan pada Tabel~\ref{table:4.cross-dataset}.
+Pada evaluasi ini, \textit{checkpoint} model yang digunakan berasal dari hasil \textit{ablation study scheduler}, yaitu M6-SP untuk model spasial dan M6-ST untuk model spasiotemporal. Hasil pengujian pada \textit{Celeb-DF v2} diberi kode E6-SP untuk model spasial dan E6-ST untuk model spasiotemporal.
 
 \begin{table}[htbp]
 \centering
@@ -967,10 +964,14 @@ E6-ST & 64,2\% & 65,5\% & 67,1\% & 63,7\% & 72,6\% \\
 \end{tabular}
 \end{table}
 
-Berdasarkan Tabel~\ref{table:4.cross-dataset}, performa kedua model pada evaluasi lintas-\textit{dataset} lebih rendah dibandingkan performa pada \textit{dataset} \textit{WildDeepfake}. Kondisi ini menunjukkan bahwa perbedaan distribusi data antara \textit{WildDeepfake} dan \textit{Celeb-DF v2} memberikan tantangan terhadap kemampuan generalisasi model. Karena tidak dilakukan \textit{fine-tuning} pada \textit{Celeb-DF v2}, hasil E6-SP dan E6-ST merepresentasikan kemampuan transfer langsung dari representasi yang dipelajari pada \textit{WildDeepfake} ke \textit{dataset} eksternal.
+Berdasarkan Tabel~\ref{table:4.cross-dataset}, hasil evaluasi lintas-\textit{dataset} menunjukkan adanya pembalikan performa. Pada eksperimen internal menggunakan \textit{WildDeepfake}, model spasiotemporal secara umum menunjukkan performa yang lebih tinggi dibandingkan model spasial, khususnya pada eksperimen \textit{baseline} dan eksperimen utama. Namun, ketika model diuji secara \textit{zero-shot} pada \textit{Celeb-DF v2}, pola tersebut berubah. Model spasial E6-SP memperoleh \textit{accuracy} sebesar 72,9\% dan \textit{AUC} sebesar 77,7\%, sedangkan model spasiotemporal E6-ST memperoleh \textit{accuracy} sebesar 64,2\% dan \textit{AUC} sebesar 72,6\%. Dengan demikian, model spasial justru lebih unggul dibandingkan model spasiotemporal pada skenario lintas-\textit{dataset}.
 
-Pada evaluasi ini, model spasial E6-SP memperoleh performa lebih tinggi dibandingkan model spasiotemporal E6-ST pada seluruh metrik evaluasi. Hasil tersebut menunjukkan bahwa representasi visual statis yang dipelajari oleh model spasial lebih mampu bertahan pada skenario lintas-\textit{dataset} dibandingkan representasi spasiotemporal dari model \textit{VideoMAE}. Hal ini dapat terjadi karena pola temporal yang dipelajari pada \textit{WildDeepfake} tidak sepenuhnya sesuai dengan karakteristik temporal pada \textit{Celeb-DF v2}, sehingga informasi temporal yang sebelumnya membantu pada \textit{dataset} sumber tidak selalu memberikan keuntungan yang sama pada \textit{dataset} eksternal.
+Hal ini menunjukkan bahwa keunggulan model spasiotemporal pada \textit{dataset} sumber tidak secara otomatis menghasilkan generalisasi yang lebih baik pada \textit{dataset} eksternal. Pada \textit{dataset} \textit{WildDeepfake}, \textit{VideoMAE} memperoleh keuntungan karena mampu memodelkan hubungan spasial dan temporal antar-\textit{frame} melalui pemrosesan klip secara langsung. Akan tetapi, ketika model dipindahkan ke \textit{Celeb-DF v2} tanpa \textit{fine-tuning}, performa model spasiotemporal mengalami degradasi yang lebih besar. Jika dibandingkan dengan performa \textit{baseline} pada \textit{WildDeepfake}, \textit{accuracy} model spasiotemporal menurun dari 85,8\% menjadi 64,2\%, atau turun sebesar 21,6 poin persentase. Penurunan ini lebih besar dibandingkan model spasial yang turun dari 82,5\% pada M6-SP menjadi 72,9\% pada E6-SP, atau turun sebesar 9,6 poin persentase.
 
-Sebaliknya, model spasial hanya bergantung pada informasi visual \textit{frame-level}, sehingga representasi yang digunakan cenderung lebih sederhana dan tidak terlalu dipengaruhi oleh perbedaan dinamika antar-\textit{frame}. Meskipun demikian, nilai metrik E6-SP juga tetap mengalami penurunan dibandingkan hasil pada \textit{WildDeepfake}. Hal ini menunjukkan bahwa pendekatan spasial juga masih terdampak oleh perbedaan domain, seperti kualitas visual, karakteristik manipulasi, distribusi wajah, dan pola artefak pada \textit{dataset} yang berbeda.
+Salah satu penjelasan teoretis terhadap penurunan yang lebih besar pada model spasiotemporal adalah adanya pergeseran distribusi temporal atau \textit{temporal domain shift}. \textit{WildDeepfake} merupakan \textit{dataset in-the-wild} yang dikumpulkan dari video internet, sehingga memiliki variasi kondisi visual dan temporal yang tinggi, seperti perbedaan kualitas video, kompresi, \textit{frame rate}, pergerakan kamera, serta artefak temporal yang tidak seragam [9]. Dalam proses \textit{fine-tuning} pada \textit{dataset} tersebut, \textit{VideoMAE} dapat mempelajari pola dinamika temporal yang spesifik terhadap karakteristik \textit{WildDeepfake}. Melalui mekanisme \textit{joint space-time attention}, model tidak hanya mempelajari artefak visual pada \textit{frame}, tetapi juga relasi antar-\textit{frame} dalam satu klip. Ketika pola temporal pada \textit{Celeb-DF v2} berbeda dari \textit{WildDeepfake}, representasi temporal yang dipelajari model pada \textit{dataset} sumber dapat menjadi kurang relevan. Kondisi ini mengindikasikan bahwa model spasiotemporal berpotensi lebih rentan terhadap pergeseran domain temporal.
 
-Secara umum, evaluasi lintas-\textit{dataset} menunjukkan bahwa kemampuan generalisasi model masih menjadi tantangan penting dalam klasifikasi video \textit{deepfake}. Pada eksperimen utama \textit{WildDeepfake}, model spasiotemporal cenderung lebih unggul karena mampu memanfaatkan hubungan antar-\textit{frame}. Namun, pada evaluasi \textit{zero-shot} terhadap \textit{Celeb-DF v2}, model spasial justru menghasilkan performa yang lebih baik. Temuan ini menunjukkan bahwa keunggulan pendekatan spasiotemporal tidak selalu bersifat mutlak ketika model diuji pada domain data yang berbeda. Oleh karena itu, pemilihan pendekatan model perlu mempertimbangkan tidak hanya performa pada \textit{dataset} sumber, tetapi juga ketahanan model terhadap pergeseran distribusi data pada skenario lintas-\textit{dataset}.
+Sebaliknya, model spasial berbasis \textit{ViT} hanya memproses informasi visual statis pada tingkat \textit{frame}, kemudian melakukan agregasi prediksi pada tingkat klip. Karena tidak memodelkan hubungan temporal secara eksplisit, model spasial tidak terlalu bergantung pada pola gerakan, \textit{frame rate}, atau dinamika antar-\textit{frame} yang spesifik terhadap \textit{dataset} sumber. Representasi yang dipelajari model spasial lebih berfokus pada artefak visual \textit{frame-level}, seperti tekstur lokal, batas pencampuran wajah, ketidakwajaran detail visual, atau pola manipulasi statis lainnya. Fitur-fitur spasial tersebut cenderung lebih invarian terhadap perubahan domain temporal dibandingkan fitur spasiotemporal yang secara langsung melibatkan dimensi waktu. Hal ini dapat menjelaskan mengapa E6-SP memiliki penurunan performa yang lebih kecil dibandingkan E6-ST pada evaluasi \textit{Celeb-DF v2}.
+
+Perbedaan karakteristik \textit{dataset} juga menjadi faktor penting dalam interpretasi hasil ini. \textit{WildDeepfake} merepresentasikan data \textit{in-the-wild} yang berasal dari internet, sedangkan \textit{Celeb-DF v2} dikenal sebagai \textit{dataset} \textit{deepfake} yang dirancang dengan kualitas visual yang lebih baik dan lebih menantang dibandingkan \textit{dataset} generasi awal [19]. Perbedaan sumber data, proses manipulasi, kualitas visual, dan karakteristik temporal dapat menyebabkan model yang telah beradaptasi dengan \textit{WildDeepfake} tidak sepenuhnya sesuai ketika diterapkan pada \textit{Celeb-DF v2}. Dengan demikian, penurunan performa pada E6-SP dan E6-ST menunjukkan adanya \textit{domain shift}, sedangkan pembalikan performa antara model spasial dan spasiotemporal menunjukkan bahwa fitur temporal yang efektif pada \textit{dataset} sumber belum tentu memiliki tingkat transferabilitas yang sama pada \textit{dataset} eksternal.
+
+Secara keseluruhan, evaluasi lintas-\textit{dataset} menunjukkan bahwa kemampuan generalisasi model masih menjadi tantangan penting dalam klasifikasi video \textit{deepfake}. Pada eksperimen internal \textit{WildDeepfake}, model spasiotemporal lebih unggul karena mampu memanfaatkan hubungan antar-\textit{frame}. Namun, pada evaluasi \textit{zero-shot} terhadap \textit{Celeb-DF v2}, model spasial menunjukkan ketahanan yang lebih baik terhadap pergeseran domain. Temuan ini menunjukkan bahwa pendekatan spasiotemporal memiliki potensi kuat ketika distribusi data latih dan data uji relatif sejalan, tetapi dapat mengalami degradasi lebih besar ketika pola temporal pada \textit{dataset} uji berbeda. Oleh karena itu, pengembangan model \textit{deepfake} yang \textit{robust} tidak hanya perlu mengejar performa tinggi pada \textit{dataset} sumber, tetapi juga perlu mempertimbangkan kemampuan generalisasi lintas-\textit{dataset}.
