@@ -34,12 +34,12 @@ Berdasarkan rumusan masalah yang telah diuraikan, tujuan penelitian ini adalah s
 Batasan masalah pada penelitian ini adalah sebagai berikut. \par
 
 \begin{enumerate}[noitemsep]
-	\item Dataset yang digunakan dalam penelitian ini hanya dataset WildDeepfake sebagai sumber data pelatihan, validasi, dan pengujian.
+	\item \textit{WildDeepfake} digunakan sebagai \textit{dataset} utama untuk pelatihan, validasi, dan pengujian internal, sedangkan \textit{Celeb-DF v2} digunakan hanya sebagai \textit{dataset} evaluasi eksternal secara \textit{zero-shot}. Pada \textit{Celeb-DF v2} tidak dilakukan pelatihan ulang maupun \textit{fine-tuning}, dan pengujian lintas-\textit{dataset} dalam penelitian ini dibatasi hanya pada \textit{Celeb-DF v2}.
 	\item Penelitian ini dibatasi pada klasifikasi biner untuk membedakan video ke dalam kelas \textit{real} dan \textit{fake}.
 	\item Data yang digunakan berupa \textit{face sequence} yang telah melalui proses \textit{preprocessing} awal pada dataset sumber, sehingga penelitian ini tidak mencakup tahap deteksi wajah, ekstraksi fitur wajah, maupun \textit{face alignment} dari video mentah.
 	\item Model yang digunakan dibatasi pada arsitektur Vision Transformer (ViT) untuk pendekatan spasial dan VideoMAE untuk pendekatan spasiotemporal, dengan memanfaatkan (\textit{pretrained weights}) untuk proses \textit{fine-tuning}.
 	\item Evaluasi kinerja model dibatasi pada metrik \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, AUC-ROC, dan \textit{confusion matrix}.
-	\item Penelitian ini tidak mencakup perancangan atau pengembangan aplikasi maupun antarmuka pengguna, serta tidak membahas implementasi sistem dalam skenario \textit{real-time}, integrasi dengan data audio atau teks, dan pengujian pada dataset eksternal selain WildDeepfake.
+	\item Penelitian ini tidak mencakup perancangan atau pengembangan aplikasi maupun antarmuka pengguna, serta tidak membahas implementasi sistem dalam skenario \textit{real-time} dan integrasi dengan data audio atau teks.
 \end{enumerate}
 
 \section{Manfaat Penelitian} \label{I.Manfaat}

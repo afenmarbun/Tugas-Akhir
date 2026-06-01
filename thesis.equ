@@ -1,13 +1,13 @@
-\contentsline {myequations}{\numberline {Rumus~2.1}Mekanisme \textit {self-attention} pada Transformer}{17}{equation.2.1}%
-\contentsline {myequations}{\numberline {Rumus~2.2}Rumus indeks \textit {frame} pada \textit {strided temporal sampling}}{22}{equation.2.2}%
-\contentsline {myequations}{\numberline {Rumus~2.3}Rumus panjang klip minimum berdasarkan indeks \textit {frame}}{23}{equation.2.3}%
-\contentsline {myequations}{\numberline {Rumus~2.4}Rumus panjang klip minimum bentuk sederhana}{23}{equation.2.4}%
-\contentsline {myequations}{\numberline {Rumus~2.5}Rumus jumlah klip turunan dari satu sekuens}{23}{equation.2.5}%
-\contentsline {myequations}{\numberline {Rumus~2.6}Rumus sisa \textit {frame} yang tidak membentuk klip penuh}{23}{equation.2.6}%
-\contentsline {myequations}{\numberline {Rumus~2.7}Rumus pembuangan \textit {frame} sisa secara simetris}{24}{equation.2.7}%
-\contentsline {myequations}{\numberline {Rumus~2.8}Rumus \textit {accuracy} pada klasifikasi biner}{25}{equation.2.8}%
-\contentsline {myequations}{\numberline {Rumus~2.9}Rumus \textit {precision} pada klasifikasi biner}{26}{equation.2.9}%
-\contentsline {myequations}{\numberline {Rumus~2.10}Rumus \textit {recall} pada klasifikasi biner}{26}{equation.2.10}%
-\contentsline {myequations}{\numberline {Rumus~2.11}Rumus \textit {F1-score} pada klasifikasi biner}{26}{equation.2.11}%
-\contentsline {myequations}{\numberline {Rumus~2.12}Rumus \textit {true positive rate} (TPR)}{27}{equation.2.12}%
-\contentsline {myequations}{\numberline {Rumus~2.13}Rumus \textit {false positive rate} (FPR)}{27}{equation.2.13}%
+\contentsline {myequations}{\numberline {Rumus~2.1}Mekanisme \textit {self-attention} pada Transformer}{18}{equation.2.1}%
+\contentsline {myequations}{\numberline {Rumus~2.2}Rumus indeks \textit {frame} pada \textit {strided temporal sampling}}{23}{equation.2.2}%
+\contentsline {myequations}{\numberline {Rumus~2.3}Rumus panjang klip minimum berdasarkan indeks \textit {frame}}{24}{equation.2.3}%
+\contentsline {myequations}{\numberline {Rumus~2.4}Rumus panjang klip minimum bentuk sederhana}{24}{equation.2.4}%
+\contentsline {myequations}{\numberline {Rumus~2.5}Rumus jumlah klip turunan dari satu sekuens}{24}{equation.2.5}%
+\contentsline {myequations}{\numberline {Rumus~2.6}Rumus sisa \textit {frame} yang tidak membentuk klip penuh}{24}{equation.2.6}%
+\contentsline {myequations}{\numberline {Rumus~2.7}Rumus pembuangan \textit {frame} sisa secara simetris}{25}{equation.2.7}%
+\contentsline {myequations}{\numberline {Rumus~2.8}Rumus \textit {accuracy} pada klasifikasi biner}{26}{equation.2.8}%
+\contentsline {myequations}{\numberline {Rumus~2.9}Rumus \textit {precision} pada klasifikasi biner}{27}{equation.2.9}%
+\contentsline {myequations}{\numberline {Rumus~2.10}Rumus \textit {recall} pada klasifikasi biner}{27}{equation.2.10}%
+\contentsline {myequations}{\numberline {Rumus~2.11}Rumus \textit {F1-score} pada klasifikasi biner}{27}{equation.2.11}%
+\contentsline {myequations}{\numberline {Rumus~2.12}Rumus \textit {true positive rate} (TPR)}{28}{equation.2.12}%
+\contentsline {myequations}{\numberline {Rumus~2.13}Rumus \textit {false positive rate} (FPR)}{28}{equation.2.13}%
