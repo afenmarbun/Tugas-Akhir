@@ -204,7 +204,7 @@ Pada tahap akhir, representasi keluaran dari lapisan terakhir encoder diringkas 
 \subsubsection{Rancangan Eksperimen}
 Rancangan eksperimen pada penelitian ini disusun untuk membandingkan performa pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE pada tugas klasifikasi video \textit{deepfake}. Seluruh eksperimen dilakukan pada tingkat klip agar hasil kedua pendekatan dapat dibandingkan secara setara. Pada pendekatan spasial, \textit{frame} dalam satu klip diproses secara individual, kemudian hasil prediksi setiap \textit{frame} diagregasi menjadi prediksi tingkat klip. Sementara itu, pada pendekatan spasiotemporal, seluruh \textit{frame} dalam satu klip diproses secara langsung untuk menghasilkan prediksi tingkat klip. \par
 
-Rancangan eksperimen dibagi menjadi empat kelompok, yaitu eksperimen \textit{baseline}, \textit{ablation study}, eksperimen utama, dan evaluasi lintas-\textit{dataset}. Eksperimen \textit{baseline} digunakan sebagai acuan awal performa model sebelum dilakukan variasi konfigurasi. \textit{Ablation study} digunakan untuk menganalisis pengaruh perubahan konfigurasi pelatihan terhadap performa model. Eksperimen utama digunakan untuk mengevaluasi pengaruh perubahan konfigurasi input, seperti resolusi, jumlah \textit{frame}, dan \textit{stride}. Adapun evaluasi lintas-\textit{dataset} digunakan untuk mengukur kemampuan generalisasi model pada \textit{dataset} eksternal secara \textit{zero-shot}. \par
+Rancangan eksperimen dibagi menjadi empat kelompok, yaitu eksperimen \textit{baseline}, konfigurasi pelatihan, konfigurasi input spasial dan temporal, serta evaluasi lintas-\textit{dataset}. Eksperimen \textit{baseline} digunakan sebagai acuan awal performa model sebelum dilakukan variasi konfigurasi. Pengujian konfigurasi pelatihan digunakan untuk menganalisis pengaruh perubahan parameter pelatihan terhadap performa model. Pengujian konfigurasi input spasial dan temporal digunakan untuk mengevaluasi pengaruh perubahan resolusi, jumlah \textit{frame}, dan \textit{stride} terhadap kedua pendekatan. Adapun evaluasi lintas-\textit{dataset} digunakan untuk mengukur kemampuan generalisasi model pada \textit{dataset} eksternal secara \textit{zero-shot}. \par
 
 Eksperimen \textit{baseline} menggunakan konfigurasi dasar dengan resolusi $224 \times 224$ piksel, jumlah \textit{frame} masukan 16, dan \textit{stride} 3. Konfigurasi ini diterapkan pada model spasial dan model spasiotemporal agar diperoleh titik awal perbandingan yang setara. Rancangan eksperimen \textit{baseline} ditunjukkan pada Tabel \ref{tab:3.rancangan-baseline}. \par
 
@@ -223,11 +223,11 @@ BASE-ST & Spasiotemporal & $224 \times 224$ & 16 & 3 \\
 \end{table}
 \par
 
-Setelah eksperimen \textit{baseline} dilakukan, penelitian dilanjutkan dengan \textit{ablation study}. Pada kelompok eksperimen ini, satu komponen konfigurasi pelatihan diubah pada setiap eksperimen, sedangkan komponen lainnya dipertahankan mengikuti konfigurasi dasar. Strategi ini digunakan agar pengaruh masing-masing komponen pelatihan dapat dianalisis secara lebih terarah. Rancangan \textit{ablation study} ditunjukkan pada Tabel \ref{tab:3.rancangan-ablation}. \par
+Setelah eksperimen \textit{baseline} dilakukan, penelitian dilanjutkan dengan pengujian konfigurasi pelatihan. Pada kelompok eksperimen ini, satu komponen konfigurasi pelatihan diubah pada setiap eksperimen, sedangkan komponen lainnya dipertahankan mengikuti konfigurasi dasar. Strategi ini digunakan agar pengaruh masing-masing komponen pelatihan dapat dianalisis secara lebih terarah. Rancangan konfigurasi pelatihan yang diuji ditunjukkan pada Tabel \ref{tab:3.rancangan-ablation}. \par
 
 \begin{table}[H]
 \centering
-\caption{Rancangan \textit{ablation study}}
+\caption{Konfigurasi pelatihan yang diuji}
 \label{tab:3.rancangan-ablation}
 \begin{tabular}{ll}
 \toprule
@@ -244,11 +244,11 @@ M6-SP / M6-ST & \textit{Scheduler} \\
 \end{table}
 \par
 
-Eksperimen utama dilakukan setelah \textit{ablation study} untuk mengevaluasi pengaruh konfigurasi input terhadap performa kedua pendekatan. Pada eksperimen ini, variasi difokuskan pada resolusi masukan, kepadatan sampling temporal, dan jumlah \textit{frame} masukan. Konfigurasi BASE digunakan sebagai acuan dasar, sedangkan E2 sampai E5 digunakan untuk menganalisis perubahan karakteristik input pada \textit{dataset} \textit{WildDeepfake}. Rancangan eksperimen utama ditunjukkan pada Tabel \ref{tab:3.rancangan-utama}. \par
+Pengujian konfigurasi input spasial dan temporal dilakukan setelah pengujian konfigurasi pelatihan untuk mengevaluasi pengaruh konfigurasi input terhadap performa kedua pendekatan. Pada eksperimen ini, variasi difokuskan pada resolusi masukan, kepadatan sampling temporal, dan jumlah \textit{frame} masukan. Konfigurasi BASE digunakan sebagai acuan dasar, sedangkan E2 sampai E5 digunakan untuk menganalisis perubahan karakteristik input pada \textit{dataset} \textit{WildDeepfake}. Rancangan konfigurasi input spasial dan temporal ditunjukkan pada Tabel \ref{tab:3.rancangan-utama}. \par
 
 \begin{table}[H]
 \centering
-\caption{Rancangan eksperimen utama}
+\caption{Konfigurasi input spasial dan temporal}
 \label{tab:3.rancangan-utama}
 \begin{tabular}{llcrr}
 \toprule
@@ -263,7 +263,7 @@ E5-SP / E5-ST & \textit{Frame} lebih banyak & $224 \times 224$ & 24 & 1 \\
 \end{table}
 \par
 
-Selain eksperimen pada \textit{dataset} \textit{WildDeepfake}, penelitian ini juga melakukan evaluasi lintas-\textit{dataset} menggunakan \textit{Celeb-DF v2}. Evaluasi ini dilakukan secara \textit{zero-shot}, yaitu model tidak dilatih ulang dan tidak dilakukan \textit{fine-tuning} pada \textit{Celeb-DF v2}. Model yang digunakan pada tahap ini berasal dari \textit{checkpoint ablation study} terbaik, kemudian langsung diuji pada \textit{dataset} \textit{Celeb-DF v2} untuk mengukur kemampuan generalisasi terhadap distribusi data eksternal. Rancangan evaluasi lintas-\textit{dataset} ditunjukkan pada Tabel \ref{tab:3.rancangan-cross-dataset}. \par
+Selain eksperimen pada \textit{dataset} \textit{WildDeepfake}, penelitian ini juga melakukan evaluasi lintas-\textit{dataset} menggunakan \textit{Celeb-DF v2}. Evaluasi ini dilakukan secara \textit{zero-shot}, yaitu model tidak dilatih ulang dan tidak dilakukan \textit{fine-tuning} pada \textit{Celeb-DF v2}. Model yang digunakan pada tahap ini berasal dari \textit{checkpoint} konfigurasi pelatihan terbaik, kemudian langsung diuji pada \textit{dataset} \textit{Celeb-DF v2} untuk mengukur kemampuan generalisasi terhadap distribusi data eksternal. Rancangan evaluasi lintas-\textit{dataset} ditunjukkan pada Tabel \ref{tab:3.rancangan-cross-dataset}. \par
 
 \begin{table}[H]
 \centering
@@ -280,7 +280,7 @@ E6-ST & Spasiotemporal & \textit{Celeb-DF v2} \\
 \end{table}
 \par
 
-Berdasarkan rancangan tersebut, setiap eksperimen diterapkan pada dua pendekatan model, yaitu SP untuk model spasial dan ST untuk model spasiotemporal. Pemisahan eksperimen ke dalam \textit{baseline}, \textit{ablation study}, eksperimen utama, dan evaluasi lintas-\textit{dataset} dilakukan agar alur penelitian lebih sistematis. Eksperimen \textit{baseline} memberikan titik acuan performa awal, \textit{ablation study} menjelaskan pengaruh perubahan konfigurasi pelatihan, eksperimen utama menunjukkan pengaruh variasi input, sedangkan evaluasi lintas-\textit{dataset} digunakan untuk menilai kemampuan generalisasi model pada \textit{dataset} eksternal. Dengan demikian, rancangan eksperimen ini mendukung analisis komparatif antara pendekatan spasial dan spasiotemporal secara lebih terarah dan konsisten. \par
+Berdasarkan rancangan tersebut, setiap eksperimen diterapkan pada dua pendekatan model, yaitu SP untuk model spasial dan ST untuk model spasiotemporal. Pemisahan eksperimen ke dalam \textit{baseline}, konfigurasi pelatihan, konfigurasi input spasial dan temporal, serta evaluasi lintas-\textit{dataset} dilakukan agar alur penelitian lebih sistematis. Eksperimen \textit{baseline} memberikan titik acuan performa awal, pengujian konfigurasi pelatihan menjelaskan pengaruh perubahan parameter pelatihan, pengujian konfigurasi input spasial dan temporal menunjukkan pengaruh variasi input, sedangkan evaluasi lintas-\textit{dataset} digunakan untuk menilai kemampuan generalisasi model pada \textit{dataset} eksternal. Dengan demikian, rancangan eksperimen ini mendukung analisis komparatif antara pendekatan spasial dan spasiotemporal secara lebih terarah dan konsisten. \par
 
 \subsection{Evaluasi Model} \label{III.Evaluasi Model}
 Evaluasi model pada penelitian ini dilakukan untuk menilai kinerja dua pendekatan yang digunakan, yaitu model spasial berbasis Vision Transformer (ViT) dan model spasiotemporal berbasis VideoMAE. Evaluasi dilakukan pada tingkat klip agar hasil kedua pendekatan dapat dibandingkan secara setara. Pada pendekatan spasial, model menghasilkan prediksi untuk setiap \textit{frame} dalam satu klip, kemudian seluruh prediksi tersebut diagregasi menggunakan rata-rata untuk memperoleh satu keputusan akhir pada tingkat klip. Sementara itu, pada pendekatan spasiotemporal, model memproses satu klip secara langsung dan menghasilkan satu prediksi akhir pada tingkat klip. \par

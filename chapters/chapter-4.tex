@@ -422,7 +422,7 @@ Berdasarkan Tabel~\ref{table:4.hyperparam}, model \textit{baseline} dilatih meng
 Fungsi \textit{loss} yang digunakan adalah CrossEntropyLoss karena penelitian ini merupakan tugas klasifikasi biner dengan dua kelas, yaitu \textit{real} dan \textit{fake}. Nilai \textit{dropout} ditetapkan sebesar 0, sehingga tidak terdapat penambahan \textit{dropout} khusus pada konfigurasi \textit{baseline}. Dengan konfigurasi ini, model \textit{baseline} digunakan sebagai acuan awal untuk mengevaluasi performa pendekatan spasial dan spasiotemporal sebelum dibandingkan dengan konfigurasi eksperimen lainnya.
 
 \section{Hasil Eksperimen} \label{IV.Eksperimen}
-Pada sub bab ini, hasil eksperimen disajikan dalam lima subbab utama. Pertama, hasil eksperimen \textit{baseline} digunakan sebagai acuan awal performa model. Kedua, \textit{ablation study} digunakan untuk menganalisis pengaruh perubahan konfigurasi pelatihan terhadap performa model. Ketiga, eksperimen utama digunakan untuk mengevaluasi pengaruh konfigurasi input terhadap pendekatan spasial dan spasiotemporal. Keempat, evaluasi lintas-\textit{dataset} digunakan untuk menguji kemampuan generalisasi model pada \textit{dataset} eksternal secara \textit{zero-shot}. Kelima, analisis perbandingan model digunakan untuk merangkum pola performa kedua pendekatan dan membahas pendekatan yang paling efektif dalam klasifikasi video \textit{deepfake}.
+Pada sub bab ini, hasil eksperimen disajikan dalam lima subbab utama. Pertama, hasil eksperimen \textit{baseline} digunakan sebagai acuan awal performa model. Kedua, hasil konfigurasi pelatihan digunakan untuk menganalisis pengaruh perubahan parameter pelatihan terhadap performa model. Ketiga, hasil konfigurasi input spasial dan temporal digunakan untuk mengevaluasi pengaruh perubahan resolusi, jumlah \textit{frame}, dan \textit{stride} terhadap pendekatan spasial dan spasiotemporal. Keempat, evaluasi lintas-\textit{dataset} digunakan untuk menguji kemampuan generalisasi model pada \textit{dataset} eksternal secara \textit{zero-shot}. Kelima, analisis perbandingan model digunakan untuk merangkum pola performa kedua pendekatan dan membahas pendekatan yang paling efektif dalam klasifikasi video \textit{deepfake}.
 
 \subsection{Hasil Eksperimen \textit{Baseline}} \label{IV.Eksperimen_Baseline}
 Eksperimen \textit{baseline} dilakukan untuk memperoleh gambaran performa awal dari pendekatan spasial dan spasiotemporal sebelum dilakukan variasi konfigurasi pada tahap eksperimen berikutnya. Pada eksperimen ini, kedua model menggunakan konfigurasi dasar, yaitu resolusi input 224 $\times$ 224 piksel, jumlah \textit{frame} masukan sebanyak 16 \textit{frame}, dan nilai \textit{stride} sebesar 3. Model spasial menggunakan \textit{Vision Transformer} untuk memproses \textit{frame} secara individual, sedangkan model spasiotemporal menggunakan \textit{VideoMAE} untuk memproses klip video secara langsung.
@@ -518,14 +518,14 @@ Jika dibandingkan, peningkatan utama model spasiotemporal terlihat pada kemampua
 
 Secara keseluruhan, hasil eksperimen \textit{baseline} menunjukkan bahwa model spasiotemporal memberikan performa yang lebih baik dibandingkan model spasial. Keunggulan tersebut terlihat dari nilai metrik evaluasi yang lebih tinggi, pola kurva pelatihan yang lebih stabil, serta jumlah kesalahan klasifikasi yang lebih rendah pada \textit{confusion matrix}. Oleh karena itu, hasil \textit{baseline} ini digunakan sebagai acuan awal untuk menilai pengaruh perubahan konfigurasi pada tahap \textit{ablation study}.
 
-\subsection{Hasil \textit{Ablation Study}} \label{IV.Eksperimen_Ablation}
-\textit{Ablation study} dilakukan untuk menganalisis pengaruh perubahan satu komponen konfigurasi pelatihan terhadap performa model spasial dan spasiotemporal. Pada setiap eksperimen, satu parameter diubah dari konfigurasi \textit{baseline}, sedangkan parameter lainnya dipertahankan tetap. Dengan demikian, perubahan performa dapat dianalisis secara lebih terarah berdasarkan parameter yang diuji.
+\subsection{Hasil Konfigurasi Pelatihan} \label{IV.Eksperimen_Ablation}
+Pengujian konfigurasi pelatihan dilakukan untuk menganalisis pengaruh perubahan satu komponen pelatihan terhadap performa model spasial dan spasiotemporal. Pada setiap eksperimen, satu parameter diubah dari konfigurasi \textit{baseline}, sedangkan parameter lainnya dipertahankan tetap. Dengan demikian, perubahan performa dapat dianalisis secara lebih terarah berdasarkan parameter yang diuji.
 
-Setiap hasil \textit{ablation study} dibandingkan langsung dengan \textit{baseline} BASE-SP dan BASE-ST. Model BASE-SP digunakan sebagai acuan pendekatan spasial, sedangkan BASE-ST digunakan sebagai acuan pendekatan spasiotemporal. Pembahasan disusun secara bertahap, dimulai dari pengaruh \textit{epoch} maksimum, \textit{learning rate}, \textit{loss function}, augmentasi data, \textit{dropout}, hingga \textit{scheduler}. Pada setiap subbab, analisis difokuskan pada tujuan perubahan konfigurasi, alasan pemilihan nilai parameter, serta dampaknya terhadap metrik evaluasi model.
+Setiap hasil konfigurasi pelatihan dibandingkan langsung dengan \textit{baseline} BASE-SP dan BASE-ST. Model BASE-SP digunakan sebagai acuan pendekatan spasial, sedangkan BASE-ST digunakan sebagai acuan pendekatan spasiotemporal. Pembahasan disusun secara bertahap, dimulai dari pengaruh \textit{epoch} maksimum, \textit{learning rate}, \textit{loss function}, augmentasi data, \textit{dropout}, hingga \textit{scheduler}. Pada setiap subbab, analisis difokuskan pada tujuan perubahan konfigurasi, alasan pemilihan nilai parameter, serta dampaknya terhadap metrik evaluasi model.
 
 \begin{table}[htbp]
 \centering
-\caption{Konfigurasi \textit{Ablation Study}}
+\caption{Konfigurasi Pelatihan yang Diuji}
 \label{table:4.ablation-config}
 \begin{tabular}{llll}
 \toprule
@@ -796,13 +796,13 @@ Jika dilihat secara komparatif, \textit{CosineAnnealingLR} memberikan keuntungan
 
 Secara keseluruhan, hasil \textit{ablation study} menunjukkan bahwa setiap perubahan konfigurasi memberikan pengaruh yang berbeda pada model spasial dan spasiotemporal. Beberapa konfigurasi hanya meningkatkan salah satu pendekatan, sedangkan konfigurasi lainnya menurunkan performa pada kedua pendekatan. Pada tahap ini, \textit{scheduler} dipilih sebagai konfigurasi lanjutan karena memberikan hasil rata-rata yang paling baik untuk digunakan secara adil pada kedua model. Dengan demikian, eksperimen utama pada subbab berikutnya menggunakan konfigurasi \textit{scheduler} hasil \textit{ablation study} sebagai dasar pelatihan.
 
-\subsection{Hasil Eksperimen Utama} \label{IV.Eksperimen_Utama}
+\subsection{Hasil Konfigurasi Input Spasial dan Temporal} \label{IV.Eksperimen_Utama}
 
-Eksperimen utama dilakukan untuk mengevaluasi pengaruh konfigurasi input terhadap performa model spasial dan spasiotemporal. Berbeda dari \textit{ablation study} yang berfokus pada perubahan konfigurasi pelatihan, eksperimen utama berfokus pada perubahan karakteristik masukan, yaitu resolusi, jumlah \textit{frame}, dan \textit{stride}. Konfigurasi BASE telah digunakan dan dianalisis sebelumnya pada eksperimen \textit{baseline} sebagai konfigurasi dasar, yaitu resolusi 224 $\times$ 224, jumlah \textit{frame} masukan 16, dan \textit{stride} 3. Oleh karena itu, pada bagian ini BASE digunakan sebagai acuan konfigurasi, sedangkan eksperimen E2 sampai E5 digunakan untuk menganalisis pengaruh variasi input terhadap performa kedua pendekatan.
+Pengujian konfigurasi input spasial dan temporal dilakukan untuk mengevaluasi pengaruh perubahan karakteristik masukan terhadap performa model spasial dan spasiotemporal. Berbeda dari pengujian konfigurasi pelatihan yang berfokus pada parameter optimasi dan regularisasi, bagian ini berfokus pada perubahan bentuk input yang diterima model, yaitu resolusi, jumlah \textit{frame}, dan \textit{stride}. Konfigurasi BASE telah digunakan dan dianalisis sebelumnya pada eksperimen \textit{baseline} sebagai konfigurasi dasar, yaitu resolusi 224 $\times$ 224, jumlah \textit{frame} masukan 16, dan \textit{stride} 3. Oleh karena itu, pada bagian ini BASE digunakan sebagai acuan konfigurasi, sedangkan eksperimen E2 sampai E5 digunakan untuk menganalisis pengaruh variasi input terhadap performa kedua pendekatan.
 
 \begin{table}[htbp]
 \centering
-\caption{Konfigurasi Eksperimen Utama}
+\caption{Konfigurasi Input Spasial dan Temporal}
 \label{table:4.eksperimen-utama-config}
 \begin{tabular}{llcrr}
 \toprule
