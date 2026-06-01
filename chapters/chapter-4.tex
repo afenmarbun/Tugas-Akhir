@@ -30,10 +30,10 @@ Berdasarkan Tabel \ref{table:4.wilddeepfake}, jumlah data pada kelas \textit{rea
 \end{figure}
 
 \section{Hasil \textit{Pre-processing} Data} \label{IV.Preprocessing}
-Tahap \textit{pre-processing} data dilakukan untuk menyiapkan \textit{dataset} \textit{WildDeepfake} agar dapat digunakan sebagai masukan model. Pada tahap ini, data yang sebelumnya berbentuk sekuens wajah diproses menjadi klip dengan panjang seragam, kemudian dibagi ke dalam subset \textit{train}, validasi, dan \textit{test}.
+Tahap \textit{pre-processing} data dilakukan untuk menyiapkan \textit{dataset} \textit{WildDeepfake} agar dapat digunakan sebagai masukan model. Pada tahap ini, data yang sebelumnya berbentuk video wajah diproses menjadi klip dengan panjang seragam, kemudian dibagi ke dalam subset \textit{train}, validasi, dan \textit{test}.
 
 \subsection{Hasil Pembentukan Klip 46 \textit{Frame}} \label{IV.Klip46}
-Pada tahap ini, setiap sekuens wajah pada \textit{dataset} \textit{WildDeepfake} diproses menjadi klip turunan dengan panjang tetap 46 \textit{frame}. Pembentukan klip dilakukan agar seluruh data memiliki panjang temporal yang seragam sebelum digunakan pada proses \textit{strided temporal sampling}. Dengan demikian, unit data yang digunakan pada tahap eksperimen bukan lagi sekuens wajah awal, melainkan klip wajah berdurasi tetap.
+Pada tahap ini, setiap video wajah pada \textit{dataset} \textit{WildDeepfake} diproses menjadi klip turunan dengan panjang tetap 46 \textit{frame}. Pembentukan klip dilakukan agar seluruh data memiliki panjang temporal yang seragam sebelum digunakan pada proses \textit{strided temporal sampling}. Dengan demikian, unit data yang digunakan pada tahap eksperimen bukan lagi video wajah awal, melainkan klip wajah berdurasi tetap.
 
 Potongan kode yang digunakan untuk membentuk klip 46 \textit{frame} ditunjukkan pada Kode~\ref{code:4.1}.
 
@@ -79,35 +79,35 @@ def build_46f_clips_for_subset(
 		key=lambda p: p.name
 	)
 
-	total_sequences = 0
+	total_videos = 0
 	total_clips = 0
-	skipped_sequences = 0
+	skipped_videos = 0
 
 	for group_dir in group_dirs:
 		group_id = group_dir.name
 		out_group_dir = processed_subset_dir / group_id
 		ensure_dir(out_group_dir)
 
-		seq_dirs = sorted(
+		video_dirs = sorted(
 			[p for p in group_dir.iterdir() if p.is_dir()],
 			key=lambda p: p.name
 		)
 
-		for seq_dir in seq_dirs:
-			total_sequences += 1
-			seq_id = seq_dir.name
+		for video_dir in video_dirs:
+			total_videos += 1
+			video_id = video_dir.name
 
-			frame_files = list_image_files(seq_dir)
+			frame_files = list_image_files(video_dir)
 			n = len(frame_files)
 
 			if n < clip_len:
-				skipped_sequences += 1
+				skipped_videos += 1
 				continue
 
 			clip_ranges = compute_centered_clip_ranges(n, clip_len=clip_len)
 
 			for clip_idx, (s, e) in enumerate(clip_ranges):
-				clip_folder_name = f"{seq_id}_{clip_idx}"
+				clip_folder_name = f"{video_id}_{clip_idx}"
 				out_clip_dir = out_group_dir / clip_folder_name
 				ensure_dir(out_clip_dir)
 
@@ -119,13 +119,13 @@ def build_46f_clips_for_subset(
 				total_clips += 1
 
 	return {
-		"total_sequences": total_sequences,
+		"total_videos": total_videos,
 		"total_clips": total_clips,
-		"skipped_sequences": skipped_sequences,
+		"skipped_videos": skipped_videos,
 	}
 \end{lstlisting}
 
-Kode~\ref{code:4.1} menunjukkan bahwa setiap sekuens terlebih dahulu dihitung jumlah klip penuhnya berdasarkan panjang klip 46 \textit{frame}. Apabila terdapat sisa \textit{frame} yang tidak membentuk satu klip penuh, sisa tersebut dibuang dari sisi kiri dan kanan secara seimbang. Setelah itu, setiap rentang \textit{frame} disalin ke folder klip baru sehingga satu klip berisi tepat 46 \textit{frame}.
+Kode~\ref{code:4.1} menunjukkan bahwa setiap video terlebih dahulu dihitung jumlah klip penuhnya berdasarkan panjang klip 46 \textit{frame}. Apabila terdapat sisa \textit{frame} yang tidak membentuk satu klip penuh, sisa tersebut dibuang dari sisi kiri dan kanan secara seimbang. Setelah itu, setiap rentang \textit{frame} disalin ke folder klip baru sehingga satu klip berisi tepat 46 \textit{frame}.
 
 Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip tersebut memiliki panjang 46 \textit{frame}, sehingga tidak terdapat klip yang tidak valid. Distribusi kelas hasil pembentukan klip 46 \textit{frame} ditunjukkan pada Tabel~\ref{table:4.klip46}.
 
@@ -145,12 +145,12 @@ Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip ters
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel~\ref{table:4.klip46}, jumlah klip kelas fake lebih banyak dibandingkan kelas real. Kelas fake terdiri atas 14.452 klip, sedangkan kelas real terdiri atas 7.851 klip. Hasil ini menunjukkan bahwa setelah sekuens wajah diproses menjadi klip turunan, distribusi data menjadi lebih didominasi oleh kelas fake.
+Berdasarkan Tabel~\ref{table:4.klip46}, jumlah klip kelas fake lebih banyak dibandingkan kelas real. Kelas fake terdiri atas 14.452 klip, sedangkan kelas real terdiri atas 7.851 klip. Hasil ini menunjukkan bahwa setelah video wajah diproses menjadi klip turunan, distribusi data menjadi lebih didominasi oleh kelas fake.
 
 \subsection{Hasil Pembagian \textit{Dataset}} \label{IV.Split}
 \textit{Dataset} \textit{WildDeepfake} yang digunakan dalam penelitian ini sebelumnya telah memiliki pembagian awal berupa subset \textit{train} dan \textit{test}. Subset tersebut tersusun dalam empat direktori utama, yaitu \textit{real\_train}, \textit{fake\_train}, \textit{real\_test}, dan \textit{fake\_test}. Pada penelitian ini, subset \textit{real\_test} dan \textit{fake\_test} tetap digunakan sebagai data pengujian akhir. Sementara itu, data yang berasal dari subset \textit{real\_train} dan \textit{fake\_train} dibagi kembali menjadi data \textit{train} dan data validasi.
 
-Pembagian data validasi dilakukan dari subset \textit{train} dengan rasio 80:20. Proses pembagian dilakukan pada level \textit{group\_id}, bukan pada level klip. Strategi ini digunakan agar klip turunan yang berasal dari sekuens atau sumber yang sama tidak terpisah ke subset yang berbeda. Dengan demikian, risiko kebocoran data antara data latih dan data validasi dapat dikurangi.
+Pembagian data validasi dilakukan dari subset \textit{train} dengan rasio 80:20. Proses pembagian dilakukan pada level \textit{group\_id}, bukan pada level klip. Strategi ini digunakan agar klip turunan yang berasal dari video atau sumber yang sama tidak terpisah ke subset yang berbeda. Dengan demikian, risiko kebocoran data antara data latih dan data validasi dapat dikurangi.
 
 Potongan kode pembagian \textit{dataset} ditunjukkan pada Kode~\ref{code:4.2}.
 
