@@ -1,0 +1,109 @@
+_wandb:
+    value:
+        cli_version: 0.27.0
+        e:
+            uvqpqttj2e7olxa22a35bnvapwayckkp:
+                codePath: inference_all_models.ipynb
+                codePathLocal: inference_all_models.ipynb
+                cpu_count: 20
+                cpu_count_logical: 20
+                disk:
+                    /:
+                        total: "747760488448"
+                        used: "215267934208"
+                email: afenmarbun@gmail.com
+                executable: /opt/venv/bin/python
+                git:
+                    commit: a1ab308fc2a3057397b2265bdfb51325b8b5bf4a
+                    remote: https://github.com/Mahdi-CV/rocm-pytorch-notebooks
+                gpu: N/A
+                gpu_amd:
+                    - id: "0"
+                      maxPower: "750.0"
+                      mclkRange: 900Mhz - 1300Mhz
+                      model: "0x74b5"
+                      performanceLevel: auto
+                      sclkRange: 500Mhz - 2100Mhz
+                      series: N/A
+                      sku: M3000100
+                      uniqueId: "0x7a1035f179e52333"
+                      vbiosVersion: 113-M3000100-103
+                      vendor: Advanced Micro Devices, Inc. [AMD/ATI]
+                gpu_count: 1
+                host: c1be172820eb
+                memory:
+                    total: "253347155968"
+                os: Linux-6.8.0-84-generic-x86_64-with-glibc2.35
+                program: inference_all_models.ipynb
+                python: CPython 3.10.12
+                root: /shared-docker/inference_outputs/M05_spatial_vit_Eksperimen_Augmentasi_Lebih_Berat
+                startedAt: "2026-05-26T03:49:56.551123Z"
+                writerId: uvqpqttj2e7olxa22a35bnvapwayckkp
+        m: []
+        python_version: 3.10.12
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 53
+                - 63
+                - 71
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 53
+                - 63
+                - 71
+            "3":
+                - 2
+                - 13
+                - 15
+                - 16
+            "4": 3.10.12
+            "5": 0.27.0
+            "6": 4.55.0
+            "8":
+                - 1
+                - 2
+            "10":
+                - 20
+            "12": 0.27.0
+            "13": linux-x86_64
+artifact_version:
+    value: v15
+downscale_first:
+    value: null
+enabled:
+    value: 1
+experiment_code:
+    value: E01
+experiment_description:
+    value: Konfigurasi dasar dengan resolusi 224 x 224, 16 frame, dan stride 3
+final_image_size:
+    value: 224
+model_kind:
+    value: spatial_vit
+num_frames:
+    value: 16
+positive_class:
+    value: fake
+positive_class_index:
+    value: 1
+source_artifact_uri:
+    value: afenmarbun-institut-teknologi-sumatera/Tugas Akhir/E01_spatial_vit_vit_base_patch16_224.mae_outputs:v15
+source_clip_len:
+    value: 46
+stride:
+    value: 3
+study_code:
+    value: M05
+study_name:
+    value: Eksperimen Augmentasi Lebih Berat
+wandb_group:
+    value: Inference

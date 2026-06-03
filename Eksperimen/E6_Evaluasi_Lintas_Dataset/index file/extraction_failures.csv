@@ -1,0 +1,2 @@
+video_uid,video_path,video_rel,source,label_name,label,is_official_test,split,status,num_frames,num_detected,num_fallback
+reubensuju__celeb-df-v2__Celeb-real__id27_0005,/kaggle/input/datasets/reubensuju/celeb-df-v2/Celeb-real/id27_0005.mp4,reubensuju/celeb-df-v2/Celeb-real/id27_0005.mp4,Celeb-real,real,0,False,train,too_short,0,0,0

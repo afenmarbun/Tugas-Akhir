@@ -1,0 +1,18 @@
+{
+  "dataset_name": "Celeb-DF v2",
+  "dataset_slug": "reubensuju/celeb-df-v2",
+  "source_clip_len": 46,
+  "face_crop_size": 224,
+  "clip_strategy": "single_center_46_frames_per_video",
+  "frame_selection_note": "frame kiri dan kanan di luar 46 frame tengah dibuang untuk menghemat komputasi",
+  "split_strategy": "official_test_list_if_available_then_train_validation_stratified_80_20",
+  "class_to_idx": {
+    "real": 0,
+    "fake": 1
+  },
+  "num_clips": 6528,
+  "num_train": 4807,
+  "num_val": 1203,
+  "num_test": 518,
+  "num_failed_or_skipped": 1
+}

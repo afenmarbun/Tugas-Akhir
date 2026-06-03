@@ -1,0 +1,42 @@
+{
+  "E01": {
+    "code": "E01",
+    "description": "Konfigurasi dasar dengan resolusi 224 x 224, 16 frame, dan stride 3",
+    "num_frames": 16,
+    "stride": 3,
+    "final_image_size": 224,
+    "downscale_first": null
+  },
+  "E02": {
+    "code": "E02",
+    "description": "Penurunan resolusi input model menjadi 112 x 112 untuk menguji ketahanan terhadap pengurangan informasi spasial",
+    "num_frames": 16,
+    "stride": 3,
+    "final_image_size": 112,
+    "downscale_first": null
+  },
+  "E03": {
+    "code": "E03",
+    "description": "Stride lebih rapat dengan 16 frame dan stride 1 untuk menguji pengaruh kepadatan sampling temporal",
+    "num_frames": 16,
+    "stride": 1,
+    "final_image_size": 224,
+    "downscale_first": null
+  },
+  "E04": {
+    "code": "E04",
+    "description": "Jumlah frame lebih pendek dengan 8 frame dan stride 3 untuk menguji pengaruh pengurangan evidensi temporal",
+    "num_frames": 8,
+    "stride": 3,
+    "final_image_size": 224,
+    "downscale_first": null
+  },
+  "E05": {
+    "code": "E05",
+    "description": "Jumlah frame lebih panjang dengan 24 frame dan stride 1 untuk menguji pengaruh penambahan cakupan temporal",
+    "num_frames": 24,
+    "stride": 1,
+    "final_image_size": 224,
+    "downscale_first": null
+  }
+}

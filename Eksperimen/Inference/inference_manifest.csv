@@ -1,0 +1,23 @@
+enabled,experiment_code,model_kind,artifact_version,study_code,study_name
+1,E02,spatial_vit,latest,E02,Eksperimen utama 2
+1,E02,spatiotemporal_videomae,latest,E02,Eksperimen utama 2
+1,E03,spatial_vit,latest,E03,Eksperimen utama 3
+1,E03,spatiotemporal_videomae,latest,E03,Eksperimen utama 3
+1,E04,spatial_vit,latest,E04,Eksperimen utama 4
+1,E04,spatiotemporal_videomae,latest,E04,Eksperimen utama 4
+1,E05,spatial_vit,latest,E05,Eksperimen utama 5
+1,E05,spatiotemporal_videomae,latest,E05,Eksperimen utama 5
+1,E01,spatial_vit,v11,M01,Eksperimen Baseline
+1,E01,spatiotemporal_videomae,v12,M01,Eksperimen Baseline
+1,E01,spatial_vit,v14,M02,Eksperimen 40 Epoch
+1,E01,spatiotemporal_videomae,v15,M02,Eksperimen 40 Epoch
+1,E01,spatial_vit,v13,M03,Eksperimen LR=5e-4 
+1,E01,spatiotemporal_videomae,v14,M03,Eksperimen LR=5e-4
+1,E01,spatial_vit,v12,M04,Eksperimen Focal Loss 
+1,E01,spatiotemporal_videomae,v13,M04,Eksperimen Focal Loss
+1,E01,spatial_vit,v15,M05,Eksperimen Augmentasi Lebih Berat
+1,E01,spatiotemporal_videomae,v16,M05,Eksperimen Augmentasi Lebih Berat
+1,E01,spatial_vit,v10,M07,Eksperimen Dropout
+1,E01,spatiotemporal_videomae,v11,M07,Eksperimen Dropout
+1,E01,spatial_vit,v9,M08,Eksperimen Scheduler
+1,E01,spatiotemporal_videomae,v10,M08,Eksperimen Scheduler

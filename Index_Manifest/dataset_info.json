@@ -1,0 +1,16 @@
+{
+  "dataset_root": "/kaggle/input/datasets/afenmarbun/wilddeepfake-46f",
+  "source_clip_len": 46,
+  "val_ratio": 0.2,
+  "seed": 42,
+  "class_to_idx": {
+    "real": 0,
+    "fake": 1
+  },
+  "subset_dirs": {
+    "real_train": "/kaggle/input/datasets/afenmarbun/wilddeepfake-46f/wilddeepfake_46f_merged_v5/real_train",
+    "real_test": "/kaggle/input/datasets/afenmarbun/wilddeepfake-46f/wilddeepfake_46f_merged_v5/real_test",
+    "fake_test": "/kaggle/input/datasets/afenmarbun/wilddeepfake-46f/archive/fake_test",
+    "fake_train": "/kaggle/input/datasets/afenmarbun/wilddeepfake-46f/archive/fake_train"
+  }
+}

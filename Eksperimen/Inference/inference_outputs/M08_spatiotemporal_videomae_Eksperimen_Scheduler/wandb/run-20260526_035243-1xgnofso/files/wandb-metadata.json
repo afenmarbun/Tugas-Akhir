@@ -1,0 +1,45 @@
+{
+  "os": "Linux-6.8.0-84-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.10.12",
+  "startedAt": "2026-05-26T03:52:43.778597Z",
+  "program": "inference_all_models.ipynb",
+  "codePath": "inference_all_models.ipynb",
+  "codePathLocal": "inference_all_models.ipynb",
+  "git": {
+    "remote": "https://github.com/Mahdi-CV/rocm-pytorch-notebooks",
+    "commit": "a1ab308fc2a3057397b2265bdfb51325b8b5bf4a"
+  },
+  "email": "afenmarbun@gmail.com",
+  "root": "/shared-docker/inference_outputs/M08_spatiotemporal_videomae_Eksperimen_Scheduler",
+  "host": "c1be172820eb",
+  "executable": "/opt/venv/bin/python",
+  "cpu_count": 20,
+  "cpu_count_logical": 20,
+  "gpu": "N/A",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "747760488448",
+      "used": "218781790208"
+    }
+  },
+  "memory": {
+    "total": "253347155968"
+  },
+  "gpu_amd": [
+    {
+      "id": "0",
+      "uniqueId": "0x7a1035f179e52333",
+      "vbiosVersion": "113-M3000100-103",
+      "performanceLevel": "auto",
+      "maxPower": "750.0",
+      "series": "N/A",
+      "model": "0x74b5",
+      "vendor": "Advanced Micro Devices, Inc. [AMD/ATI]",
+      "sku": "M3000100",
+      "sclkRange": "500Mhz - 2100Mhz",
+      "mclkRange": "900Mhz - 1300Mhz"
+    }
+  ],
+  "writerId": "w03m9i3skzx9cfhkrl4kjbgjh4s7tb9y"
+}

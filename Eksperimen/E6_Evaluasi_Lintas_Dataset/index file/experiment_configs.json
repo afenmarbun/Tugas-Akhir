@@ -1,0 +1,10 @@
+{
+  "C01": {
+    "code": "C01",
+    "description": "Celeb-DF v2 fine-tuning ulang menggunakan hyperparameter terbaik dari ablation study",
+    "num_frames": 16,
+    "stride": 3,
+    "final_image_size": 224,
+    "downscale_first": null
+  }
+}
