@@ -127,6 +127,8 @@ def build_46f_clips_for_subset(
 
 Kode~\ref{code:4.1} menunjukkan bahwa setiap video terlebih dahulu dihitung jumlah klip penuhnya berdasarkan panjang klip 46 \textit{frame}. Apabila terdapat sisa \textit{frame} yang tidak membentuk satu klip penuh, sisa tersebut dibuang dari sisi kiri dan kanan secara seimbang. Setelah itu, setiap rentang \textit{frame} disalin ke folder klip baru sehingga satu klip berisi tepat 46 \textit{frame}.
 
+Pembentukan klip 46 \textit{frame} juga bertujuan agar \textit{frame} pada video yang lebih panjang tidak terlalu banyak terbuang. Karena model pada penelitian ini hanya membutuhkan 16 \textit{frame} sebagai masukan untuk satu klip, satu video yang memiliki ratusan \textit{frame} dapat dipecah menjadi beberapa klip turunan sebelum dilakukan \textit{strided temporal sampling}. Dengan strategi ini, informasi temporal dari satu video dapat dimanfaatkan secara lebih efisien dan jumlah data eksperimen yang dihasilkan menjadi lebih banyak.
+
 Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip tersebut memiliki panjang 46 \textit{frame}, sehingga tidak terdapat klip yang tidak valid. Distribusi kelas hasil pembentukan klip 46 \textit{frame} ditunjukkan pada Tabel~\ref{table:4.klip46}.
 
 \begin{table}[htbp]
