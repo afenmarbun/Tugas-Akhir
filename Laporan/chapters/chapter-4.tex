@@ -308,7 +308,7 @@ Contoh visualisasi hasil augmentasi ditunjukkan pada Gambar~\ref{fig:4.augmentas
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.1\textwidth]{figure/augmentation_grid.png}
-	\caption{Contoh Hasil Augmentasi Data Menggunakan Albumentations: (a) citra asli, (b) horizontal flip, (c) random crop, (d) random scale, (e) color jitter, (f) Gaussian blur, dan (g) Gaussian noise}
+	\caption{Contoh Hasil Augmentasi Data Menggunakan Albumentations: (a) Citra Asli, (b) Horizontal Flip, (c) Random Crop, (d) Random Scale, (e) Color Jitter, (f) Gaussian Blur, dan (g) Gaussian Noise}
 	\label{fig:4.augmentasi}
 \end{figure}
 
@@ -588,14 +588,14 @@ Untuk mendukung hasil tersebut, Gambar~\ref{fig:4.ablation-epoch-loss-spatial} d
 \label{fig:4.ablation-epoch-loss-spatial}
 \end{figure}
 
+Secara umum, \textit{training loss} pada kedua model terus menurun hingga akhir pelatihan, yang menunjukkan bahwa model semakin menyesuaikan diri terhadap data latih. Namun, \textit{validation loss} tidak menunjukkan penurunan yang konsisten dan cenderung berfluktuasi pada \textit{epoch}-\textit{epoch} lanjutan. Pola ini menunjukkan bahwa penambahan \textit{epoch} tidak lagi memberikan perbaikan pada data validasi.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.75\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Loss.png}}
 \caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40 untuk model spasiotemporal.}
 \label{fig:4.ablation-epoch-loss-spatiotemporal}
 \end{figure}
-
-Secara umum, \textit{training loss} pada kedua model terus menurun hingga akhir pelatihan, yang menunjukkan bahwa model semakin menyesuaikan diri terhadap data latih. Namun, \textit{validation loss} tidak menunjukkan penurunan yang konsisten dan cenderung berfluktuasi pada \textit{epoch}-\textit{epoch} lanjutan. Pola ini menunjukkan bahwa penambahan \textit{epoch} tidak lagi memberikan perbaikan pada data validasi.
 
 Pada model spasial, fluktuasi \textit{validation loss} mulai terlihat setelah pertengahan pelatihan dan cenderung bertahan hingga akhir \textit{epoch}. Sementara itu, pada model spasiotemporal, \textit{validation loss} juga menunjukkan pola yang tidak stabil, bahkan beberapa kali meningkat meskipun \textit{training loss} terus menurun. Kondisi tersebut menunjukkan adanya kecenderungan model untuk terus menyesuaikan diri pada data latih tanpa diikuti peningkatan kemampuan generalisasi pada data validasi.
 
@@ -625,30 +625,25 @@ M2-ST & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
 \end{tabular}
 \end{table}
 
-Untuk mendukung analisis terhadap penurunan performa tersebut, kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 ditunjukkan pada Gambar~\ref{fig:4.ablation-lr-loss}.
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.65\textwidth}
-\centering
-\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/Loss.png}}
-\\(a) Model spasial
-\end{minipage}
-
-\vspace{0.75em}
-
-\begin{minipage}{0.65\textwidth}
-\centering
-\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/Loss.png}}
-\\(b) Model spasiotemporal
-\end{minipage}
-\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4: (a) model spasial dan (b) model spasiotemporal.}
-\label{fig:4.ablation-lr-loss}
-\end{figure}
+Untuk mendukung analisis terhadap penurunan performa tersebut, kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 ditunjukkan pada Gambar~\ref{fig:4.ablation-lr-loss-spatial} dan Gambar~\ref{fig:4.ablation-lr-loss-spatiotemporal}.
 
 Berdasarkan Tabel~\ref{table:4.ablation-lr}, peningkatan \textit{learning rate} menjadi 5e-4 menyebabkan penurunan performa yang signifikan pada kedua pendekatan. Penurunan tersebut terlihat pada seluruh metrik evaluasi, baik pada model spasial maupun spasiotemporal. Hal ini menunjukkan bahwa \textit{learning rate} yang lebih besar tidak membuat proses \textit{fine-tuning} menjadi lebih baik, tetapi justru mengganggu kestabilan pembelajaran model.
 
-Pola pada Gambar~\ref{fig:4.ablation-lr-loss} memperkuat temuan tersebut. Pada kedua model, \textit{training loss} terus menurun selama proses pelatihan, tetapi \textit{validation loss} tidak mengikuti pola penurunan yang sama. \textit{Validation loss} justru cenderung berfluktuasi dan berada pada nilai yang relatif tinggi sepanjang pelatihan. Pola ini menunjukkan bahwa model masih mampu menyesuaikan diri terhadap data latih, tetapi penyesuaian tersebut tidak menghasilkan peningkatan kemampuan generalisasi pada data validasi. Dengan demikian, \textit{learning rate} 5e-4 membuat proses \textit{fine-tuning} menjadi tidak stabil dan menyebabkan jarak antara performa pelatihan dan validasi semakin jelas.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/Loss.png}}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 untuk model spasial.}
+\label{fig:4.ablation-lr-loss-spatial}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/Loss.png}}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 untuk model spasiotemporal.}
+\label{fig:4.ablation-lr-loss-spatiotemporal}
+\end{figure}
+
+Pola pada Gambar~\ref{fig:4.ablation-lr-loss-spatial} dan Gambar~\ref{fig:4.ablation-lr-loss-spatiotemporal} memperkuat temuan tersebut. Pada kedua model, \textit{training loss} terus menurun selama proses pelatihan, tetapi \textit{validation loss} tidak mengikuti pola penurunan yang sama. \textit{Validation loss} justru cenderung berfluktuasi dan berada pada nilai yang relatif tinggi sepanjang pelatihan. Pola ini menunjukkan bahwa model masih mampu menyesuaikan diri terhadap data latih, tetapi penyesuaian tersebut tidak menghasilkan peningkatan kemampuan generalisasi pada data validasi. Dengan demikian, \textit{learning rate} 5e-4 membuat proses \textit{fine-tuning} menjadi tidak stabil dan menyebabkan jarak antara performa pelatihan dan validasi semakin jelas.
 
 Anomali yang paling menonjol terlihat pada model spasiotemporal M2-ST. Pada konfigurasi \textit{baseline}, model spasiotemporal BASE-ST menghasilkan \textit{accuracy} sebesar 85,8\% dan \textit{AUC} sebesar 92,3\%. Namun, ketika \textit{learning rate} dinaikkan menjadi 5e-4, performa M2-ST turun menjadi \textit{accuracy} 60,4\% dan \textit{AUC} 57,4\%. Penurunan ini bahkan membuat performa M2-ST lebih rendah dibandingkan M2-SP. Dengan demikian, eksperimen ini menunjukkan bahwa model spasiotemporal lebih sensitif terhadap \textit{learning rate} tinggi dibandingkan model spasial.
 
@@ -690,6 +685,8 @@ Sebaliknya, pada model spasiotemporal, penggunaan \textit{Focal Loss} tidak memb
 
 Untuk menganalisis perubahan pola kesalahan secara lebih rinci, \textit{confusion matrix baseline} dan \textit{Focal Loss} ditunjukkan pada Gambar~\ref{fig:4.ablation-loss-cm-spatial} dan Gambar~\ref{fig:4.ablation-loss-cm-spatiotemporal}.
 
+Berdasarkan Gambar~\ref{fig:4.ablation-loss-cm-spatial}, penggunaan \textit{Focal Loss} pada model spasial mampu menurunkan \textit{false positive} dibandingkan \textit{Cross Entropy Loss}. Artinya, jumlah data \textit{real} yang salah diprediksi sebagai \textit{fake} menjadi lebih sedikit. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{Focal Loss} membantu model spasial menjadi lebih hati-hati dalam memberikan prediksi \textit{fake} terhadap data \textit{real}. Namun, penurunan \textit{false positive} tersebut disertai dengan peningkatan \textit{false negative}, sehingga sebagian data \textit{fake} menjadi lebih banyak yang tidak terdeteksi dibandingkan \textit{baseline}. Meskipun demikian, secara keseluruhan perubahan ini tetap menghasilkan peningkatan metrik pada model spasial.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M03/Perbandingan Confusion Matrix - Model Spasial.jpg}}
@@ -703,8 +700,6 @@ Untuk menganalisis perubahan pola kesalahan secara lebih rinci, \textit{confusio
 \caption{\textit{Confusion matrix} model spasiotemporal pada \textit{Cross Entropy Loss} dan \textit{Focal Loss}.}
 \label{fig:4.ablation-loss-cm-spatiotemporal}
 \end{figure}
-
-Berdasarkan Gambar~\ref{fig:4.ablation-loss-cm-spatial}, penggunaan \textit{Focal Loss} pada model spasial mampu menurunkan \textit{false positive} dibandingkan \textit{Cross Entropy Loss}. Artinya, jumlah data \textit{real} yang salah diprediksi sebagai \textit{fake} menjadi lebih sedikit. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{Focal Loss} membantu model spasial menjadi lebih hati-hati dalam memberikan prediksi \textit{fake} terhadap data \textit{real}. Namun, penurunan \textit{false positive} tersebut disertai dengan peningkatan \textit{false negative}, sehingga sebagian data \textit{fake} menjadi lebih banyak yang tidak terdeteksi dibandingkan \textit{baseline}. Meskipun demikian, secara keseluruhan perubahan ini tetap menghasilkan peningkatan metrik pada model spasial.
 
 Pada model spasiotemporal, pola yang ditunjukkan pada Gambar~\ref{fig:4.ablation-loss-cm-spatiotemporal} juga memperlihatkan penurunan \textit{false positive} setelah menggunakan \textit{Focal Loss}. Model menjadi lebih jarang mengklasifikasikan data \textit{real} sebagai \textit{fake}. Akan tetapi, peningkatan \textit{false negative} pada model spasiotemporal lebih besar dibandingkan model spasial. Kondisi ini menunjukkan bahwa \textit{Focal Loss} membuat model spasiotemporal menjadi lebih konservatif dalam memprediksi kelas \textit{fake}, sehingga sebagian data \textit{fake} justru diklasifikasikan sebagai \textit{real}. Pola tersebut menjelaskan mengapa metrik evaluasi model spasiotemporal menurun dibandingkan \textit{baseline}, meskipun \textit{false positive} berhasil ditekan.
 
