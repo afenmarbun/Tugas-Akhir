@@ -37,14 +37,6 @@ Potongan kode yang digunakan untuk membentuk klip 46 \textit{frame} ditunjukkan 
 CLIP_LEN = 46
 
 def compute_centered_clip_ranges(num_frames: int, clip_len: int = 46):
-	"""
-	Menghasilkan rentang [start, end) untuk klip 46 frame.
-	Strategi:
-	- C = floor(N / L)
-	- R = N - C * L
-	- buang floor(R/2) frame di kiri
-	- buang ceil(R/2) frame di kanan
-	"""
 	if num_frames < clip_len:
 		return []
 
@@ -131,20 +123,18 @@ Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip ters
 	\centering
 	\caption{Distribusi Kelas Hasil Pembentukan Klip 46 \textit{Frame}}
 	\label{table:4.klip46}
-	\begin{tabular}{|c|c|c|}
-		\hline
+	\begin{tabular}{ccc}
+		\toprule
 		\textbf{Split} & \textbf{Kelas} & \textbf{Jumlah Klip} \\
-		\hline
+		\midrule
 		\multirow{2}{*}{\textit{Train}} & \textit{Real} & 6.758 \\
-		\cline{2-3}
-		 & \textit{Fake} & 12.313 \\
-		\hline
+		& \textit{Fake} & 12.313 \\
+		\cmidrule(lr){1-3}
 		\multirow{2}{*}{\textit{Test}} & \textit{Real} & 1.093 \\
-		\cline{2-3}
-		 & \textit{Fake} & 2.139 \\
-		\hline
-		\multicolumn{2}{|c|}{\textit{Total}} & 22.303 \\
-		\hline
+		& \textit{Fake} & 2.139 \\
+		\midrule
+		\multicolumn{2}{c}{\textit{Total}} & 22.303 \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -175,8 +165,7 @@ train_df = pd.DataFrame(train_records)
 test_df = pd.DataFrame(test_records)
 
 # Split dilakukan pada level GROUP, bukan level klip,
-# agar klip turunan seperti 101_0, 101_1, dan 101_2
-# tidak terpisah ke subset yang berbeda.
+# agar klip turunan seperti 101_0, 101_1, dan 101_2 tetap berada pada subset yang sama.
 group_df = (
 	train_df[["group_id", "label", "label_name"]]
 	.drop_duplicates()
@@ -205,17 +194,6 @@ val_split_df = (
 	.copy()
 	.reset_index(drop=True)
 )
-
-test_df = test_df.reset_index(drop=True)
-
-# Validasi anti-leakage antara train dan validasi.
-overlap_groups = set(train_split_df["group_id"]) & set(val_split_df["group_id"])
-
-if overlap_groups:
-	raise ValueError(
-		f"Ditemukan kebocoran group antara train dan validasi: "
-		f"{list(overlap_groups)[:5]}"
-	)
 \end{lstlisting}
 
 Kode~\ref{code:4.2} menunjukkan bahwa data uji tidak dibagi ulang, melainkan tetap mengikuti subset \textit{test} resmi dari \textit{dataset} \textit{WildDeepfake}. Pembagian ulang hanya dilakukan pada subset \textit{train} untuk membentuk data latih dan data validasi. Selain itu, penggunaan \textit{stratify=group\_df["label"]} bertujuan agar proporsi kelas \textit{real} dan \textit{fake} pada hasil pembagian tetap terjaga.
@@ -320,31 +298,22 @@ Setelah proses augmentasi dilakukan, setiap \textit{frame} dikonversi menjadi \t
 Potongan kode normalisasi data ditunjukkan pada Kode~\ref{code:4.4}.
 
 \begin{lstlisting}[language=Python, caption={Normalisasi Data}, label={code:4.4}]
-NORM_MEAN = (0.485, 0.456, 0.406)
-NORM_STD = (0.229, 0.224, 0.225)
-
-def _array_to_normalized_tensor(self, image_array: np.ndarray):
-	tensor = torch.from_numpy(image_array).permute(2, 0, 1).float()
-
-	if image_array.dtype == np.uint8:
-		tensor = tensor / 255.0
-	elif tensor.max() > 1.0:
-		tensor = tensor / 255.0
+def _normalize_image(self, image) -> torch.Tensor:
+	tensor = TF.to_image(image)
+	tensor = TF.to_dtype(tensor, dtype=torch.float32, scale=True)
 
 	tensor = torch.clamp(tensor, 0.0, 1.0)
-
 	tensor = TF.normalize(
 		tensor,
 		mean=self.mean,
 		std=self.std,
+		inplace=True
 	)
 
-	return tensor
+	return tensor.contiguous()
 \end{lstlisting}
 
-Kode~\ref{code:4.4} menunjukkan bahwa citra yang semula berada dalam format H $\times$ W $\times$ C dikonversi menjadi format \textit{tensor} C $\times$ H $\times$ W. Selanjutnya, nilai piksel dikonversi ke rentang [0, 1] dengan membagi nilai piksel 8-bit terhadap 255. Setelah itu, normalisasi dilakukan menggunakan nilai mean (0,485, 0,456, 0,406) dan standard deviation (0,229, 0,224, 0,225).
-
-Normalisasi diterapkan pada seluruh subset data, yaitu \textit{train}, validasi, dan \textit{test}. Perbedaannya adalah subset \textit{train} terlebih dahulu melalui proses augmentasi, sedangkan subset validasi dan \textit{test} hanya melalui proses transformasi dasar, konversi \textit{tensor}, dan normalisasi. Dengan demikian, seluruh data yang diberikan ke model memiliki format dan skala nilai yang konsisten pada tahap pelatihan, validasi, dan pengujian.
+Kode~\ref{code:4.4} menunjukkan bahwa citra masukan terlebih dahulu dikonversi menjadi \textit{tensor} dengan format C $\times$ H $\times$ W. Selanjutnya, nilai piksel dikonversi ke tipe \textit{float32} dan diskalakan ke rentang [0, 1]. Setelah itu, nilai piksel dibatasi pada rentang [0, 1] menggunakan \texttt{torch.clamp}, kemudian dinormalisasi menggunakan nilai mean (0,485, 0,456, 0,406) dan standard deviation (0,229, 0,224, 0,225). Proses normalisasi ini dilakukan agar distribusi nilai piksel sesuai dengan karakteristik model pralatih yang digunakan.
 
 \section{Hasil Rancangan Model} \label{IV.Model}
 Tahap rancangan model dilakukan untuk mengimplementasikan dua pendekatan klasifikasi video \textit{deepfake}, yaitu pendekatan spasial dan pendekatan spasiotemporal. Kedua pendekatan menggunakan data masukan yang berasal dari hasil \textit{strided temporal sampling} yang sama, sehingga perbandingan performa dapat dilakukan secara lebih setara. Perbedaan utama kedua model terletak pada cara model memproses \textit{frame} dalam satu klip. Model spasial memproses \textit{frame} secara individual, sedangkan model spasiotemporal memproses seluruh \textit{frame} dalam satu klip secara langsung.
