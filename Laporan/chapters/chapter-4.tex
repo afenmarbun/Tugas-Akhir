@@ -23,13 +23,13 @@ Pada tahap ini dilakukan proses pengumpulan \textit{dataset} yang digunakan dala
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel \ref{table:4.wilddeepfake}, \textit{dataset} \textit{WildDeepfake} pada penelitian ini terdiri atas 6.508 video data latih dan 806 video data uji. Pada data latih, kelas \textit{real} berjumlah 3.409 video, sedangkan kelas \textit{fake} berjumlah 3.099 video. Pada data uji, kelas \textit{real} berjumlah 396 video, sedangkan kelas \textit{fake} berjumlah 410 video. Data tersebut selanjutnya diproses pada tahap \textit{pre-processing} untuk membentuk klip wajah yang digunakan sebagai masukan model.
+Berdasarkan Tabel \ref{table:4.wilddeepfake}, \textit{dataset} \textit{WildDeepfake} pada penelitian ini terdiri atas 6.508 video data latih dan 806 video data uji. Pada data latih, kelas \textit{real} berjumlah 3.409 video, sedangkan kelas \textit{fake} berjumlah 3.099 video. Pada data uji, kelas \textit{real} berjumlah 396 video, sedangkan kelas \textit{fake} berjumlah 410 video. Data tersebut selanjutnya diproses pada tahap \textit{pre-processing} untuk membentuk klip 46 \textit{frame} yang digunakan sebagai masukan model.
 
 \section{Hasil \textit{Pre-processing} Data} \label{IV.Preprocessing}
 Tahap \textit{pre-processing} data dilakukan untuk menyiapkan \textit{dataset} \textit{WildDeepfake} agar dapat digunakan sebagai masukan model. Pada tahap ini, data yang sebelumnya berbentuk video wajah diproses menjadi klip dengan panjang seragam, kemudian dibagi ke dalam subset \textit{train}, validasi, dan \textit{test}.
 
 \subsection{Hasil Pembentukan Klip 46 \textit{Frame}} \label{IV.Klip46}
-Pada tahap ini, setiap video wajah pada \textit{dataset} \textit{WildDeepfake} diproses menjadi klip turunan dengan panjang tetap 46 \textit{frame}. Pembentukan klip dilakukan agar seluruh data memiliki panjang temporal yang seragam sebelum digunakan pada proses \textit{strided temporal sampling}. Dengan demikian, unit data yang digunakan pada tahap eksperimen bukan lagi video wajah awal, melainkan klip wajah berdurasi tetap.
+Pada tahap ini, setiap video wajah pada \textit{dataset} \textit{WildDeepfake} diproses menjadi klip dengan panjang tetap 46 \textit{frame}. Pembentukan klip dilakukan agar seluruh data memiliki panjang temporal yang seragam sebelum digunakan pada proses \textit{strided temporal sampling}. Dengan demikian, unit data yang digunakan pada tahap eksperimen bukan lagi video wajah awal, melainkan klip 46 \textit{frame}.
 
 Potongan kode yang digunakan untuk membentuk klip 46 \textit{frame} ditunjukkan pada Kode~\ref{code:4.1}.
 
@@ -115,9 +115,9 @@ def build_46f_clips_for_subset(
 
 Kode~\ref{code:4.1} menunjukkan bahwa setiap video terlebih dahulu dihitung jumlah klip penuhnya berdasarkan panjang klip 46 \textit{frame}. Apabila terdapat sisa \textit{frame} yang tidak membentuk satu klip penuh, sisa tersebut dibuang dari sisi kiri dan kanan secara seimbang. Setelah itu, setiap rentang \textit{frame} disalin ke folder klip baru sehingga satu klip berisi tepat 46 \textit{frame}.
 
-Pembentukan klip 46 \textit{frame} juga bertujuan agar \textit{frame} pada video yang lebih panjang tidak terlalu banyak terbuang. Karena model pada penelitian ini hanya membutuhkan 16 \textit{frame} sebagai masukan untuk satu klip, satu video yang memiliki ratusan \textit{frame} dapat dipecah menjadi beberapa klip turunan sebelum dilakukan \textit{strided temporal sampling}. Dengan strategi ini, informasi temporal dari satu video dapat dimanfaatkan secara lebih efisien dan jumlah data eksperimen yang dihasilkan menjadi lebih banyak.
+Pembentukan klip 46 \textit{frame} juga bertujuan agar \textit{frame} pada video yang lebih panjang tidak terlalu banyak terbuang. Karena model pada penelitian ini hanya membutuhkan 16 \textit{frame} sebagai masukan untuk satu klip, satu video yang memiliki ratusan \textit{frame} dapat dipecah menjadi beberapa klip sebelum dilakukan \textit{strided temporal sampling}. Dengan strategi ini, informasi temporal dari satu video dapat dimanfaatkan secara lebih efisien dan jumlah data eksperimen yang dihasilkan menjadi lebih banyak.
 
-Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip tersebut memiliki panjang 46 \textit{frame}, sehingga tidak terdapat klip yang tidak valid. Distribusi kelas hasil pembentukan klip 46 \textit{frame} ditunjukkan pada Tabel~\ref{table:4.klip46}.
+Berdasarkan hasil pembentukan klip 46 \textit{frame}, diperoleh total 22.303 klip. Seluruh klip tersebut memiliki panjang 46 \textit{frame}, sehingga tidak terdapat klip yang tidak valid. Distribusi kelas hasil pembentukan klip 46 \textit{frame} ditunjukkan pada Tabel~\ref{table:4.klip46}.
 
 \begin{table}[htbp]
 	\centering
@@ -138,12 +138,12 @@ Berdasarkan hasil pre-processing, diperoleh total 22.303 klip. Seluruh klip ters
 	\end{tabular}
 \end{table}
 
-Berdasarkan Tabel~\ref{table:4.klip46}, jumlah klip pada data latih terdiri atas 6.758 klip kelas \textit{real} dan 12.313 klip kelas \textit{fake}, sedangkan pada data uji terdiri atas 1.093 klip kelas \textit{real} dan 2.139 klip kelas \textit{fake}. Secara keseluruhan, hasil pembentukan klip menunjukkan bahwa distribusi data tetap didominasi oleh kelas \textit{fake} setelah video wajah diproses menjadi klip turunan.
+Berdasarkan Tabel~\ref{table:4.klip46}, jumlah klip pada data latih terdiri atas 6.758 klip kelas \textit{real} dan 12.313 klip kelas \textit{fake}, sedangkan pada data uji terdiri atas 1.093 klip kelas \textit{real} dan 2.139 klip kelas \textit{fake}. Secara keseluruhan, hasil pembentukan klip menunjukkan bahwa distribusi data tetap didominasi oleh kelas \textit{fake} setelah video wajah diproses menjadi klip 46 \textit{frame}.
 
 \subsection{Hasil Pembagian \textit{Dataset}} \label{IV.Split}
 \textit{Dataset} \textit{WildDeepfake} yang digunakan dalam penelitian ini sebelumnya telah memiliki pembagian awal berupa subset \textit{train} dan \textit{test}. Subset tersebut tersusun dalam empat direktori utama, yaitu \textit{real\_train}, \textit{fake\_train}, \textit{real\_test}, dan \textit{fake\_test}. Pada penelitian ini, subset \textit{real\_test} dan \textit{fake\_test} tetap digunakan sebagai data pengujian akhir. Sementara itu, data yang berasal dari subset \textit{real\_train} dan \textit{fake\_train} dibagi kembali menjadi data \textit{train} dan data validasi.
 
-Pembagian data validasi dilakukan dari subset \textit{train} dengan rasio 80:20. Proses pembagian dilakukan pada level \textit{group\_id}, bukan pada level klip. Strategi ini digunakan agar klip turunan yang berasal dari video atau sumber yang sama tidak terpisah ke subset yang berbeda. Dengan demikian, risiko kebocoran data antara data latih dan data validasi dapat dikurangi.
+Pembagian data validasi dilakukan dari subset \textit{train} dengan rasio 80:20. Proses pembagian dilakukan pada level \textit{group\_id}, bukan pada level klip. Strategi ini digunakan agar klip yang berasal dari video atau sumber yang sama tidak terpisah ke subset yang berbeda. Dengan demikian, risiko kebocoran data antara data latih dan data validasi dapat dikurangi.
 
 Potongan kode pembagian \textit{dataset} ditunjukkan pada Kode~\ref{code:4.2}.
 
