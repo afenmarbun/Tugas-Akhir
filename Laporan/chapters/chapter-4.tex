@@ -422,49 +422,41 @@ Berdasarkan Tabel~\ref{table:4.baseline}, model spasiotemporal BASE-ST memperole
 
 \begin{figure}[htbp]
 	\centering
-	\begin{minipage}{0.65\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Loss.png}}
-		\\(a) Model spasial
-	\end{minipage}
-	
-	\vspace{0.75em}
-	
-	\begin{minipage}{0.65\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Loss.png}}
-		\\(b) Model spasiotemporal
-	\end{minipage}
-	\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{baseline}.}
-	\label{fig:4.baseline-loss}
+	\includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Loss.png}}
+	\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{baseline} untuk model spasial.}
+	\label{fig:4.baseline-loss-spatial}
 \end{figure}
 
-Berdasarkan Gambar~\ref{fig:4.baseline-loss}, kurva \textit{training loss} pada model spasial dan spasiotemporal sama-sama menurun secara bertahap selama proses pelatihan. Pola ini menunjukkan bahwa kedua model mampu mempelajari pola dari data latih dengan baik. Sementara itu, \textit{validation loss} pada kedua model masih menunjukkan fluktuasi pada beberapa \textit{epoch}, tetapi tidak mengalami peningkatan secara terus-menerus. Hal ini mengindikasikan bahwa proses pelatihan masih berjalan stabil dan tidak menunjukkan gejala \textit{overfitting} yang berat pada konfigurasi \textit{baseline}.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Loss.png}}
+	\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{baseline} untuk model spasiotemporal.}
+	\label{fig:4.baseline-loss-spatiotemporal}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:4.baseline-loss-spatial} dan Gambar~\ref{fig:4.baseline-loss-spatiotemporal}, kurva \textit{training loss} pada model spasial dan spasiotemporal sama-sama menurun secara bertahap selama proses pelatihan. Pola ini menunjukkan bahwa kedua model mampu mempelajari pola dari data latih dengan baik. Sementara itu, \textit{validation loss} pada kedua model masih menunjukkan fluktuasi pada beberapa \textit{epoch}, tetapi tidak mengalami peningkatan secara terus-menerus. Hal ini mengindikasikan bahwa proses pelatihan masih berjalan stabil dan tidak menunjukkan gejala \textit{overfitting} yang berat pada konfigurasi \textit{baseline}.
 
 Jika dibandingkan, model spasiotemporal menunjukkan nilai \textit{validation loss} akhir yang lebih rendah dibandingkan model spasial. Kondisi ini menunjukkan bahwa model spasiotemporal memiliki kemampuan generalisasi yang lebih baik terhadap data validasi. Temuan tersebut sejalan dengan hasil evaluasi pada data uji, yaitu model spasiotemporal memperoleh performa yang lebih tinggi dibandingkan model spasial.
 
 \begin{figure}[htbp]
 	\centering
-	\begin{minipage}{0.65\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Accuracy.png}}
-		\\(a) Model spasial
-	\end{minipage}
-	
-	\vspace{0.75em}
-	
-	\begin{minipage}{0.65\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Accuracy.png}}
-		\\(b) Model spasiotemporal
-	\end{minipage}
-	\caption{Kurva \textit{training accuracy} dan \textit{validation accuracy} pada eksperimen \textit{baseline}.}
-	\label{fig:4.baseline-acc}
+	\includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Accuracy.png}}
+	\caption{Kurva \textit{training accuracy} dan \textit{validation accuracy} pada eksperimen \textit{baseline} untuk model spasial.}
+	\label{fig:4.baseline-acc-spatial}
 \end{figure}
 
-Berdasarkan Gambar~\ref{fig:4.baseline-acc}, kurva \textit{training accuracy} pada kedua model menunjukkan peningkatan secara bertahap dari awal hingga akhir pelatihan. \textit{validation accuracy} juga memperlihatkan tren peningkatan dan cenderung stabil pada \textit{epoch} akhir. Hal ini menunjukkan bahwa kedua model mampu meningkatkan kemampuan klasifikasi selama proses pelatihan.
+Berdasarkan Gambar~\ref{fig:4.baseline-acc-spatial} dan Gambar~\ref{fig:4.baseline-acc-spatiotemporal}, kurva \textit{training accuracy} pada kedua model menunjukkan peningkatan secara bertahap dari awal hingga akhir pelatihan. \textit{validation accuracy} juga memperlihatkan tren peningkatan dan cenderung stabil pada \textit{epoch} akhir. Hal ini menunjukkan bahwa kedua model mampu meningkatkan kemampuan klasifikasi selama proses pelatihan.
 
 Namun, model spasiotemporal menghasilkan \textit{validation accuracy} yang lebih tinggi dibandingkan model spasial. Dengan demikian, kurva \textit{accuracy} memperkuat hasil pada Tabel~\ref{table:4.baseline} bahwa pendekatan spasiotemporal memiliki performa pembelajaran dan generalisasi yang lebih baik pada eksperimen \textit{baseline}. Secara keseluruhan, pola kurva \textit{loss} dan \textit{accuracy} menunjukkan bahwa kedua model berhasil dilatih dengan stabil, tetapi model spasiotemporal memberikan hasil yang lebih unggul.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Accuracy.png}}
+	\caption{Kurva \textit{training accuracy} dan \textit{validation accuracy} pada eksperimen \textit{baseline} untuk model spasiotemporal.}
+	\label{fig:4.baseline-acc-spatiotemporal}
+\end{figure}
+
+Berdasarkan \textit{confusion matrix} pada Gambar~\ref{fig:4.baseline-cm}, jumlah \textit{false positive} dan \textit{false negative} pada model spasial masih relatif tinggi. \textit{False positive} menunjukkan bahwa sebagian data \textit{real} masih keliru diklasifikasikan sebagai \textit{fake}. Kondisi ini mengindikasikan bahwa model spasial cenderung sensitif terhadap karakteristik visual tertentu yang dianggap menyerupai artefak manipulasi. Akibatnya, sebagian video \textit{real} dengan variasi pencahayaan, pose, kompresi, atau kualitas visual tertentu dapat salah dikenali sebagai \textit{fake}. Sementara itu, \textit{false negative} menunjukkan bahwa sebagian data \textit{fake} belum berhasil terdeteksi dan masih diklasifikasikan sebagai \textit{real}. Hal ini memperlihatkan keterbatasan pendekatan spasial dalam menangkap klip \textit{fake} yang artefak manipulasinya tidak cukup jelas pada tingkat \textit{frame} individual.
 
 \begin{figure}[htbp]
 	\centering
@@ -482,9 +474,6 @@ Namun, model spasiotemporal menghasilkan \textit{validation accuracy} yang lebih
 	\caption{\textit{Confusion matrix} pada eksperimen \textit{baseline}.}
 	\label{fig:4.baseline-cm}
 \end{figure}
-
-
-Berdasarkan \textit{confusion matrix} pada Gambar~\ref{fig:4.baseline-cm}, jumlah \textit{false positive} dan \textit{false negative} pada model spasial masih relatif tinggi. \textit{False positive} menunjukkan bahwa sebagian data \textit{real} masih keliru diklasifikasikan sebagai \textit{fake}. Kondisi ini mengindikasikan bahwa model spasial cenderung sensitif terhadap karakteristik visual tertentu yang dianggap menyerupai artefak manipulasi. Akibatnya, sebagian video \textit{real} dengan variasi pencahayaan, pose, kompresi, atau kualitas visual tertentu dapat salah dikenali sebagai \textit{fake}. Sementara itu, \textit{false negative} menunjukkan bahwa sebagian data \textit{fake} belum berhasil terdeteksi dan masih diklasifikasikan sebagai \textit{real}. Hal ini memperlihatkan keterbatasan pendekatan spasial dalam menangkap klip \textit{fake} yang artefak manipulasinya tidak cukup jelas pada tingkat \textit{frame} individual.
 
 Pada model spasiotemporal, jumlah \textit{false positive} lebih rendah dibandingkan model spasial. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{VideoMAE} lebih mampu membedakan variasi visual alami pada video \textit{real} dari pola manipulasi pada video \textit{fake}. Dengan kata lain, model spasiotemporal lebih jarang memberikan prediksi \textit{fake} terhadap data yang sebenarnya \textit{real}. Hal ini penting karena \textit{false positive} yang tinggi dapat menyebabkan video asli keliru dianggap sebagai \textit{deepfake} \cite{Gu2021}\cite{Haliassos2021}.
 
@@ -594,8 +583,6 @@ M2-ST & 60,4\% & 55,4\% & 55,2\% & 55,3\% & 57,4\% \\
 \end{tabular}
 \end{table}
 
-Untuk mendukung analisis terhadap penurunan performa tersebut, kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 ditunjukkan pada Gambar~\ref{fig:4.ablation-lr-loss-spatial} dan Gambar~\ref{fig:4.ablation-lr-loss-spatiotemporal}.
-
 Berdasarkan Tabel~\ref{table:4.ablation-lr}, peningkatan \textit{learning rate} menjadi 5e-4 menyebabkan penurunan performa yang signifikan pada kedua pendekatan. Penurunan tersebut terlihat pada seluruh metrik evaluasi, baik pada model spasial maupun spasiotemporal. Hal ini menunjukkan bahwa \textit{learning rate} yang lebih besar tidak membuat proses \textit{fine-tuning} menjadi lebih baik, tetapi justru mengganggu kestabilan pembelajaran model.
 
 \begin{figure}[htbp]
@@ -605,14 +592,14 @@ Berdasarkan Tabel~\ref{table:4.ablation-lr}, peningkatan \textit{learning rate} 
 \label{fig:4.ablation-lr-loss-spatial}
 \end{figure}
 
+Pola pada Gambar~\ref{fig:4.ablation-lr-loss-spatial} dan Gambar~\ref{fig:4.ablation-lr-loss-spatiotemporal} memperkuat temuan tersebut. Pada kedua model, \textit{training loss} terus menurun selama proses pelatihan, tetapi \textit{validation loss} tidak mengikuti pola penurunan yang sama. \textit{Validation loss} justru cenderung berfluktuasi dan berada pada nilai yang relatif tinggi sepanjang pelatihan. Pola ini menunjukkan bahwa model masih mampu menyesuaikan diri terhadap data latih, tetapi penyesuaian tersebut tidak menghasilkan peningkatan kemampuan generalisasi pada data validasi. Dengan demikian, \textit{learning rate} 5e-4 membuat proses \textit{fine-tuning} menjadi tidak stabil dan menyebabkan jarak antara performa pelatihan dan validasi semakin jelas.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.65\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/Loss.png}}
 \caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{learning rate} 5e-4 untuk model spasiotemporal.}
 \label{fig:4.ablation-lr-loss-spatiotemporal}
 \end{figure}
-
-Pola pada Gambar~\ref{fig:4.ablation-lr-loss-spatial} dan Gambar~\ref{fig:4.ablation-lr-loss-spatiotemporal} memperkuat temuan tersebut. Pada kedua model, \textit{training loss} terus menurun selama proses pelatihan, tetapi \textit{validation loss} tidak mengikuti pola penurunan yang sama. \textit{Validation loss} justru cenderung berfluktuasi dan berada pada nilai yang relatif tinggi sepanjang pelatihan. Pola ini menunjukkan bahwa model masih mampu menyesuaikan diri terhadap data latih, tetapi penyesuaian tersebut tidak menghasilkan peningkatan kemampuan generalisasi pada data validasi. Dengan demikian, \textit{learning rate} 5e-4 membuat proses \textit{fine-tuning} menjadi tidak stabil dan menyebabkan jarak antara performa pelatihan dan validasi semakin jelas.
 
 Anomali yang paling menonjol terlihat pada model spasiotemporal M2-ST. Pada konfigurasi \textit{baseline}, model spasiotemporal BASE-ST menghasilkan \textit{accuracy} sebesar 85,8\% dan \textit{AUC} sebesar 92,3\%. Namun, ketika \textit{learning rate} dinaikkan menjadi 5e-4, performa M2-ST turun menjadi \textit{accuracy} 60,4\% dan \textit{AUC} 57,4\%. Penurunan ini bahkan membuat performa M2-ST lebih rendah dibandingkan M2-SP. Dengan demikian, eksperimen ini menunjukkan bahwa model spasiotemporal lebih sensitif terhadap \textit{learning rate} tinggi dibandingkan model spasial.
 
@@ -626,6 +613,8 @@ Jika dibandingkan dengan eksperimen \textit{epoch} maksimum, perubahan \textit{l
 
 \subsubsection{Pengaruh \textit{Loss Function}} \label{IV.Eksperimen_Ablation_Loss}
 Setelah pengaruh \textit{learning rate} dianalisis, eksperimen berikutnya dilakukan untuk melihat pengaruh fungsi \textit{loss} terhadap performa model. Pada \textit{baseline}, fungsi \textit{loss} yang digunakan adalah \textit{Cross Entropy Loss}. Pada eksperimen ini, fungsi \textit{loss} diubah menjadi \textit{Focal Loss}. Pemilihan \textit{Focal Loss} didasarkan pada karakteristiknya yang memberikan bobot lebih besar terhadap sampel yang sulit diklasifikasikan, sehingga fungsi \textit{loss} ini dapat digunakan untuk mengevaluasi apakah model menjadi lebih baik dalam menangani kesalahan klasifikasi yang masih muncul pada konfigurasi \textit{baseline} \cite{lin2018focallossdenseobject}. Dalam konteks klasifikasi \textit{deepfake}, pengujian ini penting karena kesalahan model tidak hanya dilihat dari jumlah prediksi benar secara umum, tetapi juga dari pola \textit{false positive} dan \textit{false negative} pada kelas \textit{real} dan \textit{fake}.
+
+Selain itu, \textit{Focal Loss} juga relevan digunakan pada kondisi distribusi data yang tidak seimbang. Pada \textit{dataset} hasil pembentukan klip, jumlah klip kelas \textit{fake} lebih banyak dibandingkan kelas \textit{real}, sehingga model berpotensi lebih mudah mempelajari pola dari kelas yang lebih dominan. \textit{Focal Loss} dirancang untuk mengurangi kontribusi sampel yang mudah diklasifikasikan dan memberikan perhatian lebih besar pada sampel yang sulit, sehingga fungsi \textit{loss} ini dapat membantu model dalam menangani ketidakseimbangan data dan kesalahan klasifikasi pada kelas yang lebih sulit dikenali \cite{lin2018focallossdenseobject}.
 
 \begin{table}[htbp]
 \centering
@@ -652,16 +641,14 @@ Berdasarkan Tabel~\ref{table:4.ablation-loss}, penggunaan \textit{Focal Loss} me
 
 Sebaliknya, pada model spasiotemporal, penggunaan \textit{Focal Loss} tidak memberikan peningkatan performa secara keseluruhan. \textit{Accuracy}, \textit{precision}, \textit{recall}, \textit{F1}, dan \textit{AUC} cenderung lebih rendah dibandingkan \textit{baseline Cross Entropy Loss}. Meskipun penurunannya tidak sebesar eksperimen \textit{learning rate}, hasil ini menunjukkan bahwa \textit{Focal Loss} tidak selalu memberikan manfaat yang sama pada model yang telah memanfaatkan informasi temporal. Dengan kata lain, pengaruh \textit{Focal Loss} bergantung pada karakteristik model yang digunakan.
 
-Untuk menganalisis perubahan pola kesalahan secara lebih rinci, \textit{confusion matrix baseline} dan \textit{Focal Loss} ditunjukkan pada Gambar~\ref{fig:4.ablation-loss-cm-spatial} dan Gambar~\ref{fig:4.ablation-loss-cm-spatiotemporal}.
-
-Berdasarkan Gambar~\ref{fig:4.ablation-loss-cm-spatial}, penggunaan \textit{Focal Loss} pada model spasial mampu menurunkan \textit{false positive} dibandingkan \textit{Cross Entropy Loss}. Artinya, jumlah data \textit{real} yang salah diprediksi sebagai \textit{fake} menjadi lebih sedikit. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{Focal Loss} membantu model spasial menjadi lebih hati-hati dalam memberikan prediksi \textit{fake} terhadap data \textit{real}. Namun, penurunan \textit{false positive} tersebut disertai dengan peningkatan \textit{false negative}, sehingga sebagian data \textit{fake} menjadi lebih banyak yang tidak terdeteksi dibandingkan \textit{baseline}. Meskipun demikian, secara keseluruhan perubahan ini tetap menghasilkan peningkatan metrik pada model spasial.
-
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M03/Perbandingan Confusion Matrix - Model Spasial.jpg}}
 \caption{\textit{Confusion matrix} model spasial pada \textit{Cross Entropy Loss} dan \textit{Focal Loss}.}
 \label{fig:4.ablation-loss-cm-spatial}
 \end{figure}
+
+Berdasarkan Gambar~\ref{fig:4.ablation-loss-cm-spatial}, penggunaan \textit{Focal Loss} pada model spasial mampu menurunkan \textit{false positive} dibandingkan \textit{Cross Entropy Loss}. Artinya, jumlah data \textit{real} yang salah diprediksi sebagai \textit{fake} menjadi lebih sedikit. Penurunan \textit{false positive} ini menunjukkan bahwa \textit{Focal Loss} membantu model spasial menjadi lebih hati-hati dalam memberikan prediksi \textit{fake} terhadap data \textit{real}. Namun, penurunan \textit{false positive} tersebut disertai dengan peningkatan \textit{false negative}, sehingga sebagian data \textit{fake} menjadi lebih banyak yang tidak terdeteksi dibandingkan \textit{baseline}. Meskipun demikian, secara keseluruhan perubahan ini tetap menghasilkan peningkatan metrik pada model spasial.
 
 \begin{figure}[htbp]
 \centering
