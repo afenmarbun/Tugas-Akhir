@@ -579,25 +579,20 @@ Berdasarkan Tabel~\ref{table:4.ablation-epoch}, peningkatan \textit{epoch} maksi
 
 Pada model spasiotemporal, penambahan \textit{epoch} juga menurunkan performa pada seluruh metrik utama. \textit{accuracy} menurun dari 85,8\% menjadi 84,5\%, \textit{F1} menurun dari 84,5\% menjadi 83,2\%, dan \textit{AUC} menurun dari 92,3\% menjadi 91,7\%. Penurunan ini menunjukkan bahwa pelatihan lebih lama tidak memberikan keuntungan tambahan bagi VideoMAE pada konfigurasi ini.
 
-Untuk mendukung hasil tersebut, Gambar~\ref{fig:4.ablation-epoch-loss} menampilkan kurva \textit{training loss} dan \textit{validation loss} pada konfigurasi 40 \textit{epoch} untuk model spasial dan spasiotemporal.
+Untuk mendukung hasil tersebut, Gambar~\ref{fig:4.ablation-epoch-loss-spatial} dan Gambar~\ref{fig:4.ablation-epoch-loss-spatiotemporal} menampilkan kurva \textit{training loss} dan \textit{validation loss} pada konfigurasi 40 \textit{epoch} untuk model spasial dan spasiotemporal.
 
 \begin{figure}[htbp]
 \centering
-\begin{minipage}{0.75\textwidth}
-\centering
-\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/Loss.png}}
-\\(a) Model spasial
-\end{minipage}
+\includegraphics[width=0.75\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/Loss.png}}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40 untuk model spasial.}
+\label{fig:4.ablation-epoch-loss-spatial}
+\end{figure}
 
-\vspace{0.75em}
-
-\begin{minipage}{0.75\textwidth}
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Loss.png}}
-\\(b) Model spasiotemporal
-\end{minipage}
-\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40: (a) Model spasial dan (b) Model spasiotemporal.}
-\label{fig:4.ablation-epoch-loss}
+\includegraphics[width=0.75\textwidth]{\detokenize{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Loss.png}}
+\caption{Kurva \textit{training loss} dan \textit{validation loss} pada eksperimen \textit{epoch} maksimum 40 untuk model spasiotemporal.}
+\label{fig:4.ablation-epoch-loss-spatiotemporal}
 \end{figure}
 
 Secara umum, \textit{training loss} pada kedua model terus menurun hingga akhir pelatihan, yang menunjukkan bahwa model semakin menyesuaikan diri terhadap data latih. Namun, \textit{validation loss} tidak menunjukkan penurunan yang konsisten dan cenderung berfluktuasi pada \textit{epoch}-\textit{epoch} lanjutan. Pola ini menunjukkan bahwa penambahan \textit{epoch} tidak lagi memberikan perbaikan pada data validasi.
