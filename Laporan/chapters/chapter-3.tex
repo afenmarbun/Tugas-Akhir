@@ -167,7 +167,30 @@ Normalisasi dilakukan agar distribusi nilai piksel menjadi lebih terstandarisasi
 Pada pendekatan spasial maupun spasiotemporal, setiap \textit{frame} hasil \textit{strided temporal sampling} terlebih dahulu diubah ke rentang $[0, 1]$, kemudian dinormalisasi menggunakan parameter \textit{mean} = $[0.485, 0.456, 0.406]$ dan \textit{standard deviation} = $[0.229, 0.224, 0.225]$. Parameter ini mengikuti konfigurasi normalisasi \textit{ImageNet} yang digunakan pada implementasi model dalam penelitian ini. \par
 
 \subsection{Rancangan Model}
-Pada tahap ini, rancangan model disusun untuk membandingkan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE pada tugas klasifikasi video \textit{deepfake}. Kedua model menggunakan \textit{frame}-\textit{frame} hasil \textit{strided temporal sampling} yang sama sebagai evidensi visual dasar, sehingga perbedaan performa yang diperoleh lebih merefleksikan perbedaan kemampuan model dalam memanfaatkan informasi spasial dan temporal. Pada pendekatan spasial, masukan diproses pada tingkat \textit{frame} dan hasilnya diagregasi pada tingkat klip, sedangkan pada pendekatan spasiotemporal, masukan diproses langsung pada tingkat klip. Rancangan ini memungkinkan evaluasi komparatif yang lebih objektif terhadap kedua pendekatan pada data \textit{deepfake in-the-wild}. \par
+Pada tahap ini, rancangan model disusun untuk membandingkan pendekatan spasial berbasis Vision Transformer (ViT) dan pendekatan spasiotemporal berbasis VideoMAE pada tugas klasifikasi video \textit{deepfake}. Kedua model menggunakan \textit{frame-frame} hasil \textit{strided temporal sampling} yang sama sebagai evidensi visual dasar, sehingga perbedaan performa yang diperoleh lebih merefleksikan perbedaan cara model dalam memanfaatkan informasi spasial dan temporal. Pada pendekatan spasial, \textit{frame} dalam satu klip diproses sebagai citra individual, kemudian hasil prediksi setiap \textit{frame} diagregasi menjadi prediksi tingkat klip. Sementara itu, pada pendekatan spasiotemporal, seluruh \textit{frame} dalam satu klip diproses secara langsung sebagai masukan video untuk menghasilkan prediksi tingkat klip. \par
+
+Untuk menjaga aspek \textit{fairness} dalam perbandingan pendekatan spasial dan spasiotemporal, penelitian ini menggunakan model pada skala arsitektur yang relatif sebanding, yaitu ViT-Base untuk pendekatan spasial dan VideoMAE-Base untuk pendekatan spasiotemporal. Keduanya berasal dari keluarga arsitektur Transformer dan berada pada varian Base, sehingga perbandingan tidak dilakukan antara model kecil dan model besar yang memiliki kapasitas representasi sangat berbeda. Model ViT-Base yang digunakan adalah \texttt{timm/vit\_base\_patch16\_224.orig\_in21k}\footnote{\url{https://huggingface.co/timm/vit_base_patch16_224.orig_in21k}}, yaitu model Vision Transformer berbasis \textit{patch} berukuran $16 \times 16$ dengan ukuran masukan $224 \times 224$ piksel. Model tersebut memiliki sekitar 85,8 juta parameter dan menggunakan bobot hasil \textit{pre-training} pada ImageNet-21k. Sementara itu, model VideoMAE yang digunakan adalah \texttt{MCG-NJU/videomae-base-finetuned-ssv2}\footnote{\url{https://huggingface.co/MCG-NJU/videomae-base-finetuned-ssv2}}, yaitu model yang telah melalui proses \textit{pre-training} secara \textit{self-supervised} pada dataset \textit{Something-Something V2} yang memiliki sekitar 87 juta parameter. \par
+
+\begin{table}[H]
+\centering
+\caption{Aspek \textit{Fairness} Perbandingan Model Spasial dan Spasiotemporal}
+\label{tab:3.fairness-model}
+\begin{tabular}{lll}
+\toprule
+\textbf{Aspek} & \textbf{ViT-Base} & \textbf{VideoMAE-Base} \\
+\midrule
+Arsitektur & Transformer & Transformer \\
+Varian model & Base & Base / ViT-B \textit{backbone} \\
+Jumlah parameter & $\pm$85,8 juta & $\pm$87 juta \\
+Domain bobot awal & Citra & Video \\
+Dataset bobot awal & ImageNet-21k & \textit{Something-Something V2} \\
+Unit masukan model & \textit{Frame} individual & Klip video \\
+\bottomrule
+\end{tabular}
+\end{table}
+\par
+
+Meskipun aspek perbandingan telah dikendalikan melalui penggunaan varian Base, \textit{frame} hasil \textit{sampling} yang sama, pembagian \textit{dataset} yang sama, serta evaluasi pada unit klip yang sama, penelitian ini tetap tidak dapat dinyatakan sepenuhnya \textit{fair} dalam arti absolut. Hal ini karena terdapat beberapa aspek teknis yang berbeda antara kedua model, terutama domain dan \textit{dataset pre-training} serta jumlah parameter model. ViT-Base memperoleh bobot awal dari domain citra melalui ImageNet-21k, sedangkan VideoMAE-Base memperoleh bobot awal dari domain video melalui \textit{Something-Something V2}. Selain itu, jumlah parameter kedua model relatif sebanding, tetapi tidak identik, yaitu sekitar 85,8 juta parameter pada ViT-Base dan sekitar 87 juta parameter pada VideoMAE-Base. Perbedaan tersebut dapat memengaruhi representasi awal yang dimiliki model sebelum proses \textit{fine-tuning} pada \textit{WildDeepfake}. Oleh karena itu, hasil penelitian ini tidak dimaksudkan untuk menyatakan keunggulan universal salah satu arsitektur, melainkan untuk menganalisis kontribusi pendekatan spasial dan spasiotemporal dalam batas konfigurasi eksperimen, \textit{dataset}, dan model \textit{pretrained} yang digunakan pada penelitian ini. \par
 
 \subsubsection{Rancangan Model Spasial Berbasis Vision Transformer (ViT)}
 Model Vision Transformer (ViT) yang diperkenalkan oleh Dosovitskiy et al. pada tahun 2021 merupakan arsitektur berbasis Transformer untuk tugas klasifikasi citra yang memproses citra sebagai urutan \textit{image patch} \cite{dosovitskiy2021imageworth16x16words}. Berbeda dengan pendekatan konvolusional yang menekankan operasi lokal, ViT memanfaatkan mekanisme \textit{self-attention} untuk memodelkan hubungan global antarbagian citra, sehingga mampu menangkap keterkaitan visual yang tersebar pada berbagai area masukan \cite{dosovitskiy2021imageworth16x16words}. Dalam penelitian ini, ViT-Base digunakan sebagai model pada pendekatan spasial untuk melakukan klasifikasi video \textit{deepfake} berdasarkan informasi visual statis pada tingkat \textit{frame}. Model tersebut diinisialisasi menggunakan bobot pralatih pada ImageNet, kemudian disesuaikan lebih lanjut untuk tugas klasifikasi biner \textit{real} dan \textit{fake}. \par
