@@ -3,6 +3,16 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{LAMPIRAN}
 
+\newcommand{\lampiranimage}[1]{%
+	\leavevmode\raisebox{\dimexpr-\height+\ht\strutbox\relax}{%
+		\includegraphics[width=\linewidth,height=0.19\textheight,keepaspectratio]{#1}%
+	}%
+}
+
+\newcommand{\lampiranmissing}{%
+	\centering \textit{Tidak tersedia}%
+}
+
 \noindent \textbf{A. \textit{Source Code}}
 \par
 \vspace{0.3\baselineskip}
@@ -18,5 +28,321 @@
 \par
 \vspace{0.3\baselineskip}
 \noindent
-Lampiran ini disediakan untuk memuat hasil \textit{training} dan \textit{test} penelitian.
+Lampiran ini menyajikan visualisasi lengkap hasil \textit{training} dan \textit{test} untuk setiap konfigurasi eksperimen yang dilakukan. Setiap bagian menampilkan perbandingan antara model spasial dan model spasiotemporal pada konfigurasi yang sama. Visualisasi yang ditampilkan meliputi kurva \textit{accuracy}, kurva \textit{loss}, \textit{confusion matrix}, dan kurva ROC.
 \par
+
+\clearpage
+\noindent \textbf{1. Visualisasi Hasil Eksperimen BASE}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Accuracy.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Accuracy.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/Loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/Loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/confusion-matrix.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/confusion-matrix.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 1 Baseline/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{2. Visualisasi Hasil Eksperimen M1 - Epoch Maksimum}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/Accuracy.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Accuracy.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/Loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/Loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M01/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{3. Visualisasi Hasil Eksperimen M2 - \textit{Learning Rate}}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/Loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/Loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/media_images_test_confusion_matrix_1_59406680e7d0e8dafb9d.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M02/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{4. Visualisasi Hasil Eksperimen M3 - \textit{Loss Function}}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasial/confusion-matrix.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasiotemporal/confusion-matrix.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M03/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{5. Visualisasi Hasil Eksperimen M4 - Augmentasi Data}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M04/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{6. Visualisasi Hasil Eksperimen M5 - \textit{Dropout}}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M05/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{7. Visualisasi Hasil Eksperimen M6 - \textit{Scheduler}}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Ablation Study/M06/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{8. Visualisasi Hasil Eksperimen E2 - Penurunan Resolusi}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 2/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{9. Visualisasi Hasil Eksperimen E3 - \textit{Stride} Lebih Rapat}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 3/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{10. Visualisasi Hasil Eksperimen E4 - \textit{Frame} Lebih Sedikit}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 4/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{11. Visualisasi Hasil Eksperimen E5 - \textit{Frame} Lebih Banyak}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Accuracy} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasial/acc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasiotemporal/acc.png}\tabularnewline
+\midrule
+\textit{Loss} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasial/loss.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasiotemporal/loss.png}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 5/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\clearpage
+\noindent \textbf{12. Visualisasi Hasil Eksperimen E6 - Evaluasi Lintas-\textit{Dataset}}
+\par\vspace{0.5\baselineskip}
+\footnotesize
+\noindent
+\begin{tabular}{p{0.14\linewidth}p{0.38\linewidth}p{0.38\linewidth}}
+\toprule
+\textbf{Jenis} & \centering\textbf{Model Spasial} & \centering\textbf{Model Spasiotemporal}\tabularnewline
+\midrule
+\textit{Confusion Matrix} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 6/Model Spasial/cm.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 6/Model Spasiotemporal/cm.png}\tabularnewline
+\midrule
+\textit{ROC} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 6/Model Spasial/roc.png} &
+\centering\lampiranimage{figure/Hasil Eksperimen/Eksperimen Utama 6/Model Spasiotemporal/roc.png}\tabularnewline
+\bottomrule
+\end{tabular}
