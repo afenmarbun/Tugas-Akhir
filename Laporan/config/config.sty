@@ -15,6 +15,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage{subcaption} % Paket untuk mengatur gambar berdampingan
 \usepackage{graphicx}
+\newcommand{\borderedincludegraphics}[2][]{%
+	\begingroup
+	\setlength{\fboxsep}{0pt}%
+	\setlength{\fboxrule}{0.4pt}%
+	\fbox{\includegraphics[#1]{#2}}%
+	\endgroup
+}
 \usepackage{titling}
 \usepackage{blindtext} % Untuk lorem ipsum
 \usepackage{sectsty} % Untuk header & judul
@@ -24,6 +31,7 @@
 \usepackage{booktabs} % Untuk format tabel yang lebih rapi
 \usepackage{float} % Untuk tabular
 \usepackage{longtable} % Untuk tabel yang potong halaman
+\usepackage{pdflscape} % Untuk halaman lanskap pada tabel tertentu
 \usepackage{amsmath} % Untuk equation
 \usepackage{enumitem} % Untuk list enumerate yg lebih rapi
 \usepackage{nameref} % Untuk dapat menggunakan nameref, referensi dengan nama section/caption

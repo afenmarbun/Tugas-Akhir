@@ -1,13 +1,13 @@
-\contentsline {myequations}{\numberline {Rumus~2.1}Mekanisme \textit {self-attention} pada Transformer}{18}{equation.2.1}%
+\contentsline {myequations}{\numberline {Rumus~2.1}Mekanisme \textit {self-attention} pada Transformer}{19}{equation.2.1}%
 \contentsline {myequations}{\numberline {Rumus~2.2}Rumus indeks \textit {frame} pada \textit {strided temporal sampling}}{25}{equation.2.2}%
 \contentsline {myequations}{\numberline {Rumus~2.3}Rumus panjang klip minimum berdasarkan indeks \textit {frame}}{25}{equation.2.3}%
 \contentsline {myequations}{\numberline {Rumus~2.4}Rumus panjang klip minimum bentuk sederhana}{25}{equation.2.4}%
 \contentsline {myequations}{\numberline {Rumus~2.5}Rumus jumlah klip turunan dari satu video}{26}{equation.2.5}%
 \contentsline {myequations}{\numberline {Rumus~2.6}Rumus sisa \textit {frame} yang tidak membentuk klip penuh}{26}{equation.2.6}%
-\contentsline {myequations}{\numberline {Rumus~2.7}Rumus pembuangan \textit {frame} sisa secara simetris}{26}{equation.2.7}%
+\contentsline {myequations}{\numberline {Rumus~2.7}Rumus pembuangan \textit {frame} sisa secara simetris}{27}{equation.2.7}%
 \contentsline {myequations}{\numberline {Rumus~2.8}Rumus \textit {accuracy} pada klasifikasi biner}{28}{equation.2.8}%
-\contentsline {myequations}{\numberline {Rumus~2.9}Rumus \textit {precision} pada klasifikasi biner}{28}{equation.2.9}%
+\contentsline {myequations}{\numberline {Rumus~2.9}Rumus \textit {precision} pada klasifikasi biner}{29}{equation.2.9}%
 \contentsline {myequations}{\numberline {Rumus~2.10}Rumus \textit {recall} pada klasifikasi biner}{29}{equation.2.10}%
 \contentsline {myequations}{\numberline {Rumus~2.11}Rumus \textit {F1-score} pada klasifikasi biner}{29}{equation.2.11}%
-\contentsline {myequations}{\numberline {Rumus~2.12}Rumus \textit {true positive rate} (TPR)}{29}{equation.2.12}%
-\contentsline {myequations}{\numberline {Rumus~2.13}Rumus \textit {false positive rate} (FPR)}{29}{equation.2.13}%
+\contentsline {myequations}{\numberline {Rumus~2.12}Rumus \textit {true positive rate} (TPR)}{30}{equation.2.12}%
+\contentsline {myequations}{\numberline {Rumus~2.13}Rumus \textit {false positive rate} (FPR)}{30}{equation.2.13}%

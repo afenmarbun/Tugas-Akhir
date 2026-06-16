@@ -6,7 +6,7 @@ Alur penelitian dalam tugas akhir ini divisualisasikan melalui sebuah diagram al
 
 \begin{figure}[H] % Kalau menggunakan H, posisi gambar akan tepat dibawah teks
     \centering
-	\includegraphics[width=0.6\textwidth]{figure/alur-penelitian.jpg}
+	\borderedincludegraphics[width=0.6\textwidth]{figure/alur-penelitian.jpg}
     \caption{Alur Penelitian}
     \label{fig:3.alur}
 \end{figure}
@@ -146,7 +146,7 @@ Contoh tersebut menunjukkan bahwa \textit{strided temporal sampling} tidak menga
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{figure/preprocessing.jpg}
+	\borderedincludegraphics[width=0.9\textwidth]{figure/preprocessing.jpg}
 	\caption{Ilustrasi \textit{strided temporal sampling} ($T = 16$, $\tau = 3$)}
 	\label{fig:3.strided-temporal-sampling}
 \end{figure}
@@ -182,11 +182,10 @@ Untuk menjaga aspek \textit{fairness} dalam perbandingan pendekatan spasial dan 
 \textbf{Aspek} & \textbf{ViT-Base} & \textbf{VideoMAE-Base} \\
 \midrule
 Arsitektur & Transformer & Transformer \\
-Varian model & Base & Base / ViT-B \textit{backbone} \\
+Varian model & Base & Base \\
 Jumlah parameter & $\pm$85,8 juta & $\pm$87 juta \\
-Domain bobot awal & Citra & Video \\
 Dataset bobot awal & ImageNet-21k & \textit{Something-Something V2} \\
-Unit masukan model & \textit{Frame} individual & Klip video \\
+Unit masukan model & Spasial (\textit{Frame}) & Spasiotemporal (Klip video) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -201,7 +200,7 @@ Masukan model berupa \textit{frame} hasil \textit{strided temporal sampling} ber
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{figure/model-vit.jpg}
+	\borderedincludegraphics[width=0.9\textwidth]{figure/model-vit.jpg}
 	\caption{Arsitektur model spasial berbasis Vision Transformer (ViT)}
 	\label{fig:3.model-vit}
 \end{figure}
@@ -221,7 +220,7 @@ Berbeda dari Vision Transformer untuk citra tunggal yang membagi input menjadi \
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\textwidth]{figure/model-videomae.jpg}
+	\borderedincludegraphics[width=0.95\textwidth]{figure/model-videomae.jpg}
 	\caption{Arsitektur model spasiotemporal berbasis VideoMAE untuk klasifikasi \textit{deepfake}}
 	\label{fig:3.model-videomae}
 \end{figure}
