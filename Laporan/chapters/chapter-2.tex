@@ -86,7 +86,7 @@ Pada persamaan tersebut, Q, K, dan V merupakan matriks hasil transformasi linier
 \begin{figure}[htbp]
 	\centering
 	\borderedincludegraphics[width=0.5\textwidth]{figure/arsitektur-transformer.png}
-	\caption{Arsitektur Transformer}
+	\caption{Arsitektur Transformer.\\Sumber: Vaswani et al. \cite{vaswani2023attentionneed}}
 	\label{fig:arsitektur-transformer}
 \end{figure}
 
@@ -100,7 +100,7 @@ Urutan token hasil \textit{embedding} selanjutnya diproses oleh Transformer \tex
 \begin{figure}[htbp]
 	\centering
 	\borderedincludegraphics[width=0.9\textwidth]{figure/arsitektur-vision-transformer.png}
-	\caption{Arsitektur Vision Transformer (ViT)}
+	\caption{Arsitektur Vision Transformer (ViT).\\Sumber: Dosovitskiy et al. \cite{dosovitskiy2021imageworth16x16words}}
 	\label{fig:arsitektur-vit}
 \end{figure}
 
@@ -112,9 +112,8 @@ Pada arsitektur aslinya, VideoMAE menggunakan rancangan \textit{asymmetric encod
 \begin{figure}[htbp]
 	\centering
 	\borderedincludegraphics[width=0.85\textwidth]{figure/arsitektur-videomae.png}
-	\caption{Arsitektur VideoMAE dengan Asymmetric Encoder-Decoder dan Tube Masking}
+	\caption{Arsitektur VideoMAE dengan Asymmetric Encoder-Decoder dan Tube Masking.\\Sumber: Tong et al. \cite{tong2022videomaemaskedautoencodersdataefficient}}
 	\label{fig:arsitektur-videomae}
-	{\footnotesize Sumber: diadaptasi dari Tong et al. (2022)}
 \end{figure}
 
 Salah satu karakteristik utama VideoMAE adalah penggunaan \textit{tube masking} dengan rasio \textit{masking} yang sangat tinggi, yaitu sekitar 90\% hingga 95\% \cite{tong2022videomaemaskedautoencodersdataefficient}. Strategi ini digunakan karena video memiliki korelasi temporal antarbingkai yang kuat, sehingga \textit{masking} biasa berisiko membuat tugas rekonstruksi menjadi terlalu mudah akibat adanya informasi yang berulang pada bingkai tetangga \cite{tong2022videomaemaskedautoencodersdataefficient}. Dengan \textit{tube masking}, pola \textit{masking} dipertahankan sepanjang dimensi waktu sehingga model terdorong untuk mempelajari representasi spasiotemporal tingkat tinggi, bukan hanya mencocokkan korespondensi lokal antar-\textit{frame} \cite{tong2022videomaemaskedautoencodersdataefficient}. Pada tahap pembentukan token, VideoMAE tidak membagi masukan sebagai \textit{patch} dua dimensi seperti pada ViT untuk citra, tetapi sebagai kubus spasiotemporal melalui mekanisme \textit{joint space-time cube embedding}, lalu memodelkan hubungan antar token menggunakan \textit{joint space-time attention} \cite{tong2022videomaemaskedautoencodersdataefficient}. Rancangan tersebut memungkinkan model menangkap informasi visual statis sekaligus dinamika temporal dalam satu kerangka representasi \cite{tong2022videomaemaskedautoencodersdataefficient}. \par
