@@ -73,6 +73,10 @@
 	% Konten Laporan
 	%----------------------------------------------------------------%
 	\input{chapters/cover-hard} 	% Hardcover
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
 	\input{chapters/approval} 		% Lembar Pengesahan (dinonaktifkan untuk seminar proposal)
     %----------------------------------------------------------------%
     % Aktivasi twoside (agar ada margin gutter 0.5 cm) & nomor halaman selang-seling
@@ -90,13 +94,33 @@
 	}
     \pagestyle{alternatingstyle}
     %----------------------------------------------------------------%
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
 	\input{chapters/statement} 		% Halaman Pernyataan Orisinalitas
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage	
 	\input{chapters/publication} 	% Halaman Persetujuan Publikasi
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage	
 	\input{chapters/forewords} 		% Kata Pengantar
-	\input{chapters/motto} 			% Motto
+	% \input{chapters/motto} 			% Motto
 	\input{chapters/summary} 		% Ringkasan
 	\input{chapters/abstract-id} 	% Abstrak (Indonesia)
-	\input{chapters/abstract-en} 	% Abstrak (Inggris)    
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
+	\input{chapters/abstract-en} 	% Abstrak (Inggris)
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage    
     %----------------------------------------------------------------%
     % Halaman Daftar
     %----------------------------------------------------------------%    
@@ -116,6 +140,10 @@
 	\phantomsection%
 	\addcontentsline{toc}{chapter}{DAFTAR KODE}
 	\lstlistoflistings
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
 	% Daftar rumus
 	% \pagestyle{daftarrumusstyle}
 	\phantomsection% 
@@ -124,6 +152,10 @@
 	% \thispagestyle{daftarrumusstyle}
 	% \pagebreak
 	%    \input{chapters/symbols}
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
 	\pagebreak
     %----------------------------------------------------------------%
     % Konfigurasi Bab
@@ -154,9 +186,25 @@
     % Untuk menambahkan daftar bab, buat berkas bab misalnya `chapter-6` di direktori `chapters`, dan masukkan ke sini.
     %----------------------------------------------------------------%
     \input{chapters/chapter-1}
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
     \input{chapters/chapter-2}
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage	
     \input{chapters/chapter-3}
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
 	\input{chapters/chapter-4}
+	\clearpage
+	\null
+	\thispagestyle{empty}
+	\clearpage
 	\input{chapters/chapter-5}
 	%----------------------------------------------------------------%
     % Daftar Pustaka
@@ -165,5 +213,5 @@
     \phantomsection% 
     \addcontentsline{toc}{chapter}{DAFTAR PUSTAKA}
     \printbibliography[title={Daftar Pustaka}]
-	\input{chapters/appendix}
+	\input{chapters/appendix-qr}
 \end{document}
